@@ -32,7 +32,7 @@ https://docs.google.com/document/d/1oqUyrVeIod7JRTgFklCOZwkpGrdnPXMqxyjEtXB8oyk/
       `databases133` into the password field and select the Legacy Password
       Encryption option (you can make this password whatever you want, but in
       the sagedorm_db app the password is hardcoded as databases133)
-    - click Initialize Database
+    - click Start MySQL Server
 
 ### Python Connector
 
