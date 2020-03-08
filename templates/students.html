@@ -1,0 +1,11 @@
+<table border = 1>
+    {% for stud in students %}
+    <tr>
+        <td> {{stud[0]}} </td>
+        <td> {{stud[1]}} </td>
+        <td> {{stud[2]}} </td>
+        <td> {{stud[8] if stud[8] != None else 'NR'}} </td>
+        <td> {{stud[9] if stud[9] != None else 'NR'}} </td>
+    </tr>
+    {% endfor %}
+</table>
