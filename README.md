@@ -1,6 +1,8 @@
 # SageDorms
 CS133 room draw
 
+Milestone 3: https://www.overleaf.com/9449242656bcnbymkbknks
+
 Milestone 2: https://www.overleaf.com/1142286357jtkcpvvqnxyw
 
 SHARED FOLDER:
