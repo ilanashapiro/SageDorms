@@ -37,16 +37,17 @@ def create_tables(cursor):
         - not null?
         - avgDrawTime: how to get average of time?
     """
+    
     tables['Student'] = '''CREATE TABLE IF NOT EXISTS Student(
-        sid INT(9) ZEROFILL UNSIGNED PRIMARY KEY NOT NULL, 
-        fname CHAR(31) NOT NULL, 
-        lname CHAR(31) NOT NULL, 
-        drawNum SMALLINT UNSIGNED NOT NULL, 
-        drawGroupNum TINYINT UNSIGNED NOT NULL, 
-        drawTime DATETIME NOT NULL, 
-        avgDrawTime DATETIME, 
-        avgDrawNum NUMERIC UNSIGNED, 
-        dormName CHAR(15) DEFAULT 'Deferred', 
+        sid INT(9) ZEROFILL UNSIGNED PRIMARY KEY NOT NULL,
+        fname CHAR(31) NOT NULL,
+        lname CHAR(31) NOT NULL,
+        drawNum SMALLINT UNSIGNED NOT NULL,
+        drawGroupNum TINYINT UNSIGNED NOT NULL,
+        drawTime DATETIME NOT NULL,
+        avgDrawTime DATETIME,
+        avgDrawNum NUMERIC UNSIGNED,
+        dormName CHAR(15) DEFAULT 'Deferred',
         dormRoom CHAR(4) DEFAULT 'Def') ENGINE=InnoDB;
         '''
 
@@ -85,7 +86,7 @@ def main(option = 'i', info = None):
             sagedormsdb.commit()
             cursor.close()
             return "success"
-        
+
         # retrieve students
         elif (option == 'r'):
             result = cursor.execute("SELECT * FROM Student;")
@@ -99,5 +100,3 @@ def main(option = 'i', info = None):
 
 if __name__ == '__main__':
     main()
-
-
