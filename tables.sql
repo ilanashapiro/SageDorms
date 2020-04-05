@@ -1,26 +1,27 @@
 CREATE TABLE IF NOT EXISTS ClosetType (
-	typeName VARCHAR(50) NOT NULL,
-	length INT NOT NULL,
-	width INT NOT NULL,
-	PRIMARY KEY (typeName));
+  typeName VARCHAR(50) NOT NULL,
+  length INT NOT NULL,
+  width INT NOT NULL,
+  PRIMARY KEY (typeName));
 
 CREATE TABLE IF NOT EXISTS WindowType (
-	typeName VARCHAR(50) NOT NULL,
-	directionFacing ENUM('NORTH', 'SOUTH', 'EAST', 'WEST', 'NORTHEAST', 'NORTHWEST',
-						 'SOUTHEAST', 'SOUTHWEST'),
-	viewDescription VARCHAR(100) NOT NULL,
-	PRIMARY KEY (typeName));
+  typeName VARCHAR(50) NOT NULL,
+  directionFacing ENUM('NORTH', 'SOUTH', 'EAST', 'WEST', 'NORTHEAST', 'NORTHWEST',
+                       'SOUTHEAST', 'SOUTHWEST'),
+  viewDescription VARCHAR(100) NOT NULL,
+  PRIMARY KEY (typeName));
 
 CREATE TABLE IF NOT EXISTS Dorm (
-	name VARCHAR(50) NOT NULL,
-	location VARCHAR(50) NOT NULsuiteL,
-	otherDescription VARCHAR(100),
-	PRIMARY KEY (name));
+  name VARCHAR(50) NOT NULL,
+  campusEnd ENUM('NORTH', 'SOUTH'),
+  locationDescription VARCHAR(50) NOT NULL,
+  otherDescription VARCHAR(100),
+  PRIMARY KEY (name));
 
 CREATE TABLE IF NOT EXISTS ProspectiveSuiteGroup (
-	avgDrawNum DOUBLE NOT NULL,
-	avgDrawTime DATETIME NOT NULL,
-    PRIMARY KEY (avgDrawNum));
+  avgDrawNum DOUBLE NOT NULL,
+  avgDrawTime DATETIME NOT NULL,
+  PRIMARY KEY (avgDrawNum));
 
 CREATE TABLE IF NOT EXISTS Suite (
 	suiteID VARCHAR(50) NOT NULL,
@@ -80,26 +81,26 @@ CREATE TABLE IF NOT EXISTS Student (
 	FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
 CREATE TABLE IF NOT EXISTS DrawsUp (
-	higherStudent INT NOT NULL,
-	lowerStudent INT NOT NULL,
-	PRIMARY KEY (higherStudent),
-	FOREIGN KEY (higherStudent) REFERENCES Student(SID),
-	FOREIGN KEY (lowerStudent) REFERENCES Student(SID));
+  higherStudent INT NOT NULL,
+  lowerStudent INT NOT NULL,
+  PRIMARY KEY (higherStudent),
+  FOREIGN KEY (higherStudent) REFERENCES Student(SID),
+  FOREIGN KEY (lowerStudent) REFERENCES Student(SID));
 
 CREATE TABLE IF NOT EXISTS Wishes (
-	SID INT NOT NULL,
-	dormRoomNum INT NOT NULL,
-	dormName VARCHAR(50) NOT NULL,
-	PRIMARY KEY (SID),
-	FOREIGN KEY (SID) REFERENCES Student(SID),
-	FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
+  SID INT NOT NULL,
+  dormRoomNum INT NOT NULL,
+  dormName VARCHAR(50) NOT NULL,
+  PRIMARY KEY (SID),
+  FOREIGN KEY (SID) REFERENCES Student(SID),
+  FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
 CREATE TABLE IF NOT EXISTS CommonRoom (
-	number INT NOT NULL,
-	dormName VARCHAR(50) NOT NULL,
-	hasStove BOOL NOT NULL,
-	hasSink BOOL NOT NULL,
-	hasRefrigerator BOOL NOT NULL,
-	hasBathroom BOOL NOT NULL,
-	PRIMARY KEY (number, dormName),
-	FOREIGN KEY (number, dormName) REFERENCES Room(number, dormName));
+  number INT NOT NULL,
+  dormName VARCHAR(50) NOT NULL,
+  hasStove BOOL NOT NULL,
+  hasSink BOOL NOT NULL,
+  hasRefrigerator BOOL NOT NULL,
+  hasBathroom BOOL NOT NULL,
+  PRIMARY KEY (number, dormName),
+  FOREIGN KEY (number, dormName) REFERENCES Room(number, dormName));
