@@ -37,7 +37,7 @@ def create_tables(cursor):
         - not null?
         - avgDrawTime: how to get average of time?
     """
-    
+
     tables['Student'] = '''CREATE TABLE IF NOT EXISTS Student(
         sid INT(9) ZEROFILL UNSIGNED PRIMARY KEY NOT NULL,
         fname CHAR(31) NOT NULL,
@@ -54,6 +54,21 @@ def create_tables(cursor):
     # add tables to database
     for t in tables:
         cursor.execute(tables[t])
+
+# def selectRooms(dormNum = None,
+#                 dormName = None,
+#                 numOccupants = None,
+#                 hasPrivateBathroom = None,
+#                 numDoors = None,
+#                 closetType = None,
+#                 connectingRoomNum = None,
+#                 floorNum = None,
+#                 squareFeet = None,
+#                 isSubFree = None,
+#                 isReservedForSponsorGroup = False,
+#                 windowType = None,
+#                 isSuite = None)
+
 
 def main(option = 'i', info = None):
     """ Main method runs hello world app
