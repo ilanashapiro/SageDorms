@@ -82,22 +82,64 @@ def create_tables(cursor):
     for t in tables:
         cursor.execute(tables[t])
 
-# def selectRooms(cursor, info) {
-#     queryString = '''SELECT *
-#         FROM DormRoom AS dr, Room AS r
-#         WHERE '''
-#
-#     if info['sid'] != None:
-#         print()
-#     cursor.execute(f'''
-#         UPDATE Student
-#         SET
-#             dormName = '{info['dormName']}',
-#             dormRoom = '{info['dormRoom']}'
-#         WHERE sid = {info['sid']}
-#     ''')
-#     cursor.fetchall()
-# }
+def selectDormRooms(cursor, info) {
+    queryString = '''SELECT *
+        FROM DormRoom AS dr, Room AS r
+        WHERE r.isReservedForSponsorGroup = FALSE'''
+    for key, value in info.items():
+        if info[value] is not None:
+            if (key == "dormNum" or
+                key == "dormName" or
+                key == "numOccupants" or
+                key == "hasPrivateBathroom" or
+                key == "numDoors" or
+                key == "closetType" or
+                key == "hasConnectingRoom"):
+                    if (key == "hasConnectingRoom"):
+                        queryString += f' AND dr.connectingRoomNum IS NOT NULL'
+                    else:
+                        queryString += f' AND dr.{info[key]} = {info[value]}'
+                        if key == "dormName" || key == "dormNum":
+                            queryString += f' AND dr.{info[key]} = r.{info[key]}'
+            else:
+                queryString += f' AND r.{info[key]} = {info[value]}'
+    queryString += ';'
+
+    cursor.execute(queryString)
+    cursor.fetchall()
+
+
+#old way without loop (could use for debugging, but's it's pretty messy)
+    #
+    # if info['dormNum'] is not None:
+    #         queryString += f' AND dr.number = {info['dormNum']} AND dr.number = r.number'
+    # if info['dormName'] is not None:
+    #     if (!hasOneCondition):
+    #     queryString += f' AND dr.dormName = {info['dormName']} AND dr.dormName = r.dormName'
+    # if info['numOccupants'] is not None:
+    #     queryString += f' AND dr.numOccupants = {info['numOccupants']}'
+    # if info['hasPrivateBathroom'] is not None:
+    #     queryString += f' AND dr.hasPrivateBathroom = {info['hasPrivateBathroom']}'
+    # if info['numDoors'] is not None:
+    #     queryString += f' AND dr.numDoors = {info['numDoors']}'
+    # if info['closetType'] is not None:
+    #     queryString += f' AND dr.closetType = {info['closetType']}'
+    # if info['hasConnectingRoom'] is not None:
+    #     queryString += f' AND dr.connectingRoomNum IS NOT NULL'
+    # if info['floorNum'] is not None:
+    #     queryString += f' AND r.floorNum = {info['floorNum']}'
+    # if info['squareFeet'] is not None:
+    #     queryString += f' AND r.squareFeet = {info['squareFeet']}'
+    # if info['isSubFree'] is not None:
+    #     queryString += f' AND r.isSubFree = {info['isSubFree']}'
+    # if info['windowType'] is not None:
+    #     queryString += f' AND r.windowType = {info['windowType']}'
+    # if info['windowType'] is not None:
+    #     queryString += f' AND r.windowType = {info['windowType']}'
+    # if info['suite'] is not None:=
+    #     queryString += f' AND r.suite = {info['suite']}'
+    # queryString += ';'
+}
 
 
 def main(option = 'i', info = None):
