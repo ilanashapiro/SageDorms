@@ -1,31 +1,107 @@
+<!DOCTYPE HTML>
+<!--
+	Projection by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
 <html>
-    <h1>SageDorms Registration</h1>
-    <form method="POST" action="">
-        Full Name <input type="text" name="name"/>
-        <br>
-        Student ID <input type="text" name="sid"/>
-        <br> 
-        Dorm Choice
-        <select id="dorms" type="text" name="dormName">
-            <option value="none" selected disabled hidden>Select a dorm</option>
-            <option disabled="disabled">South Campus</option>
-            <option value="Harwood">Harwood</option>
-            <option value="Gibson">Gibson</option>
-            <option value="Lyon">Lyon</option>
-            <option value="Mudd-Blaisdell">Mudd-Blaisdell</option>
-            <option value="Oldenborg">Oldenborg</option>
-            <option value="Smiley">Smiley</option>
-            <option value="Wig">Wig</option>
-            <option disabled="disabled">North Campus</option>
-            <option value="Clark I">Clark I</option>
-            <option value="Clark III">Clark III</option>
-            <option value="Clark V">Clark V</option>
-            <option value="Dialynas">Dialynas</option>
-            <option value="Lowry">Lowry</option>
-            <option value="Norton">Norton</option>
-            <option value="Sontag">Sontag</option>
-            <option value="Walker">Walker</option>
-        </select>
-        <input type="submit">
-    </form>
+	<head>
+		<title>SageDorms</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
+					<nav id="nav">
+						<a href="index.html">Home</a>
+						<a href="generic.html">View & Search Dorms</a>
+						<a href="elements.html">My Wishlist</a>
+                        <a href="{{url_for('students')}}">Developer Tool (see Students)</a>
+					</nav>
+				</div>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<header>
+						<h1>SageDorms</h1>
+					</header>
+
+					<div class="flex ">
+
+						<div>
+							<span class="icon fa-desktop"></span>
+							<h3>Search Dorms</h3>
+							<p>Easily browse hundreds of rooms</p>
+						</div>
+
+						<div>
+							<span class="icon fa-home"></span>
+							<h3>See What's Available</h3>
+							<p>Make a wishlist of your top choices</p>
+						</div>
+
+						<div>
+							<span class="icon fa-check-circle"></span>
+							<h3>Select a Room or Suite</h3>
+							<p>Find your match!</p>
+						</div>
+
+					</div>
+
+					<footer>
+						<a href="generic.html" class="button">Find a Dorm!</a>
+					</footer>
+				</div>
+			</section>
+
+
+		<!-- Three -->
+			<section id="three" class="wrapper align-center">
+				<div class="inner">
+					<div class="flex flex-2">
+						<article>
+							<div class="image round">
+                                <img src="{{url_for('static', filename='images/pic01.jpg')}}" alt="Pic 01" />
+							</div>
+							<header>
+								<h3>View & <br /> Search Dorms</h3>
+							</header>
+							<p>Browse dorm options and availability<br /> and find a room that's perfect for you! Add rooms to<br />  your wishlist, or select during your room assignment time slot.</p>
+							<footer>
+								<a href="generic.html" class="button">Learn More</a>
+							</footer>
+						</article>
+						<article>
+							<div class="image round">
+                                <img src="{{url_for('static', filename='images/pic02.jpg')}}" alt="Pic 02" />
+							</div>
+							<header>
+								<h3>Your<br /> Wishlist</h3>
+							</header>
+							<p>Select your top dorm rooms<br />to stay updated on their availability<br /> and help make your room selection as easy as possible!</p>
+							<footer>
+								<a href="elements.html" class="button">Learn More</a>
+							</footer>
+						</article>
+					</div>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			
+
+		<!-- Scripts -->
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/skel.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/util.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+
+	</body>
 </html>

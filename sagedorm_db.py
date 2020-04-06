@@ -114,7 +114,7 @@ def main(option = 'i', info = None):
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
         init_db(cursor)
-        generate_fake_students(sagedormsdb, cursor)
+        # generate_fake_students(sagedormsdb, cursor)
 
         # update dorm
         if (option == 'u'):
