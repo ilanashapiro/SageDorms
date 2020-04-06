@@ -52,7 +52,7 @@
 
 <div class="row">
   <div class="column">
-    <img src="images/Dorms/smiley.jpg" alt="Smiley" style="width:100%">
+    <img src="{{url_for('static', filename='images/Dorms/smiley.jpg')}}" alt="Smiley" style="width:100%"/>
     <a href="smiley.html"><center>Smiley</center></a>
   </div>
   <div class="column">
@@ -102,10 +102,11 @@
 			
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+		<link rel="stylesheet" href="{{url_for('static', filename='js/jquery.min.css')}}" />
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/skel.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
 
 	</body>
 </html>

@@ -19,7 +19,7 @@
 					<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
 					<nav id="nav">
 						<a href="index.html">Home</a>
-						<a href="generic.html">View & Search Dorms</a>
+						<a href="{{url_for('dorms')}}">View & Search Dorms</a>
 						<a href="elements.html">My Wishlist</a>
                         <a href="{{url_for('students')}}">Developer Tool (see Students)</a>
 					</nav>
@@ -56,7 +56,7 @@
 					</div>
 
 					<footer>
-						<a href="{{url_for('view_dorms')}}" class="button">Find a Dorm!</a>
+						<a href="{{url_for('dorms')}}" class="button">Find a Dorm!</a>
 					</footer>
 				</div>
 			</section>

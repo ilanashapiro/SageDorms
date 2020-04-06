@@ -31,8 +31,8 @@ def students():
     return render_template('students.html', students=students)
 
 @app.route('/dorms')
-def view_dorms():
-    return render_template('generic.html', students=students)
+def dorms():
+    return render_template('generic.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
