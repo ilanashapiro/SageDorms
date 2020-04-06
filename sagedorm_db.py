@@ -1,6 +1,6 @@
 import traceback
 import mysql.connector
-
+import sys
 def init_db(cursor):
     """Creates the sagedorms database
 
@@ -55,19 +55,22 @@ def create_tables(cursor):
     for t in tables:
         cursor.execute(tables[t])
 
-# def selectRooms(dormNum = None,
-#                 dormName = None,
-#                 numOccupants = None,
-#                 hasPrivateBathroom = None,
-#                 numDoors = None,
-#                 closetType = None,
-#                 connectingRoomNum = None,
-#                 floorNum = None,
-#                 squareFeet = None,
-#                 isSubFree = None,
-#                 isReservedForSponsorGroup = False,
-#                 windowType = None,
-#                 isSuite = None)
+# def selectRooms(cursor, info) {
+#     queryString = '''SELECT *
+#         FROM DormRoom AS dr, Room AS r
+#         WHERE '''
+#
+#     if info['sid'] != None:
+#         print()
+#     cursor.execute(f'''
+#         UPDATE Student
+#         SET
+#             dormName = '{info['dormName']}',
+#             dormRoom = '{info['dormRoom']}'
+#         WHERE sid = {info['sid']}
+#     ''')
+#     cursor.fetchall()
+# }
 
 
 def main(option = 'i', info = None):
@@ -78,6 +81,7 @@ def main(option = 'i', info = None):
             - SQL injection???
             - from what database will we get student information
     """
+    print("OPTION", option)
     try:
         # connect to localhost mysql server
         sagedormsdb = mysql.connector.connect(
@@ -89,7 +93,7 @@ def main(option = 'i', info = None):
         cursor = sagedormsdb.cursor()
         init_db(cursor)
 
-        # update dorm
+        # # update dorm
         if (option == 'u'):
             cursor.execute(f'''
                 UPDATE Student
@@ -104,7 +108,7 @@ def main(option = 'i', info = None):
 
         # retrieve students
         elif (option == 'r'):
-            result = cursor.execute("SELECT * FROM Student;")
+            result = cursor.execute("SELECT * FROM Students;")
             return cursor.fetchall()
 
     except mysql.connector.Error as e:
