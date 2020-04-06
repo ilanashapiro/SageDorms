@@ -48,5 +48,10 @@ def students():
     students = sagedorm_db.main('r')
     return render_template('students.html', students=students)
 
+@app.route('/dorms')
+def dorms():
+    return render_template('generic.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
+

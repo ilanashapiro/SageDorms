@@ -1,6 +1,10 @@
 import traceback
 import mysql.connector
 import sys
+import names
+import random
+from datetime import datetime
+
 def init_db(cursor):
     """Creates the sagedorms database
 
@@ -18,6 +22,29 @@ def init_db(cursor):
 
     cursor.execute("USE sagedormsdb;")
     create_tables(cursor)
+
+def generate_fake_students(sagedormsdb, cursor):
+    """ Generates many fake students for 'room draw'
+
+    Keyword arguments:
+    cursor -- executes SQL commands
+    """
+
+    for i in range(100):
+        sid = 10000000 + i
+        name = names.get_full_name()
+        year = 2020 + (i%10)
+        drawNum = random.randrange(1,101)
+        drawTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        drawGroup = str(random.randrange(1, 10))
+        isDrawing = 1
+
+        cursor.execute(f'''INSERT INTO Student VALUES(
+                {sid}, '{name}', {year}, {drawNum}, '{drawTime}',
+                '{drawGroup}', {isDrawing}, dormRoomNum, dormName,
+                1, avgSuiteGroupDrawNum , '{drawTime}')''')
+        sagedormsdb.commit()
+
 
 def create_tables(cursor):
     """ Creates all the schemas (tables) in this database. This will have:
@@ -92,6 +119,7 @@ def main(option = 'i', info = None):
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
         init_db(cursor)
+        # generate_fake_students(sagedormsdb, cursor)
 
         # # update dorm
         if (option == 'u'):
@@ -110,6 +138,8 @@ def main(option = 'i', info = None):
         elif (option == 'r'):
             result = cursor.execute("SELECT * FROM Students;")
             return cursor.fetchall()
+
+        cursor.close()
 
     except mysql.connector.Error as e:
         if (e.errno == 1045):
