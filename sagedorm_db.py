@@ -4,6 +4,7 @@ import sys
 import names
 import random
 from datetime import datetime
+from mysql.connector import Error
 
 def init_db(cursor):
     """Creates the sagedorms database
@@ -87,7 +88,7 @@ def selectDormRooms(cursor, info) {
         FROM DormRoom AS dr, Room AS r
         WHERE r.isReservedForSponsorGroup = FALSE'''
     for key, value in info.items():
-        if info[value] is not None:
+        if info[value] is not None: # or "" or whatever means empty input
             if (key == "dormNum" or
                 key == "dormName" or
                 key == "numOccupants" or
@@ -101,13 +102,46 @@ def selectDormRooms(cursor, info) {
                         queryString += f' AND dr.{info[key]} = {info[value]}'
                         if key == "dormName" || key == "dormNum":
                             queryString += f' AND dr.{info[key]} = r.{info[key]}'
-            else:
+            else # or "" or whatever means empty input
                 queryString += f' AND r.{info[key]} = {info[value]}'
     queryString += ';'
 
     cursor.execute(queryString)
     cursor.fetchall()
 
+# https://pynative.com/python-mysql-execute-stored-procedure/
+def setStudentRoom(cursor, info):
+    try:
+        # actually, can we save the SID of the logged-in student in the session somewhere?? Idk how to get that data, this is just a template for now
+        cursor.callproc('SetStudentRoom', [info["SID"], info["dormName"], info["dormNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def addToWishList(cursor, info):
+    try:
+        cursor.callproc('AddToWishlist', [info["SID"], info["dormName"], info["dormNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def deleteFromWishList(cursor, info):
+    try:
+        cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+# basing this off the idea that students will enter their SIDs into the input list when creating the group
+# def createProspectiveSuiteGroup(cursor, info):
+    # had to go to bed will figure this out later
+    # try:
+    #     avgDrawNum = 0
+    #     for key, value in info.items():
+    #         if info[value] is not None: # or "" or whatever means empty input
+    #             if (key == "SID"):
+    #                 cursor.execute(.....)
+    #                 cursor.fetchall()
+    #     cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormNum"]])
+    # except mysql.connector.Error as error:
+    #     print("Failed to execute stored procedure: {}".format(error))
 
 #old way without loop (could use for debugging, but's it's pretty messy)
     #
