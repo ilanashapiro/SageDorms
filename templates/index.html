@@ -21,6 +21,11 @@
 						<a href="index.html">Home</a>
 						<a href="{{url_for('dorms')}}">View & Search Dorms</a>
 						<a href="elements.html">My Wishlist</a>
+                        {% if loggedIn == False %}
+                            <a href="{{url_for('login')}}">Login</a>
+                        {% else %}
+                            <a href="{{url_for('logout')}}">Logout</a>
+                        {% endif %}
                         <a href="{{url_for('students')}}">Developer Tool (see Students)</a>
 					</nav>
 				</div>
