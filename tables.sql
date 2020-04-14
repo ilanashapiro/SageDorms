@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS Wishes (
   SID INT NOT NULL,
   dormRoomNum INT NOT NULL,
   dormName VARCHAR(50) NOT NULL,
-  PRIMARY KEY (SID),
+  PRIMARY KEY (SID, dormRoomNum, dormName),
   FOREIGN KEY (SID) REFERENCES Student(SID),
   FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 

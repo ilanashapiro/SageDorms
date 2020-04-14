@@ -10,7 +10,6 @@ app.secret_key = "shhhhh keep it a secret"
 def index():
     # # student selected housing
     # if request.method == 'POST':
-
         # # save all inputted data
         # student = request.form
         # name = student['name'].split(" ")
@@ -21,9 +20,24 @@ def index():
         # studInfo['dormName'] = student['dormName']
         # studInfo['dormRoom'] = random.randint(1, 999)
 
-        # # initialize mysql server and database
-        # sagedorm_db.main('u', studInfo)
-        # return redirect('/students')
+        # table to be properly created later when parsing room request data (i.e. user-selected filters)
+        # for now, this is psuedocode that will be referenced in the dynamically built SQL query in sagedorm_db.property
+        # info = request.form
+        # roomInfo = {}
+        # roomInfo['dormNum'] = .....
+        # roomInfo['dormName'] = .....
+        # roomInfo['numOccupants'] = .....
+        # roomInfo['hasPrivateBathroom'] = .....
+        # roomInfo['numDoors'] = .....
+        # roomInfo['closetType'] = .....
+        # roomInfo['hasConnectingRoom'] = .....
+        # roomInfo['floorNum'] = .....
+        # roomInfo['squareFeet'] = .....
+        # roomInfo['isSubFree'] = .....
+        # roomInfo['windowType'] = .....
+        # roomInfo['isSuite'] = .....
+        # sagedorm_db.selectRooms(....)
+
     loggedIn = False
     if 'cookies' in session and session['cookies']:
         print(session['cookies'])
@@ -72,4 +86,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-

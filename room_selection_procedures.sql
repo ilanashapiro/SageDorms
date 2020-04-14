@@ -1,6 +1,52 @@
--- THIS CODE IS NOT CORRECT. THIS IS A BOILERPLATE THAT WILL BE REBUILT DYNAMICALLY IN THE PYTHON FILE TO HANDLE NULL VALUES
 DELIMITER $$
 
+CREATE PROCEDURE SetStudentRoom(
+	IN SID INT,
+	IN dormName INT,
+	IN roomNum INT
+)
+BEGIN
+	UPDATE Student AS s
+	SET s.dormName = dormName, s.dormRoomNum = roomNum
+	WHERE s.SID = SID;
+END $$
+
+CREATE PROCEDURE AddStudentToProspectiveSuiteGroup(
+	IN SID INT,
+	IN dormName INT,
+	IN roomNum INT
+)
+BEGIN
+	UPDATE Student AS s
+	SET s.dormName = dormName, s.dormRoomNum = roomNum
+	WHERE s.SID = SID;
+END $$
+
+CREATE PROCEDURE AddToWishlist(
+	IN SID INT,
+	IN dormName INT,
+	IN roomNum INT
+)
+BEGIN
+	UPDATE Wishes AS q
+	SET w.dormName = dormName, w.dormRoomNum = roomNum
+	WHERE s.SID = SID;
+END $$
+
+CREATE PROCEDURE DeleteFromWishList(
+	IN SID INT,
+	IN dormName INT,
+	IN roomNum INT
+)
+BEGIN
+	DELETE
+	FROM Wishes AS w
+	WHERE w.dormRoomNum = roomNum
+		  AND w.dormName = dormName
+		  AND w.SID = SID;
+END $$
+
+-- THIS CODE IS NOT CORRECT. THIS IS A BOILERPLATE THAT WILL BE REBUILT DYNAMICALLY IN THE PYTHON FILE TO HANDLE NULL VALUES
 CREATE PROCEDURE SelectRooms(
 	IN dormNum INT,
 	IN dormName VARCHAR(50),
@@ -8,39 +54,31 @@ CREATE PROCEDURE SelectRooms(
 	IN hasPrivateBathroom BOOL,
 	IN numDoors INT,
 	IN closetType VARCHAR(50),
-	IN connectingRoomNum INT,
+	IN hasConnectingRoom BOOL,
 	IN floorNum INT,
-	IN lengthDescription VARCHAR(50),
-	IN widthDescription VARCHAR(50),
 	IN squareFeet DOUBLE,
 	IN isSubFree BOOL,
-	IN isReservedForSponsorGroup BOOL,
 	IN windowType VARCHAR(50),
 	IN suite VARCHAR(50),
-	IN otherDescription VARCHAR(100)
 )
 BEGIN
-	SET myParam = IFNULL(myParam, 0);
 	SELECT *
 	FROM DormRoom AS dr, Room AS r
-	WHERE dr.dormName LIKE dormName
-			  AND dr.number LIKE dormNum
-			  AND dr.dormName LIKE r.dormName
-			  AND dr.number LIKE r.number
-        AND dr.numOccupants LIKE numOccupants
-        AND dr.hasPrivateBathroom LIKE hasPrivateBathroom
-        AND dr.numDoors LIKE numDoors
-        AND dr.closetType LIKE closetType
-        AND dr.connectingRoomNum LIKE connectingRoom
-        AND r.floorNum LIKE floorNum
-        AND r.lengthDescription LIKE lengthDescription
-        AND r.widthDescription LIKE widthDescription
-        AND r.squareFeet LIKE squareFeet
-        AND r.isSubFree LIKE isSubFree
-        AND r.isReservedForSponsorGroup LIKE isReservedForSponsorGroup
-				AND r.windowType LIKE windowType
-				AND r.suite LIKE suite
-				AND r.otherDescription LIKE otherDescription;
+	WHERE dr.dormName = dormName
+		  AND dr.number = dormNum
+		  AND dr.dormName = r.dormName
+		  AND dr.number = r.number
+          AND dr.numOccupants = numOccupants
+          AND dr.hasPrivateBathroom = hasPrivateBathroom
+          AND dr.numDoors = numDoors
+          AND dr.closetType = closetType
+          AND dr.connectingRoomNum IS NOT NULL
+          AND r.floorNum = floorNum
+          AND r.squareFeet = squareFeet
+          AND r.isSubFree = isSubFree
+          AND r.isReservedForSponsorGroup = FALSE
+		  AND r.windowType = windowType
+		  AND r.suite = suite
 END $$
 
 DELIMITER ;

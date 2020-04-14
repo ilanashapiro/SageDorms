@@ -1,8 +1,10 @@
 import traceback
 import mysql.connector
+import sys
 import names
 import random
 from datetime import datetime
+from mysql.connector import Error
 
 def init_db(cursor):
     """Creates the sagedorms database
@@ -81,19 +83,97 @@ def create_tables(cursor):
     for t in tables:
         cursor.execute(tables[t])
 
-# def selectRooms(dormNum = None,
-#                 dormName = None,
-#                 numOccupants = None,
-#                 hasPrivateBathroom = None,
-#                 numDoors = None,
-#                 closetType = None,
-#                 connectingRoomNum = None,
-#                 floorNum = None,
-#                 squareFeet = None,
-#                 isSubFree = None,
-#                 isReservedForSponsorGroup = False,
-#                 windowType = None,
-#                 isSuite = None)
+def selectDormRooms(cursor, info) {
+    queryString = '''SELECT *
+        FROM DormRoom AS dr, Room AS r
+        WHERE r.isReservedForSponsorGroup = FALSE'''
+    for key, value in info.items():
+        if info[value] is not None: # or "" or whatever means empty input
+            if (key == "dormNum" or
+                key == "dormName" or
+                key == "numOccupants" or
+                key == "hasPrivateBathroom" or
+                key == "numDoors" or
+                key == "closetType" or
+                key == "hasConnectingRoom"):
+                    if (key == "hasConnectingRoom"):
+                        queryString += f' AND dr.connectingRoomNum IS NOT NULL'
+                    else:
+                        queryString += f' AND dr.{info[key]} = {info[value]}'
+                        if key == "dormName" || key == "dormNum":
+                            queryString += f' AND dr.{info[key]} = r.{info[key]}'
+            else # or "" or whatever means empty input
+                queryString += f' AND r.{info[key]} = {info[value]}'
+    queryString += ';'
+
+    cursor.execute(queryString)
+    cursor.fetchall()
+
+# https://pynative.com/python-mysql-execute-stored-procedure/
+def setStudentRoom(cursor, info):
+    try:
+        # actually, can we save the SID of the logged-in student in the session somewhere?? Idk how to get that data, this is just a template for now
+        cursor.callproc('SetStudentRoom', [info["SID"], info["dormName"], info["dormNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def addToWishList(cursor, info):
+    try:
+        cursor.callproc('AddToWishlist', [info["SID"], info["dormName"], info["dormNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def deleteFromWishList(cursor, info):
+    try:
+        cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+# basing this off the idea that students will enter their SIDs into the input list when creating the group
+# def createProspectiveSuiteGroup(cursor, info):
+    # had to go to bed will figure this out later
+    # try:
+    #     avgDrawNum = 0
+    #     for key, value in info.items():
+    #         if info[value] is not None: # or "" or whatever means empty input
+    #             if (key == "SID"):
+    #                 cursor.execute(.....)
+    #                 cursor.fetchall()
+    #     cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormNum"]])
+    # except mysql.connector.Error as error:
+    #     print("Failed to execute stored procedure: {}".format(error))
+
+#old way without loop (could use for debugging, but's it's pretty messy)
+    #
+    # if info['dormNum'] is not None:
+    #         queryString += f' AND dr.number = {info['dormNum']} AND dr.number = r.number'
+    # if info['dormName'] is not None:
+    #     if (!hasOneCondition):
+    #     queryString += f' AND dr.dormName = {info['dormName']} AND dr.dormName = r.dormName'
+    # if info['numOccupants'] is not None:
+    #     queryString += f' AND dr.numOccupants = {info['numOccupants']}'
+    # if info['hasPrivateBathroom'] is not None:
+    #     queryString += f' AND dr.hasPrivateBathroom = {info['hasPrivateBathroom']}'
+    # if info['numDoors'] is not None:
+    #     queryString += f' AND dr.numDoors = {info['numDoors']}'
+    # if info['closetType'] is not None:
+    #     queryString += f' AND dr.closetType = {info['closetType']}'
+    # if info['hasConnectingRoom'] is not None:
+    #     queryString += f' AND dr.connectingRoomNum IS NOT NULL'
+    # if info['floorNum'] is not None:
+    #     queryString += f' AND r.floorNum = {info['floorNum']}'
+    # if info['squareFeet'] is not None:
+    #     queryString += f' AND r.squareFeet = {info['squareFeet']}'
+    # if info['isSubFree'] is not None:
+    #     queryString += f' AND r.isSubFree = {info['isSubFree']}'
+    # if info['windowType'] is not None:
+    #     queryString += f' AND r.windowType = {info['windowType']}'
+    # if info['windowType'] is not None:
+    #     queryString += f' AND r.windowType = {info['windowType']}'
+    # if info['suite'] is not None:=
+    #     queryString += f' AND r.suite = {info['suite']}'
+    # queryString += ';'
+}
 
 
 def main(option = 'i', info = None):
@@ -104,6 +184,7 @@ def main(option = 'i', info = None):
             - SQL injection???
             - from what database will we get student information
     """
+    print("OPTION", option)
     try:
         # connect to localhost mysql server
         sagedormsdb = mysql.connector.connect(
@@ -116,7 +197,7 @@ def main(option = 'i', info = None):
         init_db(cursor)
         # generate_fake_students(sagedormsdb, cursor)
 
-        # update dorm
+        # # update dorm
         if (option == 'u'):
             cursor.execute(f'''
                 UPDATE Student
@@ -131,7 +212,7 @@ def main(option = 'i', info = None):
 
         # retrieve students
         elif (option == 'r'):
-            result = cursor.execute("SELECT * FROM Student;")
+            result = cursor.execute("SELECT * FROM Students;")
             return cursor.fetchall()
 
         cursor.close()
