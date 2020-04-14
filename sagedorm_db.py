@@ -83,7 +83,7 @@ def create_tables(cursor):
     for t in tables:
         cursor.execute(tables[t])
 
-def selectDormRooms(cursor, info) {
+def selectDormRooms(cursor, info):
     queryString = '''SELECT *
         FROM DormRoom AS dr, Room AS r
         WHERE r.isReservedForSponsorGroup = FALSE'''
@@ -100,9 +100,9 @@ def selectDormRooms(cursor, info) {
                         queryString += f' AND dr.connectingRoomNum IS NOT NULL'
                     else:
                         queryString += f' AND dr.{info[key]} = {info[value]}'
-                        if key == "dormName" || key == "dormNum":
+                        if key == "dormName" or key == "dormNum":
                             queryString += f' AND dr.{info[key]} = r.{info[key]}'
-            else # or "" or whatever means empty input
+            else: # or "" or whatever means empty input
                 queryString += f' AND r.{info[key]} = {info[value]}'
     queryString += ';'
 
@@ -173,7 +173,6 @@ def deleteFromWishList(cursor, info):
     # if info['suite'] is not None:=
     #     queryString += f' AND r.suite = {info['suite']}'
     # queryString += ';'
-}
 
 
 def main(option = 'i', info = None):

@@ -74,7 +74,8 @@ def login():
         # session is a built in vbl that persists as long as the app is running
         # login using an external python script. once we login, we save the
         # cookies of the login throughout the app
-        session['cookies'] = cas_login.main(login_info)
+        cookies = cas_login.main(login_info)
+        session['cookies'] = cookies
         return redirect('/')
 
     return render_template('login.html')
