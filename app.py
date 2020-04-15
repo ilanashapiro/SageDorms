@@ -37,9 +37,8 @@ def index():
         # roomInfo['windowType'] = .....
         # roomInfo['isSuite'] = .....
         # sagedorm_db.selectRooms(....)
-
     loggedIn = False
-    if 'cookies' in session and session['cookies']:
+    if 'cookies' in session:
         print(session['cookies'])
         loggedIn = True
     return render_template('index.html', loggedIn=loggedIn)
@@ -58,25 +57,28 @@ def login():
 
     # submitted login form
     if request.method == 'POST':
+
+        # the login form data
         info = request.form
 
-        # not used in CAS login form but rather for ourselves
-        user_info = {}
-        user_info['school'] = info['school']
-        user_info['sid'] = info['sid']
-
-        # used in login
+        # used in login request body
         login_info = {}
         login_info['username'] = f"{info['dispname']}@{info['school']}.edu"
         login_info['dispname'] = info['dispname']
         login_info['password'] = info['password']
 
-        # session is a built in vbl that persists as long as the app is running
-        # login using an external python script. once we login, we save the
+        # session is a built in vbl that persists as long as the app is running.
+        # we login using an external python script. once we login, we save the
         # cookies of the login throughout the app
         cookies = cas_login.main(login_info)
-        session['cookies'] = cookies
-        return redirect('/')
+        if cookies:
+            session['cookies'] = cookies
+            session['school'] = info['school']
+            session['sid'] = info['sid']
+            return redirect('/')
+
+        # no cookies means login failed, so we open the login page again
+        return render_template('login.html')
 
     return render_template('login.html')
 
