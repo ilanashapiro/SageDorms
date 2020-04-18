@@ -106,6 +106,37 @@ def selectDormRooms(cursor, info) {
                 queryString += f' AND r.{info[key]} = {info[value]}'
     queryString += ';'
 
+    #old way without loop (could use for debugging, but's it's pretty messy)
+        #
+        # if info['dormNum'] is not None:
+        #         queryString += f' AND dr.number = {info['dormNum']} AND dr.number = r.number'
+        # if info['dormName'] is not None:
+        #     if (!hasOneCondition):
+        #     queryString += f' AND dr.dormName = {info['dormName']} AND dr.dormName = r.dormName'
+        # if info['numOccupants'] is not None:
+        #     queryString += f' AND dr.numOccupants = {info['numOccupants']}'
+        # if info['hasPrivateBathroom'] is not None:
+        #     queryString += f' AND dr.hasPrivateBathroom = {info['hasPrivateBathroom']}'
+        # if info['numDoors'] is not None:
+        #     queryString += f' AND dr.numDoors = {info['numDoors']}'
+        # if info['closetType'] is not None:
+        #     queryString += f' AND dr.closetType = {info['closetType']}'
+        # if info['hasConnectingRoom'] is not None:
+        #     queryString += f' AND dr.connectingRoomNum IS NOT NULL'
+        # if info['floorNum'] is not None:
+        #     queryString += f' AND r.floorNum = {info['floorNum']}'
+        # if info['squareFeet'] is not None:
+        #     queryString += f' AND r.squareFeet = {info['squareFeet']}'
+        # if info['isSubFree'] is not None:
+        #     queryString += f' AND r.isSubFree = {info['isSubFree']}'
+        # if info['windowType'] is not None:
+        #     queryString += f' AND r.windowType = {info['windowType']}'
+        # if info['windowType'] is not None:
+        #     queryString += f' AND r.windowType = {info['windowType']}'
+        # if info['suite'] is not None:=
+        #     queryString += f' AND r.suite = {info['suite']}'
+        # queryString += ';'
+
     cursor.execute(queryString)
     cursor.fetchall()
 
@@ -125,54 +156,23 @@ def addToWishList(cursor, info):
 
 def deleteFromWishList(cursor, info):
     try:
-        cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormNum"]])
+        cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-# basing this off the idea that students will enter their SIDs into the input list when creating the group
-# def createProspectiveSuiteGroup(cursor, info):
-    # had to go to bed will figure this out later
-    # try:
-    #     avgDrawNum = 0
-    #     for key, value in info.items():
-    #         if info[value] is not None: # or "" or whatever means empty input
-    #             if (key == "SID"):
-    #                 cursor.execute(.....)
-    #                 cursor.fetchall()
-    #     cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormNum"]])
-    # except mysql.connector.Error as error:
-    #     print("Failed to execute stored procedure: {}".format(error))
+def createProspectiveSuiteGroup(cursor, info):
+    try:
+        avgDrawNum = 0
+        for key, value in info.items():
+            if info[value] is not None: # or "" or whatever means empty input
+                if (key == "SID"):
+                    cursor.execute(.....)
+                    cursor.fetchall()
+        cursor.callproc('AddStudentToProspectiveSuiteGroup', [info["SID"], info["dormName"], info["dormNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
 
-#old way without loop (could use for debugging, but's it's pretty messy)
-    #
-    # if info['dormNum'] is not None:
-    #         queryString += f' AND dr.number = {info['dormNum']} AND dr.number = r.number'
-    # if info['dormName'] is not None:
-    #     if (!hasOneCondition):
-    #     queryString += f' AND dr.dormName = {info['dormName']} AND dr.dormName = r.dormName'
-    # if info['numOccupants'] is not None:
-    #     queryString += f' AND dr.numOccupants = {info['numOccupants']}'
-    # if info['hasPrivateBathroom'] is not None:
-    #     queryString += f' AND dr.hasPrivateBathroom = {info['hasPrivateBathroom']}'
-    # if info['numDoors'] is not None:
-    #     queryString += f' AND dr.numDoors = {info['numDoors']}'
-    # if info['closetType'] is not None:
-    #     queryString += f' AND dr.closetType = {info['closetType']}'
-    # if info['hasConnectingRoom'] is not None:
-    #     queryString += f' AND dr.connectingRoomNum IS NOT NULL'
-    # if info['floorNum'] is not None:
-    #     queryString += f' AND r.floorNum = {info['floorNum']}'
-    # if info['squareFeet'] is not None:
-    #     queryString += f' AND r.squareFeet = {info['squareFeet']}'
-    # if info['isSubFree'] is not None:
-    #     queryString += f' AND r.isSubFree = {info['isSubFree']}'
-    # if info['windowType'] is not None:
-    #     queryString += f' AND r.windowType = {info['windowType']}'
-    # if info['windowType'] is not None:
-    #     queryString += f' AND r.windowType = {info['windowType']}'
-    # if info['suite'] is not None:=
-    #     queryString += f' AND r.suite = {info['suite']}'
-    # queryString += ';'
+
 }
 
 

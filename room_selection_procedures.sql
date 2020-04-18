@@ -13,8 +13,6 @@ END $$
 
 CREATE PROCEDURE AddStudentToProspectiveSuiteGroup(
 	IN SID INT,
-	IN dormName INT,
-	IN roomNum INT
 )
 BEGIN
 	UPDATE Student AS s

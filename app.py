@@ -37,6 +37,28 @@ def index():
         # roomInfo['isSuite'] = .....
         # sagedorm_db.selectRooms(....)
 
+        # table to be properly created later when parsing student chooses room data
+        # is there a way to remember which student is logged in, and get the SID from there without the student inputting it directly into a form???
+        # info = request.form
+        # roomChoiceInfo = {}
+        # roomChoiceInfo['dormRoomNum'] = .....
+        # roomChoiceInfo['dormName'] = .....
+        # roomChoiceInfo['SID'] = somehow get the sid of the logged in student directly???
+
+        # table to be properly created later when parsing create prospective suite group data
+        # Idea is the student creating the group puts all OTHER members' SIDs in the form (So up to 5 for 6 total), and the student filling out the form becomes the suite group
+        #       representative that will register the suite later on
+        # some fields will be null since a suite can have up to 6 people. However an error should get displayed if the user inputs in less than 2 names (for 3 total)
+        # is there a way to remember which student is logged in, and get the SID from there without the student inputting it directly into a form???
+        # info = request.form
+        # prospectiveSuiteGroupInfo = {}
+        # prospectiveSuiteGroupInfo['currSID'] = somehow get the sid of the logged in student directly???
+        # prospectiveSuiteGroupInfo['sid2'] = .....
+        # prospectiveSuiteGroupInfo['sid3'] = ...
+        # prospectiveSuiteGroupInfo['sid4'] = ...
+        # prospectiveSuiteGroupInfo['sid5'] = ...
+        # prospectiveSuiteGroupInfo['sid6'] = ...
+
         # initialize mysql server and database
         sagedorm_db.main('u', studInfo)
         return redirect('/students')
