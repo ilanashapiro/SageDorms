@@ -83,7 +83,7 @@ def create_tables(cursor):
     for t in tables:
         cursor.execute(tables[t])
 
-def selectDormRooms(cursor, info) {
+def selectDormRooms(cursor, info):
     queryString = '''SELECT *
         FROM DormRoom AS dr, Room AS r
         WHERE r.isReservedForSponsorGroup = FALSE'''
@@ -100,9 +100,9 @@ def selectDormRooms(cursor, info) {
                         queryString += f' AND dr.connectingRoomNum IS NOT NULL'
                     else:
                         queryString += f' AND dr.{info[key]} = {info[value]}'
-                        if key == "dormName" || key == "dormNum":
+                        if key == "dormName" or key == "dormNum":
                             queryString += f' AND dr.{info[key]} = r.{info[key]}'
-            else # or "" or whatever means empty input
+            else: # or "" or whatever means empty input
                 queryString += f' AND r.{info[key]} = {info[value]}'
     queryString += ';'
 
@@ -172,9 +172,19 @@ def createProspectiveSuiteGroup(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-
-}
-
+# basing this off the idea that students will enter their SIDs into the input list when creating the group
+# def createProspectiveSuiteGroup(cursor, info):
+    # had to go to bed will figure this out later
+    # try:
+    #     avgDrawNum = 0
+    #     for key, value in info.items():
+    #         if info[value] is not None: # or "" or whatever means empty input
+    #             if (key == "SID"):
+    #                 cursor.execute(.....)
+    #                 cursor.fetchall()
+    #     cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormNum"]])
+    # except mysql.connector.Error as error:
+    #     print("Failed to execute stored procedure: {}".format(error))
 
 def main(option = 'i', info = None):
     """ Main method runs hello world app
