@@ -1,22 +1,32 @@
 CREATE TABLE IF NOT EXISTS ClosetType (
-  typeName VARCHAR(50) NOT NULL,
-  length INT NOT NULL,
-  width INT NOT NULL,
-  PRIMARY KEY (typeName));
+    typeName VARCHAR(50) NOT NULL,
+    length INT NOT NULL,
+    width INT NOT NULL,
+    PRIMARY KEY (typeName));
 
 CREATE TABLE IF NOT EXISTS WindowType (
-  typeName VARCHAR(50) NOT NULL,
-  directionFacing ENUM('NORTH', 'SOUTH', 'EAST', 'WEST', 'NORTHEAST', 'NORTHWEST',
+    typeName VARCHAR(50) NOT NULL,
+    directionFacing ENUM('NORTH', 'SOUTH', 'EAST', 'WEST', 'NORTHEAST', 'NORTHWEST',
                        'SOUTHEAST', 'SOUTHWEST'),
-  viewDescription VARCHAR(100) NOT NULL,
-  PRIMARY KEY (typeName));
+    viewDescription VARCHAR(100) NOT NULL,
+    PRIMARY KEY (typeName));
 
 CREATE TABLE IF NOT EXISTS Dorm (
-  name VARCHAR(50) NOT NULL,
-  campusEnd ENUM('NORTH', 'SOUTH'),
-  locationDescription VARCHAR(50) NOT NULL,
-  otherDescription VARCHAR(100),
-  PRIMARY KEY (name));
+    name VARCHAR(50) NOT NULL,
+    campusEnd ENUM('NORTH', 'SOUTH'),
+    locationDescription VARCHAR(50) NOT NULL,
+    otherDescription VARCHAR(100),
+    PRIMARY KEY (name));
+
+ CREATE TABLE IF NOT EXISTS Suite (
+  	suiteID VARCHAR(50) NOT NULL,
+  	isSubFree BOOL NOT NULL,
+  	numRooms INT NOT NULL,
+  	numPeople INT NOT NULL,
+  	dormName VARCHAR(50) NOT NULL,
+  	otherDescription VARCHAR(100),
+  	FOREIGN KEY (dormName) REFERENCES Dorm(name),
+  	PRIMARY KEY (suiteID));
 
 -- CREATE TABLE IF NOT EXISTS ProspectiveSuiteGroup (
 --   avgDrawNum DOUBLE NOT NULL,
@@ -29,18 +39,10 @@ CREATE TABLE IF NOT EXISTS ProspectiveSuiteGroup (
     avgDrawNum DOUBLE NOT NULL,
     avgDrawTime DATETIME,
     isSuiteRepresentative BOOL NOT NULL,
+    suiteID VARCHAR(50) NULL,
     FOREIGN KEY (email) REFERENCES Student(email),
+    FOREIGN KEY (suiteID) REFERENCES Suite(suiteID),
     PRIMARY KEY (email)); -- a student can't be part of multiple prospective suite groups
-
-CREATE TABLE IF NOT EXISTS Suite (
-	suiteID VARCHAR(50) NOT NULL,
-	isSubFree BOOL NOT NULL,
-	numRooms INT NOT NULL,
-	numPeople INT NOT NULL,
-	dormName VARCHAR(50) NOT NULL,
-	otherDescription VARCHAR(100),
-	FOREIGN KEY (dormName) REFERENCES Dorm(name),
-	PRIMARY KEY (suiteID));
 
 CREATE TABLE IF NOT EXISTS Room (
 	number INT NOT NULL,
@@ -52,7 +54,7 @@ CREATE TABLE IF NOT EXISTS Room (
 	isSubFree BOOL NOT NULL,
 	isReservedForSponsorGroup BOOL NOT NULL,
 	windowType VARCHAR(50) NOT NULL,
-	suite VARCHAR(50) NOT NULL,
+	suite VARCHAR(50),
 	otherDescription VARCHAR(100),
 	PRIMARY KEY (number, dormName),
 	FOREIGN KEY (dormName) REFERENCES Dorm(name),

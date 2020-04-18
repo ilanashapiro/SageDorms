@@ -3,7 +3,7 @@ DELIMITER $$
 DROP TRIGGER IF EXISTS prospective_suite_group_constraints$$
 CREATE TRIGGER prospective_suite_group_constraints AFTER INSERT ON ProspectiveSuiteGroup
 	FOR EACH ROW BEGIN
-		IF EXISTS (
+		IF NOT EXISTS (
 		    SELECT *
 		    FROM ProspectiveSuiteGroup AS p
 		    WHERE p.avgDrawNum NOT IN

@@ -177,11 +177,16 @@ def createProspectiveSuiteGroup(cursor, info):
         # now that we have the avg draw num, add all students to the ProspectiveSuiteGroup table with this avg draw num
         # the avg draw times will be calculated later, just before the draw, after all groups have been created (so it's null for now)
         # The student doing the entering becomes the suite representative
-        addStudentsQueryString = f'''INSERT INTO ProspectiveSuiteGroup (email, avgDrawNum, avgDrawTime, isSuiteRepresentative) VALUES
-                                     ({STUDENT_EMAIL_FROM_LOGIN}, {avgDrawNum}, NULL, TRUE)'''
+        # If a student is already in a different prospective suite group, that data will be overwritten and they will be part of the new group
+        # If a group wants to add another student, they'll need to fill out the form again to register the group for everyone
+        addStudentsQueryString = f'''REPLACE INTO ProspectiveSuiteGroup (email, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
+                                     ({STUDENT_EMAIL_FROM_LOGIN}, {avgDrawNum}, NULL, TRUE, NULL)'''
         for email in emailsToAdd:
-            addStudentsQueryString += f', ({email}, {avgDrawNum}, NULL, FALSE)'
-        addStudentsQueryString += ";"
+            addStudentsQueryString += f', ({email}, {avgDrawNum}, NULL, FALSE, NULL)'
+        # addStudentsQueryString += ' ON DUPLICATE KEY UPDATE avgDrawNum = VALUES(avgDrawNum), isSuiteRepresentative = VALUES(isSuiteRepresentative)'THIS LINE UPDATES EXISTING DATA
+        # RATHER THAN REPLACING, COULD USE THIS IF WE WANT TO UPDATE RATHER THAN REPLACE
+
+        addStudentsQueryString += ','
         cursor.execute(addStudentsQueryString)
 
     except mysql.connector.Error as error:

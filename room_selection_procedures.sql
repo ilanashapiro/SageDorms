@@ -35,39 +35,33 @@ BEGIN
 		  AND w.email = email;
 END $$
 
--- THIS CODE IS NOT CORRECT. THIS IS A BOILERPLATE THAT WILL BE REBUILT DYNAMICALLY IN THE PYTHON FILE TO HANDLE NULL VALUES
-CREATE PROCEDURE SelectRooms(
-	IN dormNum INT,
-	IN dormName VARCHAR(50),
-	IN numOccupants INT,
-	IN hasPrivateBathroom BOOL,
-	IN numDoors INT,
-	IN closetType VARCHAR(50),
-	IN hasConnectingRoom BOOL,
-	IN floorNum INT,
-	IN squareFeet DOUBLE,
-	IN isSubFree BOOL,
-	IN windowType VARCHAR(50),
-	IN suite VARCHAR(50),
-)
-BEGIN
-	SELECT *
-	FROM DormRoom AS dr, Room AS r
-	WHERE dr.dormName = dormName
-		  AND dr.number = dormNum
-		  AND dr.dormName = r.dormName
-		  AND dr.number = r.number
-          AND dr.numOccupants = numOccupants
-          AND dr.hasPrivateBathroom = hasPrivateBathroom
-          AND dr.numDoors = numDoors
-          AND dr.closetType = closetType
-          AND dr.connectingRoomNum IS NOT NULL
-          AND r.floorNum = floorNum
-          AND r.squareFeet = squareFeet
-          AND r.isSubFree = isSubFree
-          AND r.isReservedForSponsorGroup = FALSE
-		  AND r.windowType = windowType
-		  AND r.suite = suite
-END $$
-
-DELIMITER ;
+-- CREATE PROCEDURE DisplayAllSuitesSummary()
+-- BEGIN
+-- 	SELECT r.number, s.isSubFree, s.numPeople, s.dormName
+-- 	FROM Room AS r, Suite AS s
+-- 	WHERE r.suiteID IS NOT NULL
+-- 		  AND s.suiteID = r.suiteID
+-- 	ORDER BY suiteID ASC
+-- END $$
+--
+-- CREATE PROCEDURE DisplaySuiteDetails(
+-- 	IN suiteID VARCHAR(50)
+-- )
+-- BEGIN
+-- 	SELECT
+-- 		s.suite isSubFree BOOL NOT NULL,
+-- 	  	numRooms INT NOT NULL,
+-- 	  	numPeople INT NOT NULL,
+-- 	  	dormName VARCHAR(50) NOT NULL,
+-- 	  	otherDescription VARCHAR(100),,
+-- 		r.number,
+-- 		r.dormName,
+-- 	FROM Room AS r, Suite AS s
+-- 	WHERE r.suiteID = suiteID
+-- 		  AND s.suiteID = r.suiteID
+-- 	ORDER BY suiteID ASC
+-- END $$
+--
+-- CREATE PROCEDURE DisplayRoomDetails(
+--
+-- )
