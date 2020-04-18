@@ -60,13 +60,12 @@ def index():
         # prospectiveSuiteGroupInfo['sid6'] = ...
 
         # initialize mysql server and database
-        sagedorm_db.main('u', studInfo)
+        # sagedorm_db.main('u', studInfo)
     loggedIn = False
     if 'cookies' in session:
         print(session['cookies'])
         loggedIn = True
     return render_template('index.html', loggedIn=loggedIn)
->>>>>>> 0ca78c1c9e87b7d5e0457c13b786c800f378840f
 
 @app.route('/students')
 def students():
@@ -99,7 +98,6 @@ def login():
         if cookies:
             session['cookies'] = cookies
             session['school'] = info['school']
-            session['sid'] = info['sid']
             return redirect('/')
 
         # no cookies means login failed, so we open the login page again

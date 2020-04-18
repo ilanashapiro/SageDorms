@@ -164,11 +164,11 @@ def createProspectiveSuiteGroup(cursor, info):
     try:
         # query the students in the prospective suite group to calculate average draw num. (note: the emails entered is everyone ELSE in the list,
         # not including the student doing the entering -- that person is STUDENT_EMAIL_FROM_LOGIN which I need to get from Gabe's CAS login...)
-        getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.email = {STUDENT_EMAIL_FROM_LOGIN}''
+        getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.email = {STUDENT_EMAIL_FROM_LOGIN}'
         for key, value in info.items():
             if info[value] is not None: # or "" or whatever means empty input
                 email = info[value]
-                queryString += f' OR s.email = {email}''
+                queryString += f'OR s.email = {email}'
                 emailsToAdd.append(email)
 
         cursor.execute(getAvgDrawNumQueryString)
