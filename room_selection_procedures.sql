@@ -1,38 +1,29 @@
 DELIMITER $$
 
 CREATE PROCEDURE SetStudentRoom(
-	IN SID INT,
+	IN email VARCHAR(26),
 	IN dormName INT,
 	IN roomNum INT
 )
 BEGIN
 	UPDATE Student AS s
 	SET s.dormName = dormName, s.dormRoomNum = roomNum
-	WHERE s.SID = SID;
-END $$
-
-CREATE PROCEDURE AddStudentToProspectiveSuiteGroup(
-	IN SID INT,
-)
-BEGIN
-	UPDATE Student AS s
-	SET s.dormName = dormName, s.dormRoomNum = roomNum
-	WHERE s.SID = SID;
+	WHERE s.email = email;
 END $$
 
 CREATE PROCEDURE AddToWishlist(
-	IN SID INT,
+	IN email VARCHAR(26),
 	IN dormName INT,
 	IN roomNum INT
 )
 BEGIN
 	UPDATE Wishes AS q
 	SET w.dormName = dormName, w.dormRoomNum = roomNum
-	WHERE s.SID = SID;
+	WHERE s.email = email;
 END $$
 
 CREATE PROCEDURE DeleteFromWishList(
-	IN SID INT,
+	IN email VARCHAR(26),
 	IN dormName INT,
 	IN roomNum INT
 )
@@ -41,7 +32,7 @@ BEGIN
 	FROM Wishes AS w
 	WHERE w.dormRoomNum = roomNum
 		  AND w.dormName = dormName
-		  AND w.SID = SID;
+		  AND w.email = email;
 END $$
 
 -- THIS CODE IS NOT CORRECT. THIS IS A BOILERPLATE THAT WILL BE REBUILT DYNAMICALLY IN THE PYTHON FILE TO HANDLE NULL VALUES

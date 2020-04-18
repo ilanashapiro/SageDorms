@@ -18,10 +18,19 @@ CREATE TABLE IF NOT EXISTS Dorm (
   otherDescription VARCHAR(100),
   PRIMARY KEY (name));
 
+-- CREATE TABLE IF NOT EXISTS ProspectiveSuiteGroup (
+--   avgDrawNum DOUBLE NOT NULL,
+--   avgDrawTime DATETIME NOT NULL,
+--   PRIMARY KEY (avgDrawNum));
+
+-- Should this be, instead:
 CREATE TABLE IF NOT EXISTS ProspectiveSuiteGroup (
-  avgDrawNum DOUBLE NOT NULL,
-  avgDrawTime DATETIME NOT NULL,
-  PRIMARY KEY (avgDrawNum));
+    email VARCHAR(26) NOT NULL,
+    avgDrawNum DOUBLE NOT NULL,
+    avgDrawTime DATETIME,
+    isSuiteRepresentative BOOL NOT NULL,
+    FOREIGN KEY (email) REFERENCES Student(email),
+    PRIMARY KEY (email)); -- a student can't be part of multiple prospective suite groups
 
 CREATE TABLE IF NOT EXISTS Suite (
 	suiteID VARCHAR(50) NOT NULL,
@@ -64,7 +73,7 @@ CREATE TABLE IF NOT EXISTS DormRoom (
 	FOREIGN KEY (number, dormName) REFERENCES Room(number, dormName));
 
 CREATE TABLE IF NOT EXISTS Student (
-	SID INT NOT NULL,
+	email VARCHAR(26) NOT NULL,
 	name VARCHAR(50) NOT NULL,
 	year INT NOT NULL,
 	drawNum INT NOT NULL,
@@ -73,26 +82,26 @@ CREATE TABLE IF NOT EXISTS Student (
 	isDrawing BOOL NOT NULL DEFAULT 1,
 	dormRoomNum INT, -- Students not living on campus don't draw for a room
 	dormName VARCHAR(50),
-	isSuiteRepresentative BOOL,
-	avgSuiteGroupDrawNum DOUBLE,
-    suiteDrawTime DATETIME,
-	PRIMARY KEY (SID),
-	FOREIGN KEY (avgSuiteGroupDrawNum) REFERENCES ProspectiveSuiteGroup(avgDrawNum),
+	-- isSuiteRepresentative BOOL, --should this line and the following 2 lines get moved to ProspectiveSuiteGroup?? (see alternate version of ProspectiveSuiteGroup above...)
+	-- avgSuiteGroupDrawNum DOUBLE,
+    -- suiteDrawTime DATETIME, -- TODO: is this necessary???? this information is also stored in the ProspectiveSuiteGroup table and this now seems redundant...
+	PRIMARY KEY (email),
+	-- FOREIGN KEY (avgSuiteGroupDrawNum) REFERENCES ProspectiveSuiteGroup(avgDrawNum),
 	FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
 CREATE TABLE IF NOT EXISTS DrawsUp (
-  higherStudent INT NOT NULL,
-  lowerStudent INT NOT NULL,
+  higherStudent VARCHAR(26) NOT NULL,
+  lowerStudent VARCHAR(26) NOT NULL,
   PRIMARY KEY (higherStudent),
-  FOREIGN KEY (higherStudent) REFERENCES Student(SID),
-  FOREIGN KEY (lowerStudent) REFERENCES Student(SID));
+  FOREIGN KEY (higherStudent) REFERENCES Student(email),
+  FOREIGN KEY (lowerStudent) REFERENCES Student(email));
 
 CREATE TABLE IF NOT EXISTS Wishes (
-  SID INT NOT NULL,
+  email VARCHAR(26) NOT NULL,
   dormRoomNum INT NOT NULL,
   dormName VARCHAR(50) NOT NULL,
-  PRIMARY KEY (SID, dormRoomNum, dormName),
-  FOREIGN KEY (SID) REFERENCES Student(SID),
+  PRIMARY KEY (email, dormRoomNum, dormName),
+  FOREIGN KEY (email) REFERENCES Student(email),
   FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
 CREATE TABLE IF NOT EXISTS CommonRoom (

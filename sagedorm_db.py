@@ -162,29 +162,30 @@ def deleteFromWishList(cursor, info):
 
 def createProspectiveSuiteGroup(cursor, info):
     try:
-        avgDrawNum = 0
+        # query the students in the prospective suite group to calculate average draw num. (note: the emails entered is everyone ELSE in the list,
+        # not including the student doing the entering -- that person is STUDENT_EMAIL_FROM_LOGIN which I need to get from Gabe's CAS login...)
+        getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.email = {STUDENT_EMAIL_FROM_LOGIN}''
         for key, value in info.items():
             if info[value] is not None: # or "" or whatever means empty input
-                if (key == "SID"):
-                    cursor.execute(.....)
-                    cursor.fetchall()
-        cursor.callproc('AddStudentToProspectiveSuiteGroup', [info["SID"], info["dormName"], info["dormNum"]])
+                email = info[value]
+                queryString += f' OR s.email = {email}''
+                emailsToAdd.append(email)
+
+        cursor.execute(getAvgDrawNumQueryString)
+        avgDrawNum = cursor.fetchone()[0] # there's only one (single-value) result tuple that contains the average
+
+        # now that we have the avg draw num, add all students to the ProspectiveSuiteGroup table with this avg draw num
+        # the avg draw times will be calculated later, just before the draw, after all groups have been created (so it's null for now)
+        # The student doing the entering becomes the suite representative
+        addStudentsQueryString = f'''INSERT INTO ProspectiveSuiteGroup (email, avgDrawNum, avgDrawTime, isSuiteRepresentative) VALUES
+                                     ({STUDENT_EMAIL_FROM_LOGIN}, {avgDrawNum}, NULL, TRUE)'''
+        for email in emailsToAdd:
+            addStudentsQueryString += f', ({email}, {avgDrawNum}, NULL, FALSE)'
+        addStudentsQueryString += ";"
+        cursor.execute(addStudentsQueryString)
+
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
-
-# basing this off the idea that students will enter their SIDs into the input list when creating the group
-# def createProspectiveSuiteGroup(cursor, info):
-    # had to go to bed will figure this out later
-    # try:
-    #     avgDrawNum = 0
-    #     for key, value in info.items():
-    #         if info[value] is not None: # or "" or whatever means empty input
-    #             if (key == "SID"):
-    #                 cursor.execute(.....)
-    #                 cursor.fetchall()
-    #     cursor.callproc('DeleteFromWishList', [info["SID"], info["dormName"], info["dormNum"]])
-    # except mysql.connector.Error as error:
-    #     print("Failed to execute stored procedure: {}".format(error))
 
 def main(option = 'i', info = None):
     """ Main method runs hello world app
