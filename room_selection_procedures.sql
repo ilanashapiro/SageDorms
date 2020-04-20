@@ -62,6 +62,17 @@ END $$
 -- 	ORDER BY suiteID ASC
 -- END $$
 --
--- CREATE PROCEDURE DisplayRoomDetails(
---
--- )
+CREATE PROCEDURE DisplayAllSuitesSummary(
+	IN roomNum
+	IN dormName
+)
+BEGIN
+	SELECT s.suiteID, s.isSubFree, s.numRooms, s.dormName, s.otherDescription
+		   r.number, r.squareFeet, r.otherDescription,
+		   dr.numOccupants, dr.connectingRoomNum
+		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
+	FROM DormRoom AS dr, CommonRoom AS cr, Room AS r LEFT JOIN Suite AS s ON r.suiteID = s.suiteID
+	WHERE dr.dormRoomNum = r.roomNum AND dr.dormName = r.dormName
+		  AND cr.number = r.number AND cr.dormName = r.dormName
+	GROUP BY r.dormName, s.suiteID -- group first by dorm, alphabetically, then group data by suite for later processing
+END $$
