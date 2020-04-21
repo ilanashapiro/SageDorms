@@ -160,7 +160,7 @@ def deleteFromWishList(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def createProspectiveSuiteGroup(cursor, info):
+def createSuiteGroup(cursor, info):
     try:
         # query the students in the prospective suite group to calculate average draw num. (note: the emails entered is everyone ELSE in the list,
         # not including the student doing the entering -- that person is STUDENT_EMAIL_FROM_LOGIN which I need to get from Gabe's CAS login...)
@@ -168,25 +168,25 @@ def createProspectiveSuiteGroup(cursor, info):
         for key, value in info.items():
             if info[value] is not None: # or "" or whatever means empty input
                 email = info[value]
-                queryString += f'OR s.email = {email}'
+                queryString += f' OR s.email = {email}'
                 emailsToAdd.append(email)
-
+        getAvgDrawNumQueryString += ';'
         cursor.execute(getAvgDrawNumQueryString)
         avgDrawNum = cursor.fetchone()[0] # there's only one (single-value) result tuple that contains the average
 
-        # now that we have the avg draw num, add all students to the ProspectiveSuiteGroup table with this avg draw num
+        # now that we have the avg draw num, add all students to the SuiteGroup table with this avg draw num
         # the avg draw times will be calculated later, just before the draw, after all groups have been created (so it's null for now)
         # The student doing the entering becomes the suite representative
         # If a student is already in a different prospective suite group, that data will be overwritten and they will be part of the new group
         # If a group wants to add another student, they'll need to fill out the form again to register the group for everyone
-        addStudentsQueryString = f'''REPLACE INTO ProspectiveSuiteGroup (email, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
+        addStudentsQueryString = f'''REPLACE INTO SuiteGroup (email, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
                                      ({STUDENT_EMAIL_FROM_LOGIN}, {avgDrawNum}, NULL, TRUE, NULL)'''
         for email in emailsToAdd:
             addStudentsQueryString += f', ({email}, {avgDrawNum}, NULL, FALSE, NULL)'
         # addStudentsQueryString += ' ON DUPLICATE KEY UPDATE avgDrawNum = VALUES(avgDrawNum), isSuiteRepresentative = VALUES(isSuiteRepresentative)'THIS LINE UPDATES EXISTING DATA
         # RATHER THAN REPLACING, COULD USE THIS IF WE WANT TO UPDATE RATHER THAN REPLACE
 
-        addStudentsQueryString += ','
+        addStudentsQueryString += ';'
         cursor.execute(addStudentsQueryString)
 
     except mysql.connector.Error as error:

@@ -17,7 +17,7 @@ CREATE PROCEDURE AddToWishlist(
 	IN roomNum INT
 )
 BEGIN
-	UPDATE Wishes AS q
+	UPDATE WishList AS q
 	SET w.dormName = dormName, w.dormRoomNum = roomNum
 	WHERE s.email = email;
 END $$
@@ -29,50 +29,83 @@ CREATE PROCEDURE DeleteFromWishList(
 )
 BEGIN
 	DELETE
-	FROM Wishes AS w
+	FROM WishList AS w
 	WHERE w.dormRoomNum = roomNum
 		  AND w.dormName = dormName
 		  AND w.email = email;
 END $$
 
--- CREATE PROCEDURE DisplayAllSuitesSummary()
--- BEGIN
--- 	SELECT r.number, s.isSubFree, s.numPeople, s.dormName
--- 	FROM Room AS r, Suite AS s
--- 	WHERE r.suiteID IS NOT NULL
--- 		  AND s.suiteID = r.suiteID
--- 	ORDER BY suiteID ASC
--- END $$
---
--- CREATE PROCEDURE DisplaySuiteDetails(
--- 	IN suiteID VARCHAR(50)
--- )
--- BEGIN
--- 	SELECT
--- 		s.suite isSubFree BOOL NOT NULL,
--- 	  	numRooms INT NOT NULL,
--- 	  	numPeople INT NOT NULL,
--- 	  	dormName VARCHAR(50) NOT NULL,
--- 	  	otherDescription VARCHAR(100),,
--- 		r.number,
--- 		r.dormName,
--- 	FROM Room AS r, Suite AS s
--- 	WHERE r.suiteID = suiteID
--- 		  AND s.suiteID = r.suiteID
--- 	ORDER BY suiteID ASC
--- END $$
---
-CREATE PROCEDURE DisplayAllSuitesSummary(
+CREATE PROCEDURE GetMySuiteGroup(
+	IN email VARCHAR(26)
+)
+BEGIN
+	SELECT s.name, s.email
+	FROM Student AS s
+	WHERE s.email != email -- exclude the current student, we just want to see the other ppl in the group
+		  AND s.email IN (SELECT sg.email
+		  				  FROM SuiteGroup AS sg
+					  	  WHERE sg.avgDrawNum IN
+							    (SELECT sg.avgDrawNum
+				  			    FROM SuiteGroup AS sg
+						  	    WHERE sg.email = email));
+END $$
+
+CREATE PROCEDURE RemoveMyselfFromSuiteGroup(
+	IN email VARCHAR(26)
+)
+BEGIN
+	UPDATE SuiteGroup AS sg
+	SET sg.avgDrawNum = SELECT avg(s.drawNum)
+						FROM Student AS s
+						WHERE s.email!= email
+							  AND s.email IN (SELECT s.email
+										  FROM SuiteGroup AS sg
+										  WHERE sg.avgDrawNum IN
+				   							    (SELECT sg.avgDrawNum
+				   				  			    FROM SuiteGroup AS sg
+				   						  	    WHERE sg.email = email));
+	WHERE sg.email != email
+		  AND sg.avgDrawNum IN (SELECT sg.avgDrawNum
+								FROM SuiteGroup AS sg
+								WHERE sg.email = email);
+
+	DELETE
+	FROM SuiteGroup AS sg
+	WHERE sg.email = email; -- delete the student from the suite group. This can be done anythime (including during suite draw) before their suite draw time is reached
+END $$
+
+CREATE PROCEDURE GetAllDormRoomsSummary()
+BEGIN
+	SELECT r.number, r.squareFeet, r.otherDescription,
+		   dr.numOccupants, dr.connectingRoomNum
+	FROM DormRoom AS dr, CommonRoom AS cr, Room AS r LEFT JOIN Suite AS s ON r.suiteID = s.suiteID
+	WHERE r.number = roomNum AND r.dormName = dormName
+		  AND dr.dormRoomNum = r.number AND dr.dormName = r.dormName
+	ORDER BY r.dormName, r.roomNum; -- group first by dorm, alphabetically, then group data by suite for later processing
+END $$
+
+CREATE PROCEDURE GetRoomDetails(  -- common or dorm
 	IN roomNum
 	IN dormName
 )
 BEGIN
-	SELECT s.suiteID, s.isSubFree, s.numRooms, s.dormName, s.otherDescription
-		   r.number, r.squareFeet, r.otherDescription,
+	SELECT r.number, r.squareFeet, r.otherDescription,
+		   dr.numOccupants, dr.connectingRoomNum,
+		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
+	FROM DormRoom AS dr, CommonRoom AS cr, Room AS r
+	WHERE r.number = roomNum AND r.dormName = dormName
+		  AND dr.dormRoomNum = r.number AND dr.dormName = r.dormName
+		  AND cr.number = r.number AND cr.dormName = sr.dormName;
+END $$
+
+CREATE PROCEDURE GetAllSuitesSummary()
+BEGIN
+	SELECT sr.suiteID, sr.isSubFree, sr.numRooms, sr.dormName, sr.otherDescription
+		   sr.number, sr.squareFeet, sr.otherDescription,
 		   dr.numOccupants, dr.connectingRoomNum
 		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
-	FROM DormRoom AS dr, CommonRoom AS cr, Room AS r LEFT JOIN Suite AS s ON r.suiteID = s.suiteID
-	WHERE dr.dormRoomNum = r.roomNum AND dr.dormName = r.dormName
-		  AND cr.number = r.number AND cr.dormName = r.dormName
-	GROUP BY r.dormName, s.suiteID -- group first by dorm, alphabetically, then group data by suite for later processing
+	FROM DormRoom AS dr, CommonRoom AS cr, (SELECT * FROM Room AS r LEFT JOIN Suite AS s ON r.suiteID = s.suiteID) AS sr
+	WHERE dr.dormRoomNum = sr.number AND dr.dormName = sr.dormName
+		  AND cr.number = sr.number AND cr.dormName = sr.dormName
+	ORDER BY sr.dormName, sr.suiteID, sr.number; -- group first by dorm, alphabetically, then group data by suite for later processing, then finally by room number, for later processing
 END $$

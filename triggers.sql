@@ -1,20 +1,5 @@
 DELIMITER $$
 
-DROP TRIGGER IF EXISTS prospective_suite_group_constraints$$
-CREATE TRIGGER prospective_suite_group_constraints AFTER INSERT ON ProspectiveSuiteGroup
-	FOR EACH ROW BEGIN
-		IF NOT EXISTS (
-		    SELECT *
-		    FROM ProspectiveSuiteGroup AS p
-		    WHERE p.avgDrawNum NOT IN
-    		    (SELECT DISTINCT s.avgSuiteGroupDrawNum
-    		    FROM Student AS s, ProspectiveSuiteGroup AS p
-    		    WHERE p.avgDrawNum = s.avgSuiteGroupDrawNum) )
-		THEN
-			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'ProspectiveSuiteGroup does not satisfy constraints!';
-		END IF;
-    END$$
-
 DROP TRIGGER IF EXISTS closet_type_constraints$$
 CREATE TRIGGER closet_type_constraints AFTER INSERT ON ClosetType
 	FOR EACH ROW BEGIN

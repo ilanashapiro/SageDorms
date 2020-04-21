@@ -28,15 +28,9 @@ CREATE TABLE IF NOT EXISTS Dorm (
   	FOREIGN KEY (dormName) REFERENCES Dorm(name),
   	PRIMARY KEY (suiteID));
 
--- CREATE TABLE IF NOT EXISTS ProspectiveSuiteGroup (
---   avgDrawNum DOUBLE NOT NULL,
---   avgDrawTime DATETIME NOT NULL,
---   PRIMARY KEY (avgDrawNum));
-
--- Should this be, instead:
-CREATE TABLE IF NOT EXISTS ProspectiveSuiteGroup (
+CREATE TABLE IF NOT EXISTS SuiteGroup (
     email VARCHAR(26) NOT NULL,
-    avgDrawNum DOUBLE NOT NULL,
+    avgDrawNum DOUBLE NOT NULL, -- students with the same avgDrawNum are in the same group
     avgDrawTime DATETIME,
     isSuiteRepresentative BOOL NOT NULL,
     suiteID VARCHAR(50) NULL,
@@ -84,11 +78,7 @@ CREATE TABLE IF NOT EXISTS Student (
 	isDrawing BOOL NOT NULL DEFAULT 1,
 	dormRoomNum INT, -- Students not living on campus don't draw for a room
 	dormName VARCHAR(50),
-	-- isSuiteRepresentative BOOL, --should this line and the following 2 lines get moved to ProspectiveSuiteGroup?? (see alternate version of ProspectiveSuiteGroup above...)
-	-- avgSuiteGroupDrawNum DOUBLE,
-    -- suiteDrawTime DATETIME, -- TODO: is this necessary???? this information is also stored in the ProspectiveSuiteGroup table and this now seems redundant...
-	PRIMARY KEY (email),
-	-- FOREIGN KEY (avgSuiteGroupDrawNum) REFERENCES ProspectiveSuiteGroup(avgDrawNum),
+    PRIMARY KEY (email),
 	FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
 CREATE TABLE IF NOT EXISTS DrawsUp (
