@@ -85,6 +85,9 @@ def login():
         # the login form data
         info = request.form
 
+        if not (info['dispname'] and info['password'] and 'school' in info):
+            return render_template('login.html',error="Please complete all fields")
+
         # used in login request body
         login_info = {}
         login_info['username'] = f"{info['dispname']}@{info['school']}.edu"
@@ -97,13 +100,12 @@ def login():
         cookies = cas_login.main(login_info)
         if cookies:
             session['cookies'] = cookies
-            session['school'] = info['school']
             return redirect('/')
 
         # no cookies means login failed, so we open the login page again
-        return render_template('login.html')
+        return render_template('login.html',error="Invalid credentials")
 
-    return render_template('login.html')
+    return render_template('login.html',error=None)
 
 @app.route('/logout')
 def logout():
@@ -112,3 +114,6 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
