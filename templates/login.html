@@ -5,12 +5,12 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
   </head>
   <body>
-    <div class="container">
-      <h1>Please login</h1>
+    <div class="login_page">
+    <div class="block">
       <br>
-      <form action="" method="post">
+      <form id="cas" action="" method="post">
         <select id="schools" type="text" name="school">
-            <option value="none" selected disabled>Select a dorm</option>
+            <option value="none" selected disabled>Select your institution</option>
             <option value="pomona">Pomona College</option>
             <option value="pitzer">Pitzer College</option>
             <option value="cmc">Claremont McKenna College</option>
@@ -21,11 +21,13 @@
               value="{{request.form.username }}">
         <input type="password" placeholder="Password" name="password"
               value="{{request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Login">
+        <input class="btn btn-default" type="submit" value="Login" style="
+            margin-top: 1vh;">
       </form>
       {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
       {% endif %}
     </div>
+    <div>
   </body>
 </html>
