@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Dorm (
   	PRIMARY KEY (suiteID));
 
 CREATE TABLE IF NOT EXISTS SuiteGroup (
-    email VARCHAR(26) NOT NULL,
+    email VARCHAR(8) NOT NULL,
     avgDrawNum DOUBLE NOT NULL, -- students with the same avgDrawNum are in the same group
     avgDrawTime DATETIME,
     isSuiteRepresentative BOOL NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS DormRoom (
 	FOREIGN KEY (number, dormName) REFERENCES Room(number, dormName));
 
 CREATE TABLE IF NOT EXISTS Student (
-	email VARCHAR(26) NOT NULL,
+	email VARCHAR(8) NOT NULL,
 	name VARCHAR(50) NOT NULL,
 	year INT NOT NULL,
 	drawNum INT NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS DrawsUp (
   FOREIGN KEY (lowerStudent) REFERENCES Student(email));
 
 CREATE TABLE IF NOT EXISTS Wishes (
-  email VARCHAR(26) NOT NULL,
+  email VARCHAR(8) NOT NULL,
   dormRoomNum INT NOT NULL,
   dormName VARCHAR(50) NOT NULL,
   PRIMARY KEY (email, dormRoomNum, dormName),

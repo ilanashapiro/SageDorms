@@ -1,7 +1,7 @@
 DELIMITER $$
 
 CREATE PROCEDURE SetStudentRoom(
-	IN email VARCHAR(26),
+	IN email VARCHAR(8),
 	IN dormName INT,
 	IN roomNum INT
 )
@@ -12,7 +12,7 @@ BEGIN
 END $$
 
 CREATE PROCEDURE AddToWishlist(
-	IN email VARCHAR(26),
+	IN email VARCHAR(8),
 	IN dormName INT,
 	IN roomNum INT
 )
@@ -23,7 +23,7 @@ BEGIN
 END $$
 
 CREATE PROCEDURE DeleteFromWishList(
-	IN email VARCHAR(26),
+	IN email VARCHAR(8),
 	IN dormName INT,
 	IN roomNum INT
 )
@@ -36,7 +36,7 @@ BEGIN
 END $$
 
 CREATE PROCEDURE GetMySuiteGroup(
-	IN email VARCHAR(26)
+	IN email VARCHAR(8)
 )
 BEGIN
 	SELECT s.name, s.email
@@ -51,7 +51,7 @@ BEGIN
 END $$
 
 CREATE PROCEDURE RemoveMyselfFromSuiteGroup(
-	IN email VARCHAR(26)
+	IN email VARCHAR(8)
 )
 BEGIN
 	UPDATE SuiteGroup AS sg -- recompute average draw num for all remaining members of group. If the removal happens before the draw, this affects their draw time
@@ -113,7 +113,7 @@ BEGIN
 END $$
 
 CREATE PROCEDURE GetMySuiteRooms(
-	IN email VARCHAR(26)
+	IN email VARCHAR(8)
 )
 BEGIN
 	SELECT sr.suiteID, sr.isSubFree, sr.numRooms, sr.dormName, sr.otherDescription
@@ -129,7 +129,7 @@ END $$
 
 DROP FUNCTION IF EXISTS CheckIfStudentHasRoom$$
 CREATE FUNCTION CheckIfStudentHasRoom(
-	IN email VARCHAR(26)
+	IN email VARCHAR(8)
 )
 RETURNS BOOL
 DETERMINISTIC
@@ -142,7 +142,7 @@ END $$
 
 DROP FUNCTION IF EXISTS CheckIfStudentHasSuite$$
 CREATE FUNCTION CheckIfStudentHasSuite(
-	IN email VARCHAR(26)
+	IN email VARCHAR(8)
 )
 RETURNS BOOL
 DETERMINISTIC
