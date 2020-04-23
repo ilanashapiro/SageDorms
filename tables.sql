@@ -29,14 +29,14 @@ CREATE TABLE IF NOT EXISTS Dorm (
   	PRIMARY KEY (suiteID));
 
 CREATE TABLE IF NOT EXISTS SuiteGroup (
-    email VARCHAR(8) NOT NULL,
+    emailID VARCHAR(8) NOT NULL,
     avgDrawNum DOUBLE NOT NULL, -- students with the same avgDrawNum are in the same group
     avgDrawTime DATETIME,
     isSuiteRepresentative BOOL NOT NULL,
     suiteID VARCHAR(50) NULL,
-    FOREIGN KEY (email) REFERENCES Student(email),
+    FOREIGN KEY (emailID) REFERENCES Student(emailID),
     FOREIGN KEY (suiteID) REFERENCES Suite(suiteID),
-    PRIMARY KEY (email)); -- a student can't be part of multiple prospective suite groups
+    PRIMARY KEY (emailID)); -- a student can't be part of multiple prospective suite groups
 
 CREATE TABLE IF NOT EXISTS Room (
 	number INT NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS DormRoom (
 	FOREIGN KEY (number, dormName) REFERENCES Room(number, dormName));
 
 CREATE TABLE IF NOT EXISTS Student (
-	email VARCHAR(8) NOT NULL,
+	emailID VARCHAR(8) NOT NULL,
 	name VARCHAR(50) NOT NULL,
 	year INT NOT NULL,
 	drawNum INT NOT NULL,
@@ -78,22 +78,22 @@ CREATE TABLE IF NOT EXISTS Student (
 	isDrawing BOOL NOT NULL DEFAULT 1,
 	dormRoomNum INT, -- Students not living on campus don't draw for a room
 	dormName VARCHAR(50),
-    PRIMARY KEY (email),
+    PRIMARY KEY (emailID),
 	FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
 CREATE TABLE IF NOT EXISTS DrawsUp (
   higherStudent VARCHAR(26) NOT NULL,
   lowerStudent VARCHAR(26) NOT NULL,
   PRIMARY KEY (higherStudent),
-  FOREIGN KEY (higherStudent) REFERENCES Student(email),
-  FOREIGN KEY (lowerStudent) REFERENCES Student(email));
+  FOREIGN KEY (higherStudent) REFERENCES Student(emailID),
+  FOREIGN KEY (lowerStudent) REFERENCES Student(emailID));
 
 CREATE TABLE IF NOT EXISTS Wishes (
-  email VARCHAR(8) NOT NULL,
+  emailID VARCHAR(8) NOT NULL,
   dormRoomNum INT NOT NULL,
   dormName VARCHAR(50) NOT NULL,
-  PRIMARY KEY (email, dormRoomNum, dormName),
-  FOREIGN KEY (email) REFERENCES Student(email),
+  PRIMARY KEY (emailID, dormRoomNum, dormName),
+  FOREIGN KEY (emailID) REFERENCES Student(emailID),
   FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
 CREATE TABLE IF NOT EXISTS CommonRoom (

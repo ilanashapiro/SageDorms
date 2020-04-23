@@ -5,6 +5,7 @@ import cas_login
 
 app = Flask(__name__)
 app.secret_key = "shhhhh keep it a secret"
+emailID = None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -92,6 +93,7 @@ def login():
         login_info = {}
         login_info['username'] = f"{info['dispname']}@{info['school']}.edu"
         login_info['dispname'] = info['dispname']
+        emailID = info['dispname']
         login_info['password'] = info['password']
 
         # session is a built in vbl that persists as long as the app is running.
@@ -114,6 +116,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-

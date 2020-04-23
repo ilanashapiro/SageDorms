@@ -30,4 +30,47 @@ BEGIN
 		WHERE suiteGroups.containsSuiteRep IS FALSE );
 END $$
 
-DELIMITER ;
+DROP FUNCTION IF EXISTS CheckIfStudentHasRoom$$
+CREATE FUNCTION CheckIfStudentHasRoom(
+	IN emailID VARCHAR(8)
+)
+RETURNS BOOL
+DETERMINISTIC
+BEGIN
+	RETURN EXISTS (
+		SELECT *
+		FROM Student AS s
+		WHERE s.emailID = emailID AND s.roomNum IS NOT NULL);
+END $$
+
+DROP FUNCTION IF EXISTS CheckIfStudentHasSuite$$
+CREATE FUNCTION CheckIfStudentHasSuite(
+	IN emailID VARCHAR(8)
+)
+RETURNS BOOL
+DETERMINISTIC
+BEGIN
+	RETURN EXISTS (
+		SELECT *
+		FROM SuiteGroup AS sg
+		WHERE sg.emailID = emailID AND sg.suiteID IS NOT NULL);
+END $$
+
+DROP FUNCTION IF EXISTS CheckIfNewSuiteRepIsInGroup$$
+CREATE FUNCTION CheckIfNewSuiteRepIsInGroup(
+	IN emailID VARCHAR(8),
+	IN newSuiteRepID VARCHAR(8)
+)
+RETURNS BOOL
+DETERMINISTIC
+BEGIN
+	RETURN EXISTS (
+		SELECT *
+		FROM SuiteGroup AS sg
+		WHERE sg.newSuiteRepID IN (SELECT s.emailID
+								   FROM SuiteGroup AS sg
+								   WHERE sg.avgDrawNum IN
+									     (SELECT sg.avgDrawNum
+									     FROM SuiteGroup AS sg
+									     WHERE sg.emailID = emailID));
+END $$
