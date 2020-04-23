@@ -3,6 +3,7 @@ import mysql.connector
 import sys
 import names
 import random
+import app
 from datetime import datetime
 from mysql.connector import Error
 

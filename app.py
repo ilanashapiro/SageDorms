@@ -102,6 +102,7 @@ def login():
         cookies = cas_login.main(login_info)
         if cookies:
             session['cookies'] = cookies
+            session['username'] = login_info['dispname']
             return redirect('/')
 
         # no cookies means login failed, so we open the login page again
