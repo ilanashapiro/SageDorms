@@ -1,34 +1,34 @@
-DELIMITER $$
-
-DROP TRIGGER IF EXISTS closet_type_constraints$$
-CREATE TRIGGER closet_type_constraints AFTER INSERT ON ClosetType
-	FOR EACH ROW BEGIN
-		IF EXISTS (
-			SELECT *
-			FROM ClosetType AS c
-			WHERE c.typeName NOT IN
-				(SELECT c.typeName
-				FROM ClosetType AS c, DormRoom AS dm
-				WHERE c.typeName = dm.closetType) )
-		THEN
-			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'ClosetType does not satisfy constraints!';
-		END IF;
-	END$$
-
-DROP TRIGGER IF EXISTS window_type_constraints$$
-CREATE TRIGGER window_type_constraints AFTER INSERT ON WindowType
-	FOR EACH ROW BEGIN
-		IF EXISTS (
-			SELECT *
-			FROM WindowType AS w
-			WHERE w.typeName NOT IN
-				(SELECT w.typeName
-				FROM WindowType AS w, Room AS r
-				WHERE w.typeName = r.windowType) )
-		THEN
-			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'WindowType does not satisfy constraints!';
-		END IF;
-	END$$
+-- DELIMITER $$
+--
+-- DROP TRIGGER IF EXISTS closet_type_constraints$$
+-- CREATE TRIGGER closet_type_constraints AFTER INSERT ON ClosetType
+-- 	FOR EACH ROW BEGIN
+-- 		IF EXISTS (
+-- 			SELECT *
+-- 			FROM ClosetType AS c
+-- 			WHERE c.typeName NOT IN
+-- 				(SELECT c.typeName
+-- 				FROM ClosetType AS c, DormRoom AS dm
+-- 				WHERE c.typeName = dm.closetType) )
+-- 		THEN
+-- 			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'ClosetType does not satisfy constraints!';
+-- 		END IF;
+-- 	END$$
+-- 
+-- DROP TRIGGER IF EXISTS window_type_constraints$$
+-- CREATE TRIGGER window_type_constraints AFTER INSERT ON WindowType
+-- 	FOR EACH ROW BEGIN
+-- 		IF EXISTS (
+-- 			SELECT *
+-- 			FROM WindowType AS w
+-- 			WHERE w.typeName NOT IN
+-- 				(SELECT w.typeName
+-- 				FROM WindowType AS w, Room AS r
+-- 				WHERE w.typeName = r.windowType) )
+-- 		THEN
+-- 			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'WindowType does not satisfy constraints!';
+-- 		END IF;
+-- 	END$$
 
 
 DROP TRIGGER IF EXISTS suite_constraints$$

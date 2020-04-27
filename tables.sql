@@ -1,15 +1,14 @@
-CREATE TABLE IF NOT EXISTS ClosetType (
-    typeName VARCHAR(50) NOT NULL,
-    length INT NOT NULL,
-    width INT NOT NULL,
-    PRIMARY KEY (typeName));
-
-CREATE TABLE IF NOT EXISTS WindowType (
-    typeName VARCHAR(50) NOT NULL,
-    directionFacing ENUM('NORTH', 'SOUTH', 'EAST', 'WEST', 'NORTHEAST', 'NORTHWEST',
-                       'SOUTHEAST', 'SOUTHWEST'),
-    viewDescription VARCHAR(100) NOT NULL,
-    PRIMARY KEY (typeName));
+-- CREATE TABLE IF NOT EXISTS ClosetType (
+--     typeName VARCHAR(50) NOT NULL,
+--     otherDescription VARCHAR(50)
+--     PRIMARY KEY (typeName));
+--
+-- CREATE TABLE IF NOT EXISTS WindowType (
+--     typeName VARCHAR(50) NOT NULL,
+--     directionFacing ENUM('NORTH', 'SOUTH', 'EAST', 'WEST', 'NORTHEAST', 'NORTHWEST',
+--                        'SOUTHEAST', 'SOUTHWEST'),
+--     viewDescription VARCHAR(100) NOT NULL,
+--     PRIMARY KEY (typeName));
 
 CREATE TABLE IF NOT EXISTS Dorm (
     name VARCHAR(50) NOT NULL,
@@ -47,12 +46,12 @@ CREATE TABLE IF NOT EXISTS Room (
 	squareFeet DOUBLE NOT NULL,
 	isSubFree BOOL NOT NULL,
 	isReservedForSponsorGroup BOOL NOT NULL,
-	windowType VARCHAR(50) NOT NULL,
+	windowsDescription VARCHAR(100) NOT NULL,
 	suite VARCHAR(50),
 	otherDescription VARCHAR(100),
 	PRIMARY KEY (number, dormName),
 	FOREIGN KEY (dormName) REFERENCES Dorm(name),
-	FOREIGN KEY (windowType) REFERENCES WindowType(typeName),
+	-- FOREIGN KEY (windowType) REFERENCES WindowType(typeName),
 	FOREIGN KEY (suite) REFERENCES Suite(suiteID));
 
 CREATE TABLE IF NOT EXISTS DormRoom (
@@ -61,11 +60,11 @@ CREATE TABLE IF NOT EXISTS DormRoom (
 	numOccupants INT NOT NULL,
 	hasPrivateBathroom BOOL NOT NULL,
 	numDoors INT NOT NULL,
-	closetType VARCHAR(50) NOT NULL,
+	closetsDescription VARCHAR(100) NOT NULL,
 	connectingRoomNum INT,
 	PRIMARY KEY (number, dormName),
 	FOREIGN KEY (connectingRoomNum, dormName) REFERENCES DormRoom(number, dormName),
-	FOREIGN KEY (closetType) REFERENCES ClosetType(typeName),
+	-- FOREIGN KEY (closetType) REFERENCES ClosetType(typeName),
 	FOREIGN KEY (number, dormName) REFERENCES Room(number, dormName));
 
 CREATE TABLE IF NOT EXISTS Student (
@@ -81,12 +80,12 @@ CREATE TABLE IF NOT EXISTS Student (
     PRIMARY KEY (emailID),
 	FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
-CREATE TABLE IF NOT EXISTS DrawsUp (
-  higherStudent VARCHAR(26) NOT NULL,
-  lowerStudent VARCHAR(26) NOT NULL,
-  PRIMARY KEY (higherStudent),
-  FOREIGN KEY (higherStudent) REFERENCES Student(emailID),
-  FOREIGN KEY (lowerStudent) REFERENCES Student(emailID));
+-- CREATE TABLE IF NOT EXISTS DrawsUp (
+--   higherStudent VARCHAR(26) NOT NULL,
+--   lowerStudent VARCHAR(26) NOT NULL,
+--   PRIMARY KEY (higherStudent),
+--   FOREIGN KEY (higherStudent) REFERENCES Student(emailID),
+--   FOREIGN KEY (lowerStudent) REFERENCES Student(emailID));
 
 CREATE TABLE IF NOT EXISTS Wishes (
   emailID VARCHAR(8) NOT NULL,

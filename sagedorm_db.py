@@ -95,7 +95,7 @@ def selectDormRooms(cursor, info):
                 key == "numOccupants" or
                 key == "hasPrivateBathroom" or
                 key == "numDoors" or
-                key == "closetType" or
+                key == "closetsDescription" or
                 key == "hasConnectingRoom"):
                     if (key == "hasConnectingRoom"):
                         queryString += f' AND dr.connectingRoomNum IS NOT NULL'
@@ -120,8 +120,6 @@ def selectDormRooms(cursor, info):
         #     queryString += f' AND dr.hasPrivateBathroom = {info['hasPrivateBathroom']}'
         # if info['numDoors'] is not None:
         #     queryString += f' AND dr.numDoors = {info['numDoors']}'
-        # if info['closetType'] is not None:
-        #     queryString += f' AND dr.closetType = {info['closetType']}'
         # if info['hasConnectingRoom'] is not None:
         #     queryString += f' AND dr.connectingRoomNum IS NOT NULL'
         # if info['floorNum'] is not None:
@@ -130,10 +128,6 @@ def selectDormRooms(cursor, info):
         #     queryString += f' AND r.squareFeet = {info['squareFeet']}'
         # if info['isSubFree'] is not None:
         #     queryString += f' AND r.isSubFree = {info['isSubFree']}'
-        # if info['windowType'] is not None:
-        #     queryString += f' AND r.windowType = {info['windowType']}'
-        # if info['windowType'] is not None:
-        #     queryString += f' AND r.windowType = {info['windowType']}'
         # if info['suite'] is not None:=
         #     queryString += f' AND r.suite = {info['suite']}'
         # queryString += ';'
