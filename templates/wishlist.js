@@ -1,4 +1,7 @@
 window.onload = function () {
+
+    localStorage.clear();
+
     var wishlist_button = document.querySelectorAll('.js_wishlist_button'),
         clicked = [],
         save_rooms = [],
@@ -18,20 +21,21 @@ window.onload = function () {
         wishlist_button.addEventListener('click',function () {
 
             if (clicked.indexOf(index) >= 0) {
-                console.log(1)
+                console.log("You can't add anymore!")
+                console.log(clicked)
 
-                for (var i = 0; i < clicked.length; i++) {
+                // for (var i = 0; i < clicked.length; i++) {
 
-                    // get the room we clicked
-                    if(clicked[i] == index){
-                        clicked.splice(i, 1);
-                        save_rooms.splice(i, 1);
-                        break;
-                    }
-                }
+                //     // get the room we clicked
+                //     if(clicked[i] == index){
+                //         clicked.splice(i, 1);
+                //         save_rooms.splice(i, 1);
+                //         break;
+                //     }
+                // }
 
-            } else if(clicked.indexOf(index) == -1){ // nothing in list
-                console.log(-1)
+                
+            } else if(clicked.indexOf(index) == -1){ // nothing in clicked list
 
                 var name = wishlist_button.dataset.name;
 
