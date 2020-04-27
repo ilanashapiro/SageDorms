@@ -92,8 +92,8 @@ CREATE PROCEDURE GetRoomDetails(  -- common or dorm
 	IN dormName VARCHAR(50)
 )
 BEGIN
-	SELECT r.number, r.squareFeet, r.otherDescription,
-		   dr.numOccupants, dr.connectingRoomNum,
+	SELECT r.number, r.squareFeet, r.otherDescription, r.windowsDescription,
+		   dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription,
 		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
 	FROM DormRoom AS dr, CommonRoom AS cr, Room AS r
 	WHERE r.number = roomNum AND r.dormName = dormName

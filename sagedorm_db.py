@@ -23,7 +23,7 @@ def init_db(cursor):
         cursor.execute("CREATE DATABASE IF NOT EXISTS sagedormsdb;")
 
     cursor.execute("USE sagedormsdb;")
-    create_tables(cursor)
+    executeScriptsFromFile("tables.sql", cursor)
 
 def generate_fake_students(sagedormsdb, cursor):
     """ Generates many fake students for 'room draw'
@@ -47,42 +47,24 @@ def generate_fake_students(sagedormsdb, cursor):
                 1, avgSuiteGroupDrawNum , '{drawTime}')''')
         sagedormsdb.commit()
 
+def executeScriptsFromFile(filename, cursor):
+    # Open and read the file as a single buffer
+    fd = open(filename, 'r')
+    sqlFile = fd.read()
+    fd.close()
 
-def create_tables(cursor):
-    """ Creates all the schemas (tables) in this database. This will have:
-        ClosetType, CommonRoom, DrawsUp
-        Dorm, DormRoom, Room
-        Student, Suite, WindowType
+    # all SQL commands (split on ';')
+    sqlCommands = sqlFile.split(';')
 
-    Keyword arguments:
-    cursor -- executes SQL commands
-    """
-
-    # dictionary of tables
-    tables = {}
-
-    """
-    Questions:
-        - not null?
-        - avgDrawTime: how to get average of time?
-    """
-
-    tables['Student'] = '''CREATE TABLE IF NOT EXISTS Student(
-        sid INT(9) ZEROFILL UNSIGNED PRIMARY KEY NOT NULL,
-        fname CHAR(31) NOT NULL,
-        lname CHAR(31) NOT NULL,
-        drawNum SMALLINT UNSIGNED NOT NULL,
-        drawGroupNum TINYINT UNSIGNED NOT NULL,
-        drawTime DATETIME NOT NULL,
-        avgDrawTime DATETIME,
-        avgDrawNum NUMERIC UNSIGNED,
-        dormName CHAR(15) DEFAULT 'Deferred',
-        dormRoom CHAR(4) DEFAULT 'Def') ENGINE=InnoDB;
-        '''
-
-    # add tables to database
-    for t in tables:
-        cursor.execute(tables[t])
+    # Execute every command from the input file
+    for command in sqlCommands:
+        # This will skip and report errors
+        # For example, if the tables do not yet exist, this will skip over
+        # the DROP TABLE commands
+        try:
+            cursor.execute(command + ";")
+        except mysql.connector.Error as err:
+            print("Something went wrong: {}".format(err))
 
 def selectDormRooms(cursor, info):
     queryString = '''SELECT *
@@ -106,31 +88,6 @@ def selectDormRooms(cursor, info):
             else: # or "" or whatever means empty input
                 queryString += f' AND r.{info[key]} = {info[value]}'
     queryString += ';'
-
-    #old way without loop (could use for debugging, but's it's pretty messy)
-        #
-        # if info['dormNum'] is not None:
-        #         queryString += f' AND dr.number = {info['dormNum']} AND dr.number = r.number'
-        # if info['dormName'] is not None:
-        #     if (!hasOneCondition):
-        #     queryString += f' AND dr.dormName = {info['dormName']} AND dr.dormName = r.dormName'
-        # if info['numOccupants'] is not None:
-        #     queryString += f' AND dr.numOccupants = {info['numOccupants']}'
-        # if info['hasPrivateBathroom'] is not None:
-        #     queryString += f' AND dr.hasPrivateBathroom = {info['hasPrivateBathroom']}'
-        # if info['numDoors'] is not None:
-        #     queryString += f' AND dr.numDoors = {info['numDoors']}'
-        # if info['hasConnectingRoom'] is not None:
-        #     queryString += f' AND dr.connectingRoomNum IS NOT NULL'
-        # if info['floorNum'] is not None:
-        #     queryString += f' AND r.floorNum = {info['floorNum']}'
-        # if info['squareFeet'] is not None:
-        #     queryString += f' AND r.squareFeet = {info['squareFeet']}'
-        # if info['isSubFree'] is not None:
-        #     queryString += f' AND r.isSubFree = {info['isSubFree']}'
-        # if info['suite'] is not None:=
-        #     queryString += f' AND r.suite = {info['suite']}'
-        # queryString += ';'
 
     cursor.execute(queryString)
     cursor.fetchall()
@@ -186,7 +143,7 @@ def createSuiteGroup(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def main(option = 'i', info = None):
+def main(info = None):
     """ Main method runs hello world app
 
         TODO:
@@ -194,43 +151,24 @@ def main(option = 'i', info = None):
             - SQL injection???
             - from what database will we get student information
     """
-    print("OPTION", option)
+    # print("OPTION", option)
     try:
         # connect to localhost mysql server
         sagedormsdb = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                passwd="databases133")
+                passwd="databases133",
+                auth_plugin='mysql_native_password')
 
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
         init_db(cursor)
         # generate_fake_students(sagedormsdb, cursor)
-
-        # # update dorm
-        if (option == 'u'):
-            cursor.execute(f'''
-                UPDATE Student
-                SET
-                    dormName = '{info['dormName']}',
-                    dormRoom = '{info['dormRoom']}'
-                WHERE sid = {info['sid']}
-            ''')
-            sagedormsdb.commit()
-            cursor.close()
-            return "success"
-
-        # retrieve students
-        elif (option == 'r'):
-            result = cursor.execute("SELECT * FROM Students;")
-            return cursor.fetchall()
-
         cursor.close()
 
     except mysql.connector.Error as e:
         if (e.errno == 1045):
             print("Wrong password; did you enter databases133 ???")
-
         print(traceback.format_exc())
 
 if __name__ == '__main__':
