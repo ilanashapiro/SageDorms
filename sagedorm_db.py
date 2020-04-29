@@ -174,7 +174,7 @@ def addConnectingRoomInfo(cursor):
     for row in csv_data:
         connectingRoomNum = None
         hasConnectingRoom = False
-        if (row[1][-1] == 'A'):
+        if (row[1][-1] == 'A' and row[1][:-1] != "214"):
             connectingRoomNum = row[1][:-1] + 'B'
             hasConnectingRoom = True
         elif (row[1][-1] == 'B'):
