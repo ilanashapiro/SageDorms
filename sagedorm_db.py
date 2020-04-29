@@ -78,6 +78,7 @@ def selectDormRooms(cursor, info):
                 key == "hasPrivateBathroom" or
                 key == "numDoors" or
                 key == "closetsDescription" or
+                key == "bathroomDescription" or
                 key == "hasConnectingRoom"):
                     if (key == "hasConnectingRoom"):
                         queryString += f' AND dr.connectingRoomNum IS NOT NULL'
