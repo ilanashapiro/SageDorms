@@ -100,13 +100,13 @@ def selectDormRooms(cursor, info):
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(cursor, info):
     try:
-        cursor.callproc('SetStudentRoom', [app.emailID, info["dormName"], info["dormNum"]])
+        cursor.callproc('SetStudentRoom', [app.emailID, info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def addToWishList(cursor, info):
     try:
-        cursor.callproc('AddToWishlist', [app.emailID, info["dormName"], info["dormNum"]])
+        cursor.callproc('AddToWishlist', [app.emailID, info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
@@ -149,16 +149,19 @@ def createSuiteGroup(cursor, info):
         print("Failed to execute stored procedure: {}".format(error))
 
 def populateRooms(cursor):
-    csv_data = csv.reader(open('rooms.csv'))
+    csv_file = open('rooms.csv')
+    csv_data = csv.reader(csv_file)
     for row in csv_data:
         isSubFree = random.getrandbits(1)
         # print(row)
         query = f"""REPLACE INTO ROOM (dormName, number, dimensionsDescription, squareFeet, isSubFree, windowsDescription, otherDescription) VALUES('{row[0]}', '{row[1]}', '{row[2]}', '{row[3]}', {isSubFree}, '{row[4]}', '{row[5]}')"""
         print(query)
         cursor.execute(query)
+    csv_file.close()
 
 def populateDormRooms(cursor):
-    csv_data = csv.reader(open('dormrooms.csv'))
+    csv_file = open('dormrooms.csv')
+    csv_data = csv.reader(csv_file)
     for row in csv_data:
         numOccupants = 1
         if " 2 " in row[2]: # the closet section
@@ -167,14 +170,16 @@ def populateDormRooms(cursor):
         query = f"""INSERT INTO DormRoom (dormName, number, numOccupants, hasPrivateBathroom, closetsDescription, bathroomDescription) VALUES('{row[0]}', '{row[1]}', {numOccupants}, {hasPrivateBathroom}, '{row[2]}', '{row[4]}')"""
         print(query)
         cursor.execute(query)
+    csv_file.close()
     addConnectingRoomInfo(cursor)
 
 def addConnectingRoomInfo(cursor):
-    csv_data = csv.reader(open('dormrooms.csv'))
+    csv_file = open('dormrooms.csv')
+    csv_data = csv.reader(csv_file)
     for row in csv_data:
         connectingRoomNum = None
         hasConnectingRoom = False
-        if (row[1][-1] == 'A' and row[1][:-1] != "214"):
+        if (row[1][-1] == 'A' and row[1][:-1] != "214"): # 214 is in the wrong format
             connectingRoomNum = row[1][:-1] + 'B'
             hasConnectingRoom = True
         elif (row[1][-1] == 'B'):
@@ -187,15 +192,7 @@ def addConnectingRoomInfo(cursor):
             query = f"""UPDATE DormRoom SET connectingRoomNum = '{connectingRoomNum}' WHERE number = '{row[1]}' AND dormName = '{row[0]}'"""
             print(query)
             cursor.execute(query)
-
-    # number VARCHAR(10) NOT NULL,
-	# dormName VARCHAR(50) NOT NULL,
-	# numOccupants INT NOT NULL,
-	# hasPrivateBathroom BOOL NOT NULL DEFAULT FALSE,
-	# numDoors INT NOT NULL DEFAULT 1,
-	# closetsDescription VARCHAR(250) NOT NULL,
-    # bathroomDescription VARCHAR(250),
-	# connectingRoomNum VARCHAR(10),
+    csv_file.close()
 
 def main(info = None):
     """ Main method runs hello world app
@@ -217,7 +214,7 @@ def main(info = None):
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
         init_db(cursor)
-        addConnectingRoomInfo(cursor)
+        addToWishList(cursor, {'dormName': 'CLARK-I', 'dormRoomNum': '100A'})
         # generate_fake_students(sagedormsdb, cursor)
         cursor.close()
 
