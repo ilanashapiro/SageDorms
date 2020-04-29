@@ -11,14 +11,20 @@ with open("room_data.txt", "r") as rooms:
     line_num = 1
     roomNum = -1
     count = 0
+    bathroom = False
+    other = False
     for line in rooms:
         line_tag = line.split(":")
 
         #if line_tag[0] == "Windows" or line_tag[0] == "Other" or line_tag[0] == "Bath":
         #    line_num = 0
         if len(line_tag) == 1:
+            if (other and not bathroom):
+                roomsList[roomNum].insert(-1, "")
             line_num = 1
             roomNum += 1
+            other = False
+            bathroom = False
             roomsList.append([])
         if line_num == 1:
             room_name = line.split(" ")
@@ -33,10 +39,14 @@ with open("room_data.txt", "r") as rooms:
             sq_ft = dim[1].strip().split(" ")
             area.append(int(sq_ft[0]))
 
-            roomsList[roomNum].append(dim[0].rstrip())
+            roomsList[roomNum].append(dim[0].rstrip().replace('\'', 'ft').replace('"', 'in'))
             roomsList[roomNum].append(int(sq_ft[0]))
         else:
-            roomsList[roomNum].append(line.replace("\xa0", " ").replace("\n","").rstrip())
+            roomsList[roomNum].append(line.replace("\xa0", " ").replace("\n","").replace('\'', "ft").replace('"', "in").rstrip())
+            if "Bath:" in line:
+                bathroom = True
+            if "Other:" in line:
+                other = True
         # elif line_num == 3:
         #     closet_type.append(line)
         #
@@ -61,3 +71,18 @@ outputFile.close() #close output file
 # print(len(area))
 # print(len(closet_type))
 # print(len(window_type))
+
+# CREATE TABLE IF NOT EXISTS Room (
+# 	dormName VARCHAR(50) NOT NULL,
+# 	number VARCHAR(10) NOT NULL,
+# 	dimensionsDescription VARCHAR(100) NOT NULL,
+# 	squareFeet DOUBLE NOT NULL,
+# 	isSubFree BOOL NOT NULL DEFAULT FALSE,
+# 	isReservedForSponsorGroup BOOL NOT NULL DEFAULT FALSE,
+# 	windowsDescription VARCHAR(100) NOT NULL,
+# 	suite VARCHAR(50),
+# 	otherDescription VARCHAR(100),
+# 	PRIMARY KEY (number, dormName),
+# 	FOREIGN KEY (dormName) REFERENCES Dorm(name),
+# 	-- FOREIGN KEY (windowType) REFERENCES WindowType(typeName),
+# 	FOREIGN KEY (suite) REFERENCES Suite(suiteID));

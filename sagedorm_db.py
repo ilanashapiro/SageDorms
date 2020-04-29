@@ -4,8 +4,11 @@ import sys
 import names
 import random
 import app
+import csv
+import re
 from datetime import datetime
 from mysql.connector import Error
+from random import getrandbits
 
 def init_db(cursor):
     """Creates the sagedorms database
@@ -62,7 +65,8 @@ def executeScriptsFromFile(filename, cursor):
         # For example, if the tables do not yet exist, this will skip over
         # the DROP TABLE commands
         try:
-            cursor.execute(command + ";")
+            if (command.rstrip() != ""):
+                cursor.execute(command + ";")
         except mysql.connector.Error as err:
             print("Something went wrong: {}".format(err))
 
@@ -144,6 +148,55 @@ def createSuiteGroup(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
+def populateRooms(cursor):
+    csv_data = csv.reader(open('rooms.csv'))
+    for row in csv_data:
+        isSubFree = random.getrandbits(1)
+        # print(row)
+        query = f"""REPLACE INTO ROOM (dormName, number, dimensionsDescription, squareFeet, isSubFree, windowsDescription, otherDescription) VALUES('{row[0]}', '{row[1]}', '{row[2]}', '{row[3]}', {isSubFree}, '{row[4]}', '{row[5]}')"""
+        print(query)
+        cursor.execute(query)
+
+def populateDormRooms(cursor):
+    csv_data = csv.reader(open('dormrooms.csv'))
+    for row in csv_data:
+        numOccupants = 1
+        if " 2 " in row[2]: # the closet section
+            numOccupants = 2
+        hasPrivateBathroom = int("Shared" in row[4] or "Private" in row[4])
+        query = f"""INSERT INTO DormRoom (dormName, number, numOccupants, hasPrivateBathroom, closetsDescription, bathroomDescription) VALUES('{row[0]}', '{row[1]}', {numOccupants}, {hasPrivateBathroom}, '{row[2]}', '{row[4]}')"""
+        print(query)
+        cursor.execute(query)
+    addConnectingRoomInfo(cursor)
+
+def addConnectingRoomInfo(cursor):
+    csv_data = csv.reader(open('dormrooms.csv'))
+    for row in csv_data:
+        connectingRoomNum = None
+        hasConnectingRoom = False
+        if (row[1][-1] == 'A'):
+            connectingRoomNum = row[1][:-1] + 'B'
+            hasConnectingRoom = True
+        elif (row[1][-1] == 'B'):
+            connectingRoomNum = row[1][:-1] + 'A'
+            hasConnectingRoom = True
+        elif "two rooms (w/" in row[5]:
+            connectingRoomNum = int(re.sub("[^0-9]", "", row[5]))
+            hasConnectingRoom = True
+        if hasConnectingRoom:
+            query = f"""UPDATE DormRoom SET connectingRoomNum = '{connectingRoomNum}' WHERE number = '{row[1]}' AND dormName = '{row[0]}'"""
+            print(query)
+            cursor.execute(query)
+
+    # number VARCHAR(10) NOT NULL,
+	# dormName VARCHAR(50) NOT NULL,
+	# numOccupants INT NOT NULL,
+	# hasPrivateBathroom BOOL NOT NULL DEFAULT FALSE,
+	# numDoors INT NOT NULL DEFAULT 1,
+	# closetsDescription VARCHAR(250) NOT NULL,
+    # bathroomDescription VARCHAR(250),
+	# connectingRoomNum VARCHAR(10),
+
 def main(info = None):
     """ Main method runs hello world app
 
@@ -152,18 +205,19 @@ def main(info = None):
             - SQL injection???
             - from what database will we get student information
     """
-    # print("OPTION", option)
     try:
         # connect to localhost mysql server
         sagedormsdb = mysql.connector.connect(
                 host="localhost",
                 user="root",
                 passwd="databases133",
-                auth_plugin='mysql_native_password')
+                auth_plugin='mysql_native_password',
+                autocommit=True)
 
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
         init_db(cursor)
+        addConnectingRoomInfo(cursor)
         # generate_fake_students(sagedormsdb, cursor)
         cursor.close()
 

@@ -51,7 +51,32 @@ BEGIN
 END $$
 
 CREATE PROCEDURE RemoveMyselfFromSuiteGroup(
-	IN emailID VARCHAR(8)
+	IN emailID VARCHAR(8),
+	IN newSuiteRepID VARCHAR(8)
+)
+BEGIN
+	UPDATE SuiteGroup AS sg -- recompute average draw num for all remaining members of group. If the removal happens before the draw, this affects their draw time
+	SET sg.avgDrawNum = SELECT avg(s.drawNum)
+						FROM Student AS s
+						WHERE s.emailID!= emailID
+							  AND s.emailID IN (SELECT s.emailID
+										  FROM SuiteGroup AS sg
+										  WHERE sg.avgDrawNum IN
+				   							    (SELECT sg.avgDrawNum
+				   				  			    FROM SuiteGroup AS sg
+				   						  	    WHERE sg.emailID = emailID)),
+
+		SET sg.isSuiteRepresentative = TRUE
+			WHERE newSuiteRepID IS NOT NULL AND sg.emailID = newSuiteRepID
+		END IF;
+
+	DELETE
+	FROM SuiteGroup AS sg
+	WHERE sg.emailID = emailID; -- delete the student from the suite group. This can be done anythime (including during suite draw) before their suite draw time is reached
+END $$
+
+CREATE PROCEDURE AddMyselfToSuiteGroup(
+	IN emailID VARCHAR(8),
 	IN newSuiteRepID VARCHAR(8)
 )
 BEGIN
@@ -92,7 +117,7 @@ CREATE PROCEDURE GetRoomDetails(  -- common or dorm
 	IN dormName VARCHAR(50)
 )
 BEGIN
-	SELECT r.number, r.squareFeet, r.otherDescription, r.windowsDescription,
+	SELECT r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription,
 		   dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription,
 		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
 	FROM DormRoom AS dr, CommonRoom AS cr, Room AS r
