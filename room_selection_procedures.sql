@@ -54,6 +54,22 @@ BEGIN
 						  	    WHERE sg.emailID = emailID));
 END $$
 
+DROP PROCEDURE IF EXISTS SetSuite$$
+CREATE PROCEDURE SetSuite(
+	IN suiteID VARCHAR(50),
+	IN emailIDSuiteRep INT
+)
+BEGIN
+	UPDATE SuiteGroup AS sg
+	SET sg.suiteID = suiteID
+	WHERE s.emailID IN (SELECT s.emailID
+						FROM SuiteGroup AS sg
+						WHERE sg.avgDrawNum IN
+							  (SELECT sg.avgDrawNum
+							  FROM SuiteGroup AS sg
+							  WHERE sg.emailID = emailIDSuiteRep));
+END $$
+
 DROP PROCEDURE IF EXISTS RemoveMyselfFromSuiteGroup$$
 CREATE PROCEDURE RemoveMyselfFromSuiteGroup(
 	IN emailID CHAR(8),
@@ -88,31 +104,50 @@ BEGIN
 	WHERE sg.emailID = emailID; -- delete the student from the suite group. This can be done anythime (including during suite draw) before their suite draw time is reached
 END $$
 
--- DROP PROCEDURE IF EXISTS AddMyselfToSuiteGroup$$
--- CREATE PROCEDURE AddMyselfToSuiteGroup(
--- 	IN emailID CHAR(8),
--- 	IN newSuiteRepID CHAR(8)
--- )
--- BEGIN
--- 	UPDATE SuiteGroup AS sg -- recompute average draw num for all remaining members of group. If the removal happens before the draw, this affects their draw time
--- 	SET sg.avgDrawNum = (SELECT avg(s.drawNum)
--- 						FROM Student AS s
--- 						WHERE s.emailID != emailID
--- 							  AND s.emailID IN (SELECT s.emailID
--- 										  FROM SuiteGroup AS sg
--- 										  WHERE sg.avgDrawNum IN
--- 				   							    (SELECT sg.avgDrawNum
--- 				   				  			    FROM SuiteGroup AS sg
--- 				   						  	    WHERE sg.emailID = emailID))),
---
--- 		SET sg.isSuiteRepresentative = TRUE
--- 			WHERE newSuiteRepID IS NOT NULL AND sg.emailID = newSuiteRepID
--- 		END IF;
---
--- 	DELETE
--- 	FROM SuiteGroup AS sg
--- 	WHERE sg.emailID = emailID; -- delete the student from the suite group. This can be done anythime (including during suite draw) before their suite draw time is reached
--- END $$
+DROP PROCEDURE IF EXISTS AddMyselfToSuiteGroup$$
+CREATE PROCEDURE AddMyselfToSuiteGroup(
+	IN emailID CHAR(8),
+	IN emailIDInSG CHAR(8),
+	IN isNewSuiteRep BOOLEAN
+)
+BEGIN
+	INSERT INTO SuiteGroup (emailID) VALUES (emailID);
+
+	-- recompute average draw num for all members of group (including your newly added self).
+	UPDATE SuiteGroup AS sg
+	SET sg.avgDrawNum = (SELECT avg(s.drawNum)
+						FROM Student AS s
+						WHERE s.emailID = emailID
+							  OR s.emailID IN (SELECT s.emailID
+										  FROM SuiteGroup AS sg
+										  WHERE sg.avgDrawNum IN
+				   							    (SELECT sg.avgDrawNum
+				   				  			    FROM SuiteGroup AS sg
+				   						  	    WHERE sg.emailID = emailIDInSG)));
+
+		-- If someone else was originally the SG rep and now you are, update this
+		IF isNewSuiteRep AND emailIDInSG IN (SELECT sg.emailID
+										     FROM SuiteGroup AS sg
+										     WHERE sg.avgDrawNum IN (SELECT avgDrawNum
+											   					  FROM SuiteGroup AS sg1
+																  WHERE sg1.emailID = emailIDInSG)
+												   AND sg.isSuiteRepresentative = TRUE) THEN
+			UPDATE SuiteGroup AS sg
+			SET sg.isSuiteRepresentative = TRUE WHERE sg.emailID = emailID;
+            
+            UPDATE SuiteGroup AS sg
+			SET sg.isSuiteRepresentative = FALSE WHERE sg.emailID IN (SELECT sg.emailID
+																     FROM SuiteGroup AS sg
+																     WHERE sg.avgDrawNum IN (SELECT avgDrawNum
+																	   					  FROM SuiteGroup AS sg1
+																						  WHERE sg1.emailID = emailIDInSG)
+																		   AND sg.isSuiteRepresentative = TRUE);
+		END IF;
+
+	DELETE
+	FROM SuiteGroup AS sg
+	WHERE sg.emailID = emailID; -- delete the student from the suite group. This can be done anythime (including during suite draw) before their suite draw time is reached
+END $$
 
 DROP PROCEDURE IF EXISTS GetAllDormRoomsSummary$$
 CREATE PROCEDURE GetAllDormRoomsSummary(
