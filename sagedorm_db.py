@@ -4,8 +4,12 @@ import sys
 import names
 import random
 import app
+import csv
+import re
+import global_vars
 from datetime import datetime
 from mysql.connector import Error
+from random import getrandbits
 
 def init_db(cursor):
     """Creates the sagedorms database
@@ -62,18 +66,18 @@ def executeScriptsFromFile(filename, cursor):
         # For example, if the tables do not yet exist, this will skip over
         # the DROP TABLE commands
         try:
-            cursor.execute(command + ";")
+            if (command.rstrip() != ""):
+                cursor.execute(command + ";")
         except mysql.connector.Error as err:
             print("Something went wrong: {}".format(err))
 
-def selectDormRooms(cursor, info):
-    queryString = '''SELECT *
-        FROM DormRoom AS dr, Room AS r
-        WHERE r.isReservedForSponsorGroup = FALSE'''
+def searchForDormRooms(cursor, info):
+    queryString = '''SELECT r.dormName, r.number FROM DormRoom AS dr, Room AS r WHERE r.isReservedForSponsorGroup = FALSE'''
     for key, value in info.items():
-        if info[value] is not None: # or "" or whatever means empty input
-            if (key == "dormNum" or
-                key == "dormName" or
+        if value is not None: # or "" or whatever means empty input
+            # case this is dormRoom info
+            if (key == "dormName" or
+                key == "number" or
                 key == "numOccupants" or
                 key == "hasPrivateBathroom" or
                 key == "numDoors" or
@@ -83,40 +87,93 @@ def selectDormRooms(cursor, info):
                     if (key == "hasConnectingRoom"):
                         queryString += f' AND dr.connectingRoomNum IS NOT NULL'
                     else:
-                        queryString += f' AND dr.{info[key]} = {info[value]}'
-                        if key == "dormName" or key == "dormNum":
-                            queryString += f' AND dr.{info[key]} = r.{info[key]}'
-            else: # or "" or whatever means empty input
-                queryString += f' AND r.{info[key]} = {info[value]}'
+                        # data is string value, enclose in quote
+                        if key == "number" or key == "dormName" or key == "closetsDescription" or key == "bathroomDescription":
+                            queryString += f' AND dr.{key} = \'{value}\''
+                        # data is not a string value, no quotes
+                        else:
+                            queryString += f' AND dr.{key} = {value}'
+                        # perform the join with room
+                        if key == "dormName" or key == "number":
+                            queryString += f' AND dr.{key} = r.{key}'
+            else: # this is room, rather than dormRoom, information
+                queryString += f' AND r.{key} = {value}'
     queryString += ';'
 
+    print(queryString)
     cursor.execute(queryString)
-    cursor.fetchall()
+    print(cursor.fetchall())
+
 
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(cursor, info):
     try:
-        cursor.callproc('SetStudentRoom', [app.emailID, info["dormName"], info["dormNum"]])
+        cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getAllDormRoomsSummary(cursor):
+    try:
+        cursor.callproc('GetAllDormRoomsSummary', [])
+        results = []
+        for result in cursor.stored_results():
+            results.append(result.fetchall())
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getRoomDetails(cursor, info):
+    try:
+        cursor.callproc('GetRoomDetails', [info["dormName"], info["dormRoomNum"]])
+        results = []
+        for result in cursor.stored_results():
+            data = result.fetchall()
+            if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
+                results.append(data)
+        print(results)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getMyRoomDetails(cursor):
+    try:
+        cursor.callproc('GetMyRoomDetails', [global_vars.emailID])
+        results = []
+        for result in cursor.stored_results():
+            results.append(result.fetchall())
+        print(results)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getMyWishList(cursor):
+    try:
+        cursor.callproc('GetMyWishList', [global_vars.emailID])
+        results = []
+        for result in cursor.stored_results():
+            results.append(result.fetchall())
+        print(results)
+        return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def addToWishList(cursor, info):
     try:
-        cursor.callproc('AddToWishlist', [app.emailID, info["dormName"], info["dormNum"]])
+        cursor.callproc('AddToWishlist', [global_vars.emailID, info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def deleteFromWishList(cursor, info):
     try:
-        cursor.callproc('DeleteFromWishList', [app.emailID, info["dormName"], info["dormRoomNum"]])
+        cursor.callproc('DeleteFromWishList', [global_vars.emailID, info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def createSuiteGroup(cursor, info):
     try:
         # query the students in the prospective suite group to calculate average draw num. (note: the emailIDs entered is everyone ELSE in the list,
-        # not including the student doing the entering -- that person is app.emailID
-        getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = {app.emailID}'
+        # not including the student doing the entering -- that person is global_vars.emailID
+        getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = {global_vars.emailID}'
         for key, value in info.items():
             if info[value] is not None: # or "" or whatever means empty input
                 emailID = info[value]
@@ -132,7 +189,7 @@ def createSuiteGroup(cursor, info):
         # If a student is already in a different prospective suite group, that data will be overwritten and they will be part of the new group
         # If a group wants to add another student, they'll need to fill out the form again to register the group for everyone
         addStudentsQueryString = f'''REPLACE INTO SuiteGroup (emailID, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
-                                     ({app.emailID}, {avgDrawNum}, NULL, TRUE, NULL)'''
+                                     ({global_vars.emailID}, {avgDrawNum}, NULL, TRUE, NULL)'''
         for emailID in emailIDsToAdd:
             addStudentsQueryString += f', ({emailID}, {avgDrawNum}, NULL, FALSE, NULL)'
         # addStudentsQueryString += ' ON DUPLICATE KEY UPDATE avgDrawNum = VALUES(avgDrawNum), isSuiteRepresentative = VALUES(isSuiteRepresentative)'THIS LINE UPDATES EXISTING DATA
@@ -144,6 +201,51 @@ def createSuiteGroup(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
+def populateRooms(cursor):
+    csv_file = open('rooms.csv')
+    csv_data = csv.reader(csv_file)
+    for row in csv_data:
+        isSubFree = random.getrandbits(1)
+        # print(row)
+        query = f"""REPLACE INTO ROOM (dormName, number, dimensionsDescription, squareFeet, isSubFree, windowsDescription, otherDescription) VALUES('{row[0]}', '{row[1]}', '{row[2]}', '{row[3]}', {isSubFree}, '{row[4]}', '{row[5]}')"""
+        print(query)
+        cursor.execute(query)
+    csv_file.close()
+
+def populateDormRooms(cursor):
+    csv_file = open('dormrooms.csv')
+    csv_data = csv.reader(csv_file)
+    for row in csv_data:
+        numOccupants = 1
+        if " 2 " in row[2]: # the closet section
+            numOccupants = 2
+        hasPrivateBathroom = int("Shared" in row[4] or "Private" in row[4])
+        query = f"""INSERT INTO DormRoom (dormName, number, numOccupants, hasPrivateBathroom, closetsDescription, bathroomDescription) VALUES('{row[0]}', '{row[1]}', {numOccupants}, {hasPrivateBathroom}, '{row[2]}', '{row[4]}')"""
+        print(query)
+        cursor.execute(query)
+    csv_file.close()
+    addConnectingRoomInfo(cursor)
+
+def addConnectingRoomInfo(cursor):
+    csv_file = open('dormrooms.csv')
+    csv_data = csv.reader(csv_file)
+    for row in csv_data:
+        connectingRoomNum = None
+        hasConnectingRoom = False
+        if (row[1][-1] == 'A' and row[1][:-1] != "214"): # 214 is in the wrong format
+            connectingRoomNum = row[1][:-1] + 'B'
+            hasConnectingRoom = True
+        elif (row[1][-1] == 'B'):
+            connectingRoomNum = row[1][:-1] + 'A'
+            hasConnectingRoom = True
+        elif "two rooms (w/" in row[5]:
+            connectingRoomNum = int(re.sub("[^0-9]", "", row[5]))
+            hasConnectingRoom = True
+        if hasConnectingRoom:
+            query = f"""UPDATE DormRoom SET connectingRoomNum = '{connectingRoomNum}', numOccupants = 2 WHERE number = '{row[1]}' AND dormName = '{row[0]}'"""
+            cursor.execute(query)
+    csv_file.close()
+
 def main(info = None):
     """ Main method runs hello world app
 
@@ -152,18 +254,23 @@ def main(info = None):
             - SQL injection???
             - from what database will we get student information
     """
-    # print("OPTION", option)
     try:
         # connect to localhost mysql server
         sagedormsdb = mysql.connector.connect(
                 host="localhost",
                 user="root",
                 passwd="databases133",
-                auth_plugin='mysql_native_password')
+                auth_plugin='mysql_native_password',
+                autocommit=True)
 
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
         init_db(cursor)
+        global_vars.emailID = 'issa2018'
+        info = {'dormName': 'CLARK-I', 'number': '100A', 'roommateEID' : None}
+        # info['CLARK-I', '100A']
+        searchForDormRooms(cursor, info)
+        # print(global_vars.emailID, info["dormName"], info["dormRoomNum"])
         # generate_fake_students(sagedormsdb, cursor)
         cursor.close()
 

@@ -1,0 +1,520 @@
+CLARK-I,100A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; outer room - indirect bath access
+CLARK-I,100B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room  - direct bath access
+CLARK-I,101A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; outer room  - indirect bath access
+CLARK-I,101B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room  - direct bath access
+CLARK-I,102A,Closets: 1 Walk-in closet,Windows: 1 South facing glass door - view of CLARK-I south courtyard,,"Other: two rooms; outer room  - indirect bath access, short balcony"
+CLARK-I,102B,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room  - direct bath access
+CLARK-I,103A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; outer room - indirect bath access
+CLARK-I,103B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room  - direct bath access
+CLARK-I,104A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; outer room  - indirect bath access
+CLARK-I,104B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room  - direct bath access
+CLARK-I,105A,Closets: 1 Bump-out closet,"Windows: 1 West facing crank window,1 East facing crank window - view of Walker Beach and CLARK-I central courtyard",,Other: two rooms; outer room  - indirect bath access
+CLARK-I,105B,Closets: 1 Bump-out closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room  - direct bath access
+CLARK-I,106A,Closets: 1 Bump-out closet,"Windows: 1 West facing crank window, 1 East facing crank window - view of Walker Beach and CLARK-I central courtyard",,Other: two rooms; outer room  - indirect bath access
+CLARK-I,106B,Closets: 1 Bump-out closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room  - direct bath access
+CLARK-I,107A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; outer room  - indirect bath access
+CLARK-I,107B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room  - direct bath access
+CLARK-I,108A,Closets: 1 Bump-out closet,Windows: 1 West facing crank window  - view of Walker Beach,,Other: two rooms; outer room - indirect bath access
+CLARK-I,108B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room - direct bath access
+CLARK-I,109A,Closets: 1 Walk-in closet,Windows: 1 South facing glass door - view of CLARK-I central courtyard,,"Other: two rooms; outer room - indirect bath access, short balcony"
+CLARK-I,109B,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of CLARK-I north courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,110A,Closets: 1 Bump-out closet,"Windows: 1 West facing crank window, 1 East facing crank window - view of Walker Beach and CLARK-I central courtyard",,Other: two rooms; outer room - indirect bath access
+CLARK-I,110B,Closets: 1 Bump-out closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms; inner room - direct bath access
+CLARK-I,111A,Closets: 1 Bump-out closet,"Windows: 1 West facing crank window, 1 North facing crank window - view of Walker Beach",,Other: two rooms (plus entry room) - semi-direct bath access
+CLARK-I,111B,Closets: 1 Bump-out closet,Windows: 1 West facing crank window - view of Walker Beach,,Other: two rooms (plus entry room) - semi-direct bath access
+CLARK-I,112A,Closets: 1 Walk-in closet,"Windows: 1 North facing crank window, 1 South facing crank window - view of CLARK-I north courtyard and Eighth St",,Other: two rooms; outer room - indirect bath access
+CLARK-I,112B,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of Eighth St,,Other: two rooms; inner room - direct bath access
+CLARK-I,113A,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of Eighth St,,Other: two rooms; outer room - indirect bath access
+CLARK-I,113B,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of Eighth St,,Other: two rooms; inner room - direct bath access
+CLARK-I,114A,Closets: 1 Bump-out closet,Windows: 1 North facing crank window - view of Eighth St,,Other: two rooms; outer room - direct bath access
+CLARK-I,114B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 4ft3in),Windows: 1 North facing crank window - view of Eighth St,,Other: two rooms; inner room - indirect bath access
+CLARK-I,115A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I north courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,115B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I north courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,116A,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; outer room - indirect bath access
+CLARK-I,116B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,117A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 4ft),"Windows: 1 North facing crank window, 1 South facing crank window - view of the parking lot",,Other: two rooms; outer room - direct bath access
+CLARK-I,117B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot,,"Other: two rooms; inner room - direct bath access, fireplace"
+CLARK-I,118A,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; outer room - indirect bath access
+CLARK-I,118B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,119A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,119B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,120A,Closets: 1 Walk-in closet,Windows: 1 South facing glass door - view of CLARK-I central courtyard,,"Other: two rooms; outer room - indirect bath access, short balcony"
+CLARK-I,120B,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of CLARK-I north courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,121A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,121B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,122A,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot,,Other: two rooms; outer room - indirect bath access
+CLARK-I,122B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot,,Other: two rooms; inner room - direct bath access
+CLARK-I,123A,Closets: 1 Bump-out closet - closet removes space from room (2ft x 4ft),"Windows: 1 North facing crank window, 1 South facing crank window - view of the parking lot",,Other: two rooms; outer room - direct bath access
+CLARK-I,123B,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of the parking lot,,"Other: two rooms; inner room - direct bath access, fireplace"
+CLARK-I,124A,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; outer room - indirect bath access
+CLARK-I,124B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,125A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,125B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,126A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,126B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,127A,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; outer room  - indirect bath access
+CLARK-I,127B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,129A,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot,,Other: two rooms; outer room - indirect bath access
+CLARK-I,129B,Closets: 1 Walk-in closet - view of the parking lot,Windows: 1 East facing crank window,,Other: two rooms; inner room - direct bath access
+CLARK-I,130A,Closets: 1 Walk-in closet - view of CLARK-I south courtyard,Windows: 1 West facing crank window,,Other: two rooms; outer room - indirect bath access
+CLARK-I,130B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I south courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,131A,Closets: 1 Walk-in closet,Windows: 1 South facing glass door - view of CLARK-I south courtyard and Frary,,"Other: two rooms; outer room - indirect bath access, short balcony"
+CLARK-I,131B,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,132A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I south courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,132B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I south courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,133A,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; outer room - indirect bath access
+CLARK-I,133B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,200A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 4ft),Windows: 1 North facing crank window - view of the parking lot,,Other: two rooms; outer room - direct bath access
+CLARK-I,200B,Closets: 1 Walk-in closet,Windows: 1 North facing crank window - view of the parking lot,,"Other: two rooms; inner room - direct bath access, fireplace"
+CLARK-I,201A,Closets: 1 Walk-in closet,Windows: 1 East facing glass door - view of the parking lot and Athearn Court,,"Other: two rooms; outer room - indirect bath access, small balcony"
+CLARK-I,201B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,202A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I north courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,202B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I north courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,203A,Closets: 2 Walk-in closets,Windows: 4 North facing crank windows - view of Eighth St,,
+CLARK-I,203B,Closets: 2 Walk-in closets,"Windows: 2 North facing crank windows, 1 West facing window - view of Eighth St and Walker Beach",,
+CLARK-I,203C,Closets: 2 Walk-in closets,Windows: 2 South facing crank windows - view of trees,,
+CLARK-I,205A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of trees,,Other: two rooms; outer room - indirect bath access
+CLARK-I,205B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,206A,Closets: 1 Walk-in closet,Windows: 1 East facing glass door - view of the parking lot and Athearn Court,,"Other: two rooms; outer room - indirect bath access, small balcony"
+CLARK-I,206B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot,,Other: two rooms; inner room - direct bath access
+CLARK-I,207A,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 4ft),"Windows: 2 North facing crank windows, 1 South facing window - view of the parking lot",,Other: two rooms; outer room - direct bath access
+CLARK-I,207B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot,,"Other: two rooms; inner room - direct bath access, fireplace"
+CLARK-I,208A,Closets: 1 Walk-in closet,Windows: 1 East facing glass door - view of the parking lot,,"Other: two rooms; outer room - indirect bath access, small balcony"
+CLARK-I,208B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,209A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,209B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,210A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,210B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,211A,Closets: 1 Walk-in closet,Windows: 1 East facing glass door - view of the parking lot and Athearn Court,,"Other: two rooms; outer room - indirect bath access, small balcony"
+CLARK-I,211B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot,,Other: two rooms; inner room - direct bath access
+CLARK-I,212A,Closets: 1 Walk-in closet,Windows: 1 East facing glass door - view of the parking lot and Athearn Court,,"Other: two rooms; outer room - indirect bath access, small balcony"
+CLARK-I,212B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,213A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of trees,,Other: two rooms; outer room - indirect bath access
+CLARK-I,213B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I central courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,214A,Closets: 2 Walk-in closets,Windows: 4 North facing crank windows - view of CLARK-I central courtyard,,
+CLARK-I,214,Closets: 2 Walk-in closets,Windows: 2 North facing crank windows - view of CLARK-I central courtyard,,
+CLARK-I,214C,Closets: 2 Walk-in closets,"Windows: 2 South facing crank windows, 1 West facing window - view of CLARK-I south courtyard and Walker Beach",,
+CLARK-I,216A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I south courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,216B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I south courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,217A,Closets: 1 Walk-in closet,Windows: 1 East facing glass door - view of the parking lot,,"Other: two rooms; outer room - indirect bath access, small balcony"
+CLARK-I,217B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot,,Other: two rooms; inner room - direct bath access
+CLARK-I,218A,Closets: 1 Walk-in closet,Windows: 2 North facing crank windows - view of the parking lot,,Other: two rooms; outer room - direct bath access
+CLARK-I,218B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 4ft),Windows: 1 North facing crank window - view of the parking lot,,Other: two rooms; inner room - direct bath access
+CLARK-I,219A,Closets: 1 Walk-in closet,Windows: 1 East facing glass door - view of the parking lot,,"Other: two rooms; outer room - indirect bath access, small balcony"
+CLARK-I,219B,Closets: 1 Walk-in closet,Windows: 1 East facing crank window - view of the parking lot and Athearn Court,,Other: two rooms; inner room - direct bath access
+CLARK-I,220A,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I south courtyard,,Other: two rooms; outer room - indirect bath access
+CLARK-I,220B,Closets: 1 Walk-in closet,Windows: 1 West facing crank window - view of CLARK-I south courtyard,,Other: two rooms; inner room - direct bath access
+CLARK-I,221,Closets: 2 Walk-in closet,Windows: 2 South facing crank windows - view of the roof,Bath: Private bathroom,Other: ONE room
+CLARK-I,222,Closets: 2 Walk-in closet,Windows: 2 South facing crank windows - view of the roof,Bath: Private bathroom,Other: ONE room
+CLARK-V,401,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east entrance,,
+CLARK-V,402,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in) ; 1 Bump-out dresser -  dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,403,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east entrance,,
+CLARK-V,404,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,405,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,406,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,407,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east entrance,,
+CLARK-V,408,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,409,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window view - of CLARK-V east entrance,,
+CLARK-V,410,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,411,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east courtyard,,
+CLARK-V,412,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,413,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,414,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,415,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out - dresser dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east courtyard,,
+CLARK-V,416,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,417,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V central courtyard,,
+CLARK-V,418,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,419,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V central courtyard,,
+CLARK-V,420,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,421,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,422,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V west courtyard,,
+CLARK-V,423,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,424,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V west courtyard,,
+CLARK-V,425,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 West facing window; 1 North facing window - view of Walker and College Way,,
+CLARK-V,426,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 West facing window - view of College Way,,
+CLARK-V,427,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),"Windows: 1 West facing window, 1 East facing window - view of College Way and CLARK-V west courtyard",,
+CLARK-V,428,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),"Windows: 1 West facing window, 1 East facing window - view of College Way and CLARK-V west courtyard",,
+CLARK-V,429,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of College Way,,
+CLARK-V,430,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 West facing window - view of College Way,,
+CLARK-V,431,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window; 1 South facing window - view of College Way and Sixth St.,,
+CLARK-V,432,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,433,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,434,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 South facing window - view of Sixth St.,,Other: fireplace
+CLARK-V,435,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St.,,Other: fireplace
+CLARK-V,436,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,437,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window; 1 North facing window - view of Sixth St. and CLARK-V central courtyard,,
+CLARK-V,438,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,439,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,440,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St.,,Other: fireplace
+CLARK-V,441,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St.,,Other: fireplace
+CLARK-V,442,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,443,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser -  dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window; 1 North facing window - view of Sixth St. and CLARK-V east courtyard,,
+CLARK-V,444,Closets: 1 Bump-out closet closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,445,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,446,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 South facing window - view of Sixth St.,,
+CLARK-V,451,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east entrance,,
+CLARK-V,452,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,453,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east entrance,,
+CLARK-V,454,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,455,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,456,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,457,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east entrance,,
+CLARK-V,458,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,459,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east entrance,,
+CLARK-V,460,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,461,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east courtyard,,
+CLARK-V,462,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,463,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,464,Closets: 1 Bump-out closet closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,465,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V east courtyard,,
+CLARK-V,466,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,467,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V central courtyard,,
+CLARK-V,468,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,469,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V central courtyard,,
+CLARK-V,470,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,471,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,472,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V west courtyard,,
+CLARK-V,473,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 North facing window - view of Walker,,
+CLARK-V,474,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 South facing window - view of CLARK-V west courtyard,,
+CLARK-V,S1A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V west courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S1B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 North facing window - view of CLARK-V central courtyard,,
+CLARK-V,S2A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V west courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S2B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 2 East facing windows - view of CLARK-V central courtyard,,
+CLARK-V,S3A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V central courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S3B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 North facing window - view of CLARK-V east courtyard,,
+CLARK-V,S4A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V central courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S4B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 2 East facing windows - view of CLARK-V east courtyard,,
+CLARK-V,S5A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V east courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S5B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 North facing window - view of CLARK-V east entrance,,
+CLARK-V,S6A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V east courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S6B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 2 East facing windows - view of CLARK-V east entrance,,
+CLARK-V,S21A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V west courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S21B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 North facing window - view of CLARK-V central courtyard,,
+CLARK-V,S22A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V west courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S22B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 South facing window - view of CLARK-V central courtyard,,
+CLARK-V,S23A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V central courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S23B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 North facing window - view of CLARK-V east courtyard,,
+CLARK-V,S24A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in) 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V central courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S24B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 South facing window - view of CLARK-V east courtyard,,
+CLARK-V,S25A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V east courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S25B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 North facing window - view of CLARK-V east entrance,,
+CLARK-V,S26A,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in); 1 Bump-out dresser - dresser removes space form the room (1ft9in x 3ft9in),Windows: 1 West facing window - view of CLARK-V east courtyard,,Other: fireplace cut corner (- 8 square feet)
+CLARK-V,S26B,Closets: 1 Bump-out closet - closet removes space from the room (2ft x 3ft9in),Windows: 1 East facing window; 1 South facing window - view of CLARK-V east entrance,,
+LAWRY,A11,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 6ft6in),Windows: 1 North facing crank window - view of the parking lot,,
+LAWRY,A12,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Clark III,,
+LAWRY,A13,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 North facing crank window - view of the parking lot,,
+LAWRY,A14,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Clark III,,
+LAWRY,A15,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,
+LAWRY,A16,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons,,
+LAWRY,A17,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot and Lawry B-tower,,
+LAWRY,A18,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of Lawry B-tower,,
+LAWRY,A21,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window view of the parking lot,,
+LAWRY,A22,Closets: 1 Bump-out closet closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Clark III,,
+LAWRY,A23,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 North facing crank window - view of the parking lot,,
+LAWRY,A24,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Clark III,,
+LAWRY,A25,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,
+LAWRY,A26,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons and Lawry B-tower,,
+LAWRY,A27,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot and Lawry B-tower,,
+LAWRY,A28,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),,,
+LAWRY,A35,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,Other: High ceiling
+LAWRY,A36,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons and Lawry B-tower,,Other: High ceiling
+LAWRY,A37,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot and Lawry B-tower,,Other: High ceiling
+LAWRY,A38,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of Lawry B-tower,,Other: High ceiling
+LAWRY,B12,Closets:1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry A-tower,,
+LAWRY,B13,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 North facing crank window - view of the parking lot and Lawry A-tower,,
+LAWRY,B14,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Clark III,,
+LAWRY,B15,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,
+LAWRY,B16,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons,,
+LAWRY,B18,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of Lawry C-tower,,
+LAWRY,B22,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry A-tower,,
+LAWRY,B23,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 North facing crank window - view of the parking lot and Lawry A-tower,,
+LAWRY,B24,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Clark III,,
+LAWRY,B25,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,
+LAWRY,B26,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons and Lawry C-tower,,
+LAWRY,B27,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window view of the parking lot and Lawry C-tower,,
+LAWRY,B28,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of Lawry C-tower,,
+LAWRY,B32,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry A-tower,,Other: High ceiling
+LAWRY,B33,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 North facing crank window - view of the parking lot and Lawry A-tower,,Other: High ceiling
+LAWRY,B34,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Clark III,,Other: High ceiling
+LAWRY,B35,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,Other: High ceiling
+LAWRY,B36,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons and Lawry C-tower,,Other: High ceiling
+LAWRY,B37,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot and Lawry C-tower,,Other: High ceiling
+LAWRY,B38,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),,Windows: 1 North facing crank window; 1 East facing crank window - view of Lawry C-tower Other: High ceiling,
+LAWRY,C12,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry B-tower,,
+LAWRY,C13,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 North facing crank window - view of the parking lot and Lawry B-tower,,
+LAWRY,C14,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry B-tower,,
+LAWRY,C15,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,
+LAWRY,C16,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons,,
+LAWRY,C17,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot,,
+LAWRY,C18,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot,,
+LAWRY,C22,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry B-tower,,
+LAWRY,C23,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 North facing crank window - view of the parking lot and Lawry B-tower,,
+LAWRY,C24,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry B-tower,,
+LAWRY,C25,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,
+LAWRY,C26,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons,,
+LAWRY,C27,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot,,
+LAWRY,C28,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot,,
+LAWRY,C32,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry B-tower,,Other: High ceiling
+LAWRY,C33,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 North facing crank window - view of the parking lot and Lawry B-tower,,Other: High ceiling
+LAWRY,C34,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 West facing crank window; 1 South facing crank window - view of Walton Commons and Lawry B-tower,,Other: High ceiling
+LAWRY,C35,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 North facing crank window - view of the parking lot,,Other: High ceiling
+LAWRY,C36,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft6in),Windows: 1 East facing crank window; 1 South facing crank window - view of Walton Commons,,Other: High ceiling
+LAWRY,C37,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window view of the parking lot,,Other: High ceiling
+LAWRY,C38,Closets: 1 Bump-out closet - closet removes space from room (2ft6in x 5ft9in),Windows: 1 North facing crank window; 1 East facing crank window - view of the parking lot,,Other: High ceiling
+WALKER,601,Closets: 2 Bump-out closets - closets remove space from the room (2ft3in x 8ft),Windows: 2 West facing crank windows - view of College Way,Bath: Shared with 602,
+WALKER,602,Closets: 2 Bump-out closets - closets remove space from the room (2ft3in x 8ft),Windows: 2 West facing crank windows - view of College Way,Bath: Shared with 601,
+WALKER,603,Closets: see 604,Windows: 1 South facing crank window - view of Clark V,,Other: two rooms (w/604); outer room
+WALKER,604,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 South facing crank window - view of Clark V,,Other: two rooms (w/603); inner room
+WALKER,624,Closets: see 625,Windows: 1 West facing crank window - view of Walker patio C,Bath: Private bathroom; indirect bath access,Other: two rooms (w/625); outer room
+WALKER,625,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio C,Bath: Private bathroom; direct bath access,Other: two rooms (w/624); inner room
+WALKER,626,Closets: see 627,Windows: 1 West facing crank window - view of Walker patio C,Bath: Private bathroom indirect; bath access,Other: two rooms (w/627); outer room
+WALKER,627,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio C,Bath: Private bathroom; direct bath access,Other: two rooms (w/626); inner room
+WALKER,628,Closets: see 629,Windows: 1 East facing crank window - view of Walker patio C,Bath: Private bathroom; indirect bath access,Other: two rooms (w/629); outer room
+WALKER,629,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio C,Bath: Private bathroom; direct bath access,Other: two rooms (w/628); inner room
+WALKER,630,Closets: see 631,Windows: 1 East facing crank window - view of Walker patio C,Bath: Shared with 657 indirect bath access,Other: two rooms (w/631); outer room
+WALKER,631,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio C,Bath: Shared with 657; direct bath access,Other: two rooms (w/630); inner room
+WALKER,632,Closets: see 633,Windows: 1 West facing crank window - view of Walker patio B,Bath: Private bathroom; indirect bath access,Other: two rooms (w/633); outer room
+WALKER,633,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio B,Bath: Private bathroom; direct bath access,Other: two rooms (w/632); inner room
+WALKER,634,Closets: see 635,Windows: 1 West facing crank window view of Walker patio B,Bath: Shared with 656; indirect bath access,Other: two rooms (w/635); outer room
+WALKER,635,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio B,Bath: Shared with 656; direct bath access,Other: two rooms (w/634); inner room
+WALKER,636,Closets: see 637,Windows: 1 East facing crank window - view of Walker patio B,Bath: Private bathroom; indirect bath access,Other: two rooms (w/637); outer room
+WALKER,637,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window view of Walker patio B,Bath: Private bathroom; direct bath access,Other: two rooms (w/636); inner room
+WALKER,638,Closets: see 639,Windows: 1 East facing crank window - view of Walker patio B,Bath: Shared with 655; indirect bath access,Other: two rooms (w/639); outer room
+WALKER,639,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio B,Bath: Shared with 655; direct bath access,Other: two rooms (w/638); inner room
+WALKER,640,Closets: see 641,Windows: 1 West facing crank window - view of Walker patio A,Bath: Private bathroom; indirect bath access,Other: two rooms (w/641); outer room
+WALKER,641,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio A,Bath: Private bathroom; direct bath access,Other: two rooms (w/640); inner room
+WALKER,642,Closets: see 643,Windows: 1 West facing crank window - view of Walker patio A,Bath: Shared with 654; indirect bath access,Other: two rooms (w/643); outer room
+WALKER,643,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio A,Bath: Shared with 654 - direct bath access,Other: two rooms (w/642) - inner room
+WALKER,644,Closets: see 645,Windows: 1 East facing crank window - view of Walker patio A,"Bath: Hall bathroom shared with 603-4 - indirect bath access, bathroom has entrance from 645 and from Walker 1st floor main hall",Other: two rooms (w/645) - outer room
+WALKER,645,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio A,"Bath: Hall bathroom shared with 603-4 - direct bath access, bathroom has entrance from 645 and from Walker 1st floor main hall",Other: two rooms (w/644) - inner room
+WALKER,646,Closets: see 647,Windows: 1 East facing crank window - view of Walker patio A,Bath: Shared with 653 - indirect bath access,Other: two rooms (w/647) - outer room
+WALKER,647,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio A,Bath: Shared with 653 - direct bath access,Other: two rooms (w/646); inner room
+WALKER,648,Closets: see 649,Windows: 1 West facing crank window - view of College Way,Bath: Private bathroom - indirect bath access,Other: two rooms (w/649); outer room
+WALKER,649,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of College Way,Bath: Private bathroom - direct bath access,Other: two rooms (w/648); inner room
+WALKER,650,Closets: see 651,Windows: 1 West facing crank window - view of College Way,Bath: Shared with 652 - indirect bath access,Other: two rooms (w/651); outer room
+WALKER,651,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of College Way,Bath: Shared with 652 - direct bath access,Other: two rooms (w/650); inner room
+WALKER,652,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker Beach,Bath: Shared with 650 and 651,
+WALKER,653,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),"Windows: 1 North facing crank window, 1 East facing crank window - view of Walker Beach and Walker patio A Bath: Shared with 646 and 647",,
+WALKER,654,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker Beach Bath: Shared with 642 and 643,,
+WALKER,655,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker Beach,Bath: Shared with 638 and 639,
+WALKER,656,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker Beach,Bath: Shared with 634 and 635,
+WALKER,657,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker Beach,Bath: Shared with 630 and 631,
+WALKER,701,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,702,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio A and Walker Beach,,
+WALKER,703,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,704,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio A and Walker Beach,,
+WALKER,705,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,706,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio A and Walker Beach,,
+WALKER,707,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,708,Closets: 1 Bump-out closet - closet removes space from the room (2ft6in x 5ft),Windows: 1 North facing crank window - view of Walker patio A and Walker Beach,,
+WALKER,709,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,710,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio A and Walker Beach,,
+WALKER,711,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,712,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,713,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,714,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio B and Walker Beach,,
+WALKER,715,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,716,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio B and Walker Beach,,
+WALKER,717,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,718,Closets: 1 Bump-out closet - closet removes space from the room (2ft6in x 5ft),Windows: 1 North facing crank window - view of Walker patio B and Walker Beach,,
+WALKER,719,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,720,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio B and Walker Beach,,
+WALKER,721,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,722,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,723,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,724,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio C and Walker Beach,,
+WALKER,725,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,726,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio C and Walker Beach,,
+WALKER,727,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,728,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio C and Walker Beach,,
+WALKER,729,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,730,Closets: 1 Bump-out closet - closet removes space from the room (2ft6in x 5ft),Windows: 1 North facing crank window - view of Walker patio C and Walker Beach,,
+WALKER,731,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,732,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 North facing crank window - view of Walker patio C and Walker Beach,,
+WALKER,733,Closets: 1 Bump-out closet - closet removes space from the room (2ft3in x 5ft),Windows: 1 South facing crank window - view of Clark V,,
+WALKER,734,Closets: see 735,Windows: 1 West facing crank window view of Walker patio C,Bath: Private bathroom - indirect bath access,Other: two rooms (w/735); outer room
+WALKER,735,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio C,Bath: Private bathroom - direct bath access,Other: two rooms (w/734); inner room
+WALKER,736,Closets: see 737,Windows: 1 West facing crank window - view of Walker patio C,Bath: Private bathroom - indirect bath access,Other: two rooms (w/737); outer room
+WALKER,737,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio C,Bath: Private bathroom - direct bath access,Other: two rooms (w/736); inner room
+WALKER,738,Closets: see 739,Windows: 1 East facing crank window - view of Walker patio C,Bath: Private bathroom - indirect bath access,Other: two rooms (w/739); outer room
+WALKER,739,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio C,Bath: Private bathroom - direct bath access,Other: two rooms (w/738); inner room
+WALKER,740,Closets: see 741,Windows: 1 East facing crank window - view of Walker patio C,Bath: Private bathroom - indirect bath access,Other: two rooms (w/741); outer room
+WALKER,741,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio C,Bath: Private bathroom - direct bath access,Other: two rooms (w/740); inner room
+WALKER,742,Closets: see 743,Windows: 1 West facing crank window - view of Walker patio B,Bath: Private bathroom - indirect bath access,Other: two rooms (w/743); outer room
+WALKER,743,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio B,Bath: Private bathroom - direct bath access,Other: two rooms (w/742); inner room
+WALKER,744,Closets: see 745,Windows: 1 West facing crank window - view of Walker patio B,Bath: Private bathroom - indirect bath access,Other: two rooms (w/745); outer room
+WALKER,745,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio B,Bath: Private bathroom - direct bath access,Other: two rooms (w/744); inner room
+WALKER,746,Closets: see 747,Windows: 1 East facing crank window - view of Walker patio B,Bath: Private bathroom - indirect bath access,Other: two rooms (w/747); outer room
+WALKER,747,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio B,Bath: Private bathroom - direct bath access,Other: two rooms (w/746); inner room
+WALKER,748,Closets: see 749,Windows: 1 East facing crank window - view of Walker patio B,Bath: Private bathroom - indirect bath access,Other: two rooms (w/749); outer room
+WALKER,749,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 East facing crank window - view of Walker patio B,Bath: Private bathroom - direct bath access,Other: two rooms (w/748); inner room
+WALKER,750,Closets: see 751,Windows: 1 West facing crank window - view of Walker patio A,Bath: Private bathroom - indirect bath access,Other: two rooms (w/751); outer room
+WALKER,751,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio A,Bath: Private bathroom - direct bath access,Other: two rooms (w/750); inner room
+WALKER,752,Closets: see 753,Windows: 1 West facing crank window - view of Walker patio A,Bath: Private bathroom - indirect bath access,Other: two rooms (w/753); outer room
+WALKER,753,Closets: 2 Bump-out closets - closets add space to the room,Windows: 1 West facing crank window - view of Walker patio A,Bath: Private bathroom - direct bath access,Other: two rooms (w/752); inner room
+SMILEY,101,Closets: 1 Walk-in closet,"Windows: 1 North facing sash window, 1 East facing sash window - view of Sixth St.",,
+SMILEY,102,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,103,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,104,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,105,Closets: 1 Walk-in closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,106,Closets: 1 Bump-out closet,Windows: 2 West facing sash windows - view of Smith Campus Center,,
+SMILEY,107,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,108,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,109,Closets: 1 Walk-in closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,110,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,111,Closets: 1 Bump-out closet,Windows: 2 East facing sash windows - view of Rains,,
+SMILEY,112,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,113,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,114,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,115,Closets: 1 Bump-out closet,Windows: 2 East facing sash windows - view of Rains,,
+SMILEY,201,Closets: 1 Walk-in closet,"Windows: 1 East facing sash window, 1 North facing sash window - view of Sixth St.",,
+SMILEY,202,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,203,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,204,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,205,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,206,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Ca,,
+SMILEY,209,Closets: 1 Walk-in closet,Windows: 2 East facing sash windows - view of Rains,,
+SMILEY,210,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,211,Closets: 1 Walk-in closet,Windows: 2 East facing sash windows - view of Rains,,
+SMILEY,212,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,213,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,214,Closets: 1 Walk-in closet,Windows: 2 West facing sash windows - view of Smith Campus Center,,
+SMILEY,215,Closets: 1 Walk-in closet,Windows: 2 East facing sash windows - view of Rains,,
+SMILEY,216,Closets: 1 Walk-in closet,Windows: 2 West facing sash windows - view of Smith Campus Center,,
+SMILEY,217,Closets: 1 Walk-in closet,Windows: 2 East facing sash windows - view of Rains,,
+SMILEY,218,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,219,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,220,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,221,Closets: 1 large Walk-in closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,222,Closets: 1 Walk-in closet,Windows: 2 East facing sash windows - view of Rains 1 South facing sash window,,
+SMILEY,301,Closets: 1 Walk-in closet,"Windows: 1 East facing sash window, 1 North facing sash window - view of Rains and Sixth St.",,
+SMILEY,302,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,303,Closets: 1 Walk-in closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,304,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,305,Closets: 1 Walk-in closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,306,Closets: 1 Bump-out closet,Windows: 2 West facing sash windows - view of Smith Campus Center,,
+SMILEY,307,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,308,Closets: 1 Bump-out closet,Windows: 2 West facing sash windows - view of Smith Campus Center,,
+SMILEY,309,Windows: 2 East facing sash windows - view of Rains,,,
+SMILEY,310,Closets: 1 Walk-in closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,311,Closets: 1 Walk-in closet,Windows: 2 East facing sash windows - view of Rains,,
+SMILEY,312,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,313,Closets: 1 Walk-in closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,314,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,315,Closets: 1 Bump-out closet,Windows: 2 West facing sash windows - view of Smith Campus Center,,
+SMILEY,316,Closets: 1 Walk-in closet,Windows: 2 West facing sash windows - view of Smith Campus Center,,
+SMILEY,317,Closets: 1 Bump-out closet,Windows: 2 East facing sash windows - view of Rains,,
+SMILEY,318,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,319,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,320,Closets: 1 Bump-out closet,Windows: 1 West facing sash window - view of Smith Campus Center,,
+SMILEY,321,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,322,Closets: 1 Bump-out closet,Windows: 1 East facing sash window - view of Rains,,
+SMILEY,323,Closets: 1 Walk-in closet,"Windows: 1 East facing sash window, 1 South facing sash window - view of Rains",,
+NORTON-CLARK,1,Closets: 1 Free-standing closet,Windows: 1 West facing crank window 1 North facing crank window - view of Lawry and N-CL courtyard,,
+NORTON-CLARK,2,Closets: 1 Free-standing closet,Windows: 1 East facing crank window 1 North facing crank window - view of Lawry,,
+NORTON-CLARK,3,Closets: 1 Free-standing closet,Windows: 1 East facing crank window - view of Walton Commons,,
+NORTON-CLARK,4,Closets: 1 Free-standing closet,Windows: 1 East facing crank window view of Walton Commons,,
+NORTON-CLARK,5,Closets: 1 Free-standing closet,Windows: 1 East facing crank window - view of Walton Commons,,
+NORTON-CLARK,6,Closets: 1 Free-standing closet,Windows: 1 West facing crank window - view of N-CL courtyard,,
+NORTON-CLARK,7,Closets: 1 Free-standing closet,Windows: 1 East facing crank window - view of Walton Commons,,
+NORTON-CLARK,8,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,9,Closets: 1 Free-standing closet,Windows: 1 North facing crank window - view of N-CL courtyard,,
+NORTON-CLARK,12,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,13,Closets: 1 Free-standing closet,Windows: 1 North facing crank window - view of N-CL courtyard,,
+NORTON-CLARK,14,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,15,Closets: 1 Free-standing closet,Windows: 1 North facing crank window - view of N-CL courtyard,,
+NORTON-CLARK,16,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,17,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,18,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,19,Closets: 1 Free-standing closet,Windows: 1 North facing crank window - view of N-CL courtyard,,
+NORTON-CLARK,20,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,21,Closets: 1 Free-standing closet,Windows: 1 North facing crank window - view of N-CL courtyard,,
+NORTON-CLARK,22,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,23,Closets: 1 Free-standing closet,Windows: 1 South facing crank window - view of Sixth St.,,
+NORTON-CLARK,24,Closets: 1 Free-standing closet,"Windows: 1 North facing crank window, 1 West facing crank window - view of N-CL courtyard and Lawry",,
+NORTON-CLARK,25,Closets: 1 Free-standing closet,"Windows: 1 North facing crank window, 1 East facing crank window - view of Lawry and Walton Commons",,
+NORTON-CLARK,26,Closets: 1 Free-standing closet,Windows: 1 East facing crank window - view of Walton Commons,,
+NORTON-CLARK,27,Closets: 1 Free-standing closet,Windows: 1 East facing crank window - view of Walton Commons,,
+NORTON-CLARK,28,Closets: 1 Free-standing closet,Windows: 1 East facing crank window - view of Walton Commons,,
+NORTON-CLARK,29,Closets: 1 Free-standing closet,Windows: 1 West facing crank window - view of N-CL courtyard,,
+NORTON-CLARK,30,Closets: 1 Free-standing closet,Windows: 1 East facing crank window - view of Walton Commons,,
+NORTON-CLARK,31,Closets: 1 Free-standing closet,Windows: 1 West facing crank window - view of the roof,,
+NORTON-CLARK,32,Closets: 1 Free-standing closet,Windows: 1 East facing crank window - view of the roof,,
+NORTON-CLARK,33,Closets: 1 Free-standing closet,"Windows: 1 West facing crank window, 1 South facing crank window - view of the roof and Sixth St.",,
+NORTON-CLARK,34,Closets: 1 Free-standing closet,"Windows: 1 East facing crank window, 1 South facing crank window - view of the roof and Sixth St.",,
+NORTON-CLARK,100,Closets: 1.5 Bump-out closets - closets add space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,"Other: 2 doors in one from hallway, one from outside"
+NORTON-CLARK,101,Closets: 2 Bump-out closets - closets add space to the room,Windows: 2 East facing windows - view of Eversole Courtyard,,
+NORTON-CLARK,102,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,
+NORTON-CLARK,103,Closets: 2 Walk-in closets,Windows: 1 South facing window - view of N-CL and Walton Commons,,"Other: 2 doors in one from Eversole Courtyard, one from the back of Frary/Lawry"
+NORTON-CLARK,104,Closets: 1 Walk-in closet,Windows: 1 East facing window - view of Lawry and Walton Commons,,
+NORTON-CLARK,105,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Lawry and Walton Commons,,
+NORTON-CLARK,106,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Lawry and Walton Commons,,
+NORTON-CLARK,107,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Lawry and Walton Commons,,
+NORTON-CLARK,110,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of N-CL courtyard,,
+NORTON-CLARK,111,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of N-CL courtyard,,
+NORTON-CLARK,112,Closets: No info available,"Windows: 1 North facing window, 1 South facing glass door - view of Eversole Courtyard and N-CL courtyard",,"Other: fireplace; high ceiling; short balcony; 2 doors in - one from hallway, one from Bixby plaza (double doors)"
+NORTON-CLARK,113,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Sixth St,,
+NORTON-CLARK,114,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Sixth St,,
+NORTON-CLARK,115,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Sixth St,,
+NORTON-CLARK,116,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 2 South facing windows - view of Sixth St,,
+NORTON-CLARK,117,Closets: 1 Walk-in closet,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,118,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,119,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,120,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,121,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,122,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,123,Closets: 1 Bump-out closet - closet adds space to the room,"Windows: 1 South facing window, 1 North facing sealed window - view of Sixth St and Bixby plaza","Bath: Private bathroom; Two entrances - one from stairwell, one from hallway",
+NORTON-CLARK,200,Closets: 1.5 Bump-out closets - closets add space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,
+NORTON-CLARK,201,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,
+NORTON-CLARK,202,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,
+NORTON-CLARK,203,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,
+NORTON-CLARK,204,Closets: 1 Bump-out closet - closet removes space from the room (2ft6in x 5ft),Windows: 1 South facing window - view of Eversole Courtyard,,
+NORTON-CLARK,205,Closets: 1 Bump-out closet - closet removes space from the room (2ft6in x 5ft),Windows: 1 South facing window - view of Eversole Courtyard,,
+NORTON-CLARK,206,Closets: 1 Bump-out closet - closet removes space from the room (2ft6in x 5ft),Windows: 1 South facing window - view of Eversole Courtyard,,
+NORTON-CLARK,207,Closets: 1.5 Bump-out closets - closets remove space from room (2ft9in x 6ft9in),Windows: 1 South facing window - view of N-CL and Walton Commons,Bath: shared with 208,
+NORTON-CLARK,208,Closets: 1.5 Bump-out closets - closets remove space from the room (9in x 6ft),Windows: 1 North facing window - no view,Bath: shared with 207,
+NORTON-CLARK,209,Closets: 1 Walk-in closet,Windows: 1 East facing glass door - view of Lawry and Walton Commons,,Other: small private balcony
+NORTON-CLARK,210,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Lawry and Walton Commons,,
+NORTON-CLARK,211,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Lawry and Walton Commons,,
+NORTON-CLARK,212,Closets: 1 Bump-out closet - closet removes space from room (1ft9in x 5ft3in),Windows: 1 East facing glass door - view of Lawry and Walton Commons,,Other: small private balcony
+NORTON-CLARK,213,Closets: 1 Walk-in closet,"Windows: 1 East facing window - view of Lawry, Walton Commons; 1 South facing window - N-CL courtyard",,
+NORTON-CLARK,214,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of N-CL courtyard,,
+NORTON-CLARK,215,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of N-CL courtyard,,
+NORTON-CLARK,216,Closets: 1 Bump-out closet - closet removes space from room (2ft3in x 7ft9in),Windows: 1 South facing window - view of N-CL courtyard,,
+NORTON-CLARK,217,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Sixth St,,
+NORTON-CLARK,218,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Sixth St,,
+NORTON-CLARK,219,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Sixth St,,
+NORTON-CLARK,220,Closets: 1 Bump-out closet - closet adds space to the room,"Windows: 1 West facing window, 1 South facing window - view of Sixth St",,
+NORTON-CLARK,221,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,222,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,223,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,224,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,225,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,226,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,227,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,300,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Bixby Plaza,,
+NORTON-CLARK,301,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Bixby Plaza,,
+NORTON-CLARK,302,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Bixby Plaza,,
+NORTON-CLARK,303,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,
+NORTON-CLARK,304,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Bixby Plaza,,
+NORTON-CLARK,305,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,
+NORTON-CLARK,306,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 West facing window - view of Bixby Plaza,,
+NORTON-CLARK,307,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of Eversole Courtyard,,
+NORTON-CLARK,308,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 East facing window - view of the roof,,
+NORTON-CLARK,309,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of trees,,
+NORTON-CLARK,310,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,,
+NORTON-CLARK,311,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,312,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,,
+NORTON-CLARK,313,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,314,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,,
+NORTON-CLARK,315,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,316,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,,
+NORTON-CLARK,317,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,Bath: use bath in 308-315 hall,
+NORTON-CLARK,318,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,,
+NORTON-CLARK,319,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,320,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,,
+NORTON-CLARK,321,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,322,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,,
+NORTON-CLARK,323,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 South facing window - view of Sixth St,,
+NORTON-CLARK,324,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,,
+NORTON-CLARK,325,Closets: 1 Bump-out closet - closet adds space to the room,Windows: 1 North facing window - view of Bixby Plaza,Bath: Use bath in 317-323 hall,

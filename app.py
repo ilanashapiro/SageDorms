@@ -2,10 +2,10 @@ from flask import Flask, render_template, request, redirect, session
 import sagedorm_db
 import random
 import cas_login
-
+import global_vars
+import sys
 app = Flask(__name__)
 app.secret_key = "shhhhh keep it a secret"
-emailID = None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -93,7 +93,7 @@ def login():
         login_info = {}
         login_info['username'] = f"{info['dispname']}@{info['school']}.edu"
         login_info['dispname'] = info['dispname']
-        emailID = info['dispname']
+        global_vars.emailID = info['dispname']
         login_info['password'] = info['password']
 
         # session is a built in vbl that persists as long as the app is running.
@@ -103,6 +103,7 @@ def login():
         if cookies:
             session['cookies'] = cookies
             session['username'] = login_info['dispname']
+            print(global_vars.emailID)
             return redirect('/')
 
         # no cookies means login failed, so we open the login page again

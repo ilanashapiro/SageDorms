@@ -32,7 +32,7 @@ END $$
 
 DROP FUNCTION IF EXISTS CheckIfStudentHasRoom$$
 CREATE FUNCTION CheckIfStudentHasRoom(
-	IN emailID VARCHAR(8)
+	emailID VARCHAR(8)
 )
 RETURNS BOOL
 DETERMINISTIC
@@ -45,7 +45,7 @@ END $$
 
 DROP FUNCTION IF EXISTS CheckIfStudentHasSuite$$
 CREATE FUNCTION CheckIfStudentHasSuite(
-	IN emailID VARCHAR(8)
+	emailID VARCHAR(8)
 )
 RETURNS BOOL
 DETERMINISTIC
@@ -58,8 +58,8 @@ END $$
 
 DROP FUNCTION IF EXISTS CheckIfNewSuiteRepIsInGroup$$
 CREATE FUNCTION CheckIfNewSuiteRepIsInGroup(
-	IN emailID VARCHAR(8),
-	IN newSuiteRepID VARCHAR(8)
+	emailID VARCHAR(8),
+	newSuiteRepID VARCHAR(8)
 )
 RETURNS BOOL
 DETERMINISTIC
@@ -72,5 +72,5 @@ BEGIN
 								   WHERE sg.avgDrawNum IN
 									     (SELECT sg.avgDrawNum
 									     FROM SuiteGroup AS sg
-									     WHERE sg.emailID = emailID));
+									     WHERE sg.emailID = emailID)));
 END $$
