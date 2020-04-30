@@ -164,7 +164,7 @@ BEGIN
 	SELECT r.number, r.squareFeet, r.otherDescription,
 		   dr.numOccupants, dr.connectingRoomNum
 	FROM DormRoom AS dr, Room AS r
-	WHERE dr.number = r.number AND dr.dormName = r.dormName
+	WHERE dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
 	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by suite for later processing
 END $$
 

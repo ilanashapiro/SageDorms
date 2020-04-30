@@ -71,14 +71,13 @@ def executeScriptsFromFile(filename, cursor):
         except mysql.connector.Error as err:
             print("Something went wrong: {}".format(err))
 
-def selectDormRooms(cursor, info):
-    queryString = '''SELECT *
-        FROM DormRoom AS dr, Room AS r
-        WHERE r.isReservedForSponsorGroup = FALSE'''
+def searchForDormRooms(cursor, info):
+    queryString = '''SELECT r.dormName, r.number FROM DormRoom AS dr, Room AS r WHERE r.isReservedForSponsorGroup = FALSE'''
     for key, value in info.items():
-        if info[value] is not None: # or "" or whatever means empty input
-            if (key == "dormNum" or
-                key == "dormName" or
+        if value is not None: # or "" or whatever means empty input
+            # case this is dormRoom info
+            if (key == "dormName" or
+                key == "number" or
                 key == "numOccupants" or
                 key == "hasPrivateBathroom" or
                 key == "numDoors" or
@@ -88,15 +87,23 @@ def selectDormRooms(cursor, info):
                     if (key == "hasConnectingRoom"):
                         queryString += f' AND dr.connectingRoomNum IS NOT NULL'
                     else:
-                        queryString += f' AND dr.{info[key]} = {info[value]}'
-                        if key == "dormName" or key == "dormNum":
-                            queryString += f' AND dr.{info[key]} = r.{info[key]}'
-            else: # or "" or whatever means empty input
-                queryString += f' AND r.{info[key]} = {info[value]}'
+                        # data is string value, enclose in quote
+                        if key == "number" or key == "dormName" or key == "closetsDescription" or key == "bathroomDescription":
+                            queryString += f' AND dr.{key} = \'{value}\''
+                        # data is not a string value, no quotes
+                        else:
+                            queryString += f' AND dr.{key} = {value}'
+                        # perform the join with room
+                        if key == "dormName" or key == "number":
+                            queryString += f' AND dr.{key} = r.{key}'
+            else: # this is room, rather than dormRoom, information
+                queryString += f' AND r.{key} = {value}'
     queryString += ';'
 
+    print(queryString)
     cursor.execute(queryString)
-    cursor.fetchall()
+    print(cursor.fetchall())
+
 
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(cursor, info):
@@ -235,8 +242,7 @@ def addConnectingRoomInfo(cursor):
             connectingRoomNum = int(re.sub("[^0-9]", "", row[5]))
             hasConnectingRoom = True
         if hasConnectingRoom:
-            query = f"""UPDATE DormRoom SET connectingRoomNum = '{connectingRoomNum}' WHERE number = '{row[1]}' AND dormName = '{row[0]}'"""
-            print(query)
+            query = f"""UPDATE DormRoom SET connectingRoomNum = '{connectingRoomNum}', numOccupants = 2 WHERE number = '{row[1]}' AND dormName = '{row[0]}'"""
             cursor.execute(query)
     csv_file.close()
 
@@ -261,8 +267,9 @@ def main(info = None):
         cursor = sagedormsdb.cursor()
         init_db(cursor)
         global_vars.emailID = 'issa2018'
-        info = {'dormName': 'CLARK-I', 'dormRoomNum': '100A', 'roommateEID' : None}
-        getRoomDetails(cursor, info)
+        info = {'dormName': 'CLARK-I', 'number': '100A', 'roommateEID' : None}
+        # info['CLARK-I', '100A']
+        searchForDormRooms(cursor, info)
         # print(global_vars.emailID, info["dormName"], info["dormRoomNum"])
         # generate_fake_students(sagedormsdb, cursor)
         cursor.close()
