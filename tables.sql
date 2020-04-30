@@ -49,10 +49,9 @@ CREATE TABLE IF NOT EXISTS DormRoom (
 	closetsDescription VARCHAR(250) NOT NULL,
     bathroomDescription VARCHAR(250),
 	connectingRoomNum VARCHAR(10),
-	PRIMARY KEY (number, dormName),
+	PRIMARY KEY (dormName, number),
 	FOREIGN KEY (connectingRoomNum, dormName) REFERENCES DormRoom(number, dormName),
-	-- FOREIGN KEY (closetType) REFERENCES ClosetType(typeName),
-	FOREIGN KEY (number, dormName) REFERENCES Room(number, dormName));
+	FOREIGN KEY (dormName, number) REFERENCES Room(dormName, number));
 
 CREATE TABLE IF NOT EXISTS Student (
 	emailID CHAR(8) NOT NULL,
@@ -64,16 +63,17 @@ CREATE TABLE IF NOT EXISTS Student (
 	isDrawing BOOLEAN NOT NULL DEFAULT TRUE,
 	dormRoomNum VARCHAR(10), -- Students not living on campus don't draw for a room
 	dormName VARCHAR(50),
+    roommateEID CHAR(8) NOT NULL,
     PRIMARY KEY (emailID),
 	FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
 
-CREATE TABLE IF NOT EXISTS Wishes (
+CREATE TABLE IF NOT EXISTS WishList (
   emailID CHAR(8) NOT NULL,
-  dormRoomNum VARCHAR(10) NOT NULL,
   dormName VARCHAR(50) NOT NULL,
-  PRIMARY KEY (emailID, dormRoomNum, dormName),
+  dormRoomNum VARCHAR(10) NOT NULL,
+  PRIMARY KEY (emailID, dormName, dormRoomNum),
   FOREIGN KEY (emailID) REFERENCES Student(emailID),
-  FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
+  FOREIGN KEY (dormName, dormRoomNum) REFERENCES DormRoom(dormName, number));
 
 CREATE TABLE IF NOT EXISTS CommonRoom (
   number VARCHAR(10) NOT NULL,

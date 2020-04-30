@@ -6,6 +6,7 @@ import random
 import app
 import csv
 import re
+import global_vars
 from datetime import datetime
 from mysql.connector import Error
 from random import getrandbits
@@ -100,27 +101,72 @@ def selectDormRooms(cursor, info):
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(cursor, info):
     try:
-        cursor.callproc('SetStudentRoom', [app.emailID, info["dormName"], info["dormRoomNum"]])
+        cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getAllDormRoomsSummary(cursor):
+    try:
+        cursor.callproc('GetAllDormRoomsSummary', [])
+        results = []
+        for result in cursor.stored_results():
+            results.append(result.fetchall())
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getRoomDetails(cursor, info):
+    try:
+        cursor.callproc('GetRoomDetails', [info["dormName"], info["dormRoomNum"]])
+        results = []
+        for result in cursor.stored_results():
+            data = result.fetchall()
+            if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
+                results.append(data)
+        print(results)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getMyRoomDetails(cursor):
+    try:
+        cursor.callproc('GetMyRoomDetails', [global_vars.emailID])
+        results = []
+        for result in cursor.stored_results():
+            results.append(result.fetchall())
+        print(results)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getMyWishList(cursor):
+    try:
+        cursor.callproc('GetMyWishList', [global_vars.emailID])
+        results = []
+        for result in cursor.stored_results():
+            results.append(result.fetchall())
+        print(results)
+        return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def addToWishList(cursor, info):
     try:
-        cursor.callproc('AddToWishlist', [app.emailID, info["dormName"], info["dormRoomNum"]])
+        cursor.callproc('AddToWishlist', [global_vars.emailID, info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def deleteFromWishList(cursor, info):
     try:
-        cursor.callproc('DeleteFromWishList', [app.emailID, info["dormName"], info["dormRoomNum"]])
+        cursor.callproc('DeleteFromWishList', [global_vars.emailID, info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def createSuiteGroup(cursor, info):
     try:
         # query the students in the prospective suite group to calculate average draw num. (note: the emailIDs entered is everyone ELSE in the list,
-        # not including the student doing the entering -- that person is app.emailID
-        getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = {app.emailID}'
+        # not including the student doing the entering -- that person is global_vars.emailID
+        getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = {global_vars.emailID}'
         for key, value in info.items():
             if info[value] is not None: # or "" or whatever means empty input
                 emailID = info[value]
@@ -136,7 +182,7 @@ def createSuiteGroup(cursor, info):
         # If a student is already in a different prospective suite group, that data will be overwritten and they will be part of the new group
         # If a group wants to add another student, they'll need to fill out the form again to register the group for everyone
         addStudentsQueryString = f'''REPLACE INTO SuiteGroup (emailID, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
-                                     ({app.emailID}, {avgDrawNum}, NULL, TRUE, NULL)'''
+                                     ({global_vars.emailID}, {avgDrawNum}, NULL, TRUE, NULL)'''
         for emailID in emailIDsToAdd:
             addStudentsQueryString += f', ({emailID}, {avgDrawNum}, NULL, FALSE, NULL)'
         # addStudentsQueryString += ' ON DUPLICATE KEY UPDATE avgDrawNum = VALUES(avgDrawNum), isSuiteRepresentative = VALUES(isSuiteRepresentative)'THIS LINE UPDATES EXISTING DATA
@@ -214,7 +260,10 @@ def main(info = None):
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
         init_db(cursor)
-        addToWishList(cursor, {'dormName': 'CLARK-I', 'dormRoomNum': '100A'})
+        global_vars.emailID = 'issa2018'
+        info = {'dormName': 'CLARK-I', 'dormRoomNum': '100A', 'roommateEID' : None}
+        getRoomDetails(cursor, info)
+        # print(global_vars.emailID, info["dormName"], info["dormRoomNum"])
         # generate_fake_students(sagedormsdb, cursor)
         cursor.close()
 
