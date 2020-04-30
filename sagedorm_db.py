@@ -112,9 +112,19 @@ def setStudentRoom(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getAllDormRoomsSummary(cursor):
+def getDormRoomsSinglesSummary(cursor):
     try:
-        cursor.callproc('GetAllDormRoomsSummary', [])
+        cursor.callproc('GetDormRoomsSinglesSummary', [])
+        results = []
+        for result in cursor.stored_results():
+            results.append(result.fetchall())
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getDormRoomsAndSuiteSummaryForDorm(cursor, info):
+    try:
+        cursor.callproc('GetDormRoomsAndSuiteSummaryForDorm', [info['dormName']])
         results = []
         for result in cursor.stored_results():
             results.append(result.fetchall())
@@ -269,7 +279,7 @@ def main(info = None):
         global_vars.emailID = 'issa2018'
         info = {'dormName': 'CLARK-I', 'number': '100A', 'roommateEID' : None}
         # info['CLARK-I', '100A']
-        searchForDormRooms(cursor, info)
+        getDormRoomsAndSuiteSummaryForDorm(cursor, info)
         # print(global_vars.emailID, info["dormName"], info["dormRoomNum"])
         # generate_fake_students(sagedormsdb, cursor)
         cursor.close()

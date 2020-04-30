@@ -158,14 +158,41 @@ BEGIN
 	WHERE sg.emailID = emailID; -- delete the student from the suite group. This can be done anythime (including during suite draw) before their suite draw time is reached
 END $$
 
-DROP PROCEDURE IF EXISTS GetAllDormRoomsSummary$$
-CREATE PROCEDURE GetAllDormRoomsSummary()
+DROP PROCEDURE IF EXISTS GetDormRoomsSinglesSummary$$
+CREATE PROCEDURE GetDormRoomsSinglesSummary()
 BEGIN
-	SELECT r.number, r.squareFeet, r.otherDescription,
+	SELECT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
 		   dr.numOccupants, dr.connectingRoomNum
 	FROM DormRoom AS dr, Room AS r
 	WHERE dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
-	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by suite for later processing
+	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by number for later processing
+END $$
+
+-- no common rooms
+DROP PROCEDURE IF EXISTS GetDormRoomsAndSuiteSummaryForDorm$$
+CREATE PROCEDURE GetDormRoomsAndSuiteSummaryForDorm(
+	IN dormName VARCHAR(50)
+)
+BEGIN
+	SELECT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+		   dr.numOccupants, dr.connectingRoomNum
+	FROM DormRoom AS dr, Room AS r
+	WHERE r.dormName = dormName
+		  AND dr.dormName = r.dormName AND dr.number = r.number
+	ORDER BY r.number;
+
+	SELECT s.suiteID, s.numRooms, s.numPeople
+	FROM Room AS r, Suite AS s
+	WHERE r.dormName = dormName AND r.suite = s.suiteID
+	ORDER BY s.suiteID;
+
+	SELECT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
+	FROM Room AS r, CommonRoom AS cr
+	WHERE r.dormName = dormName
+		  AND cr.dormName = r.dormName AND cr.number = r.number
+	ORDER BY r.number;
+
 END $$
 
 DROP PROCEDURE IF EXISTS GetRoomDetails$$
@@ -174,7 +201,7 @@ CREATE PROCEDURE GetRoomDetails(  -- common or dorm
 	IN roomNum VARCHAR(10)
 )
 BEGIN
-	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription,
+	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree,
 		   dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription
 	FROM DormRoom AS dr, Room AS r
 	WHERE r.dormName = dormName AND r.number = roomNum
@@ -195,7 +222,7 @@ BEGIN
 		   dr.numOccupants, dr.connectingRoomNum,
 		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
 	FROM DormRoom AS dr, CommonRoom AS cr, (SELECT * FROM Room AS r LEFT JOIN Suite AS s ON r.suiteID = s.suiteID) AS sr
-	WHERE dr.dormRoomNum = sr.number AND dr.dormName = sr.dormName
+	WHERE dr.number = sr.number AND dr.dormName = sr.dormName
 		  AND cr.number = sr.number AND cr.dormName = sr.dormName
 	ORDER BY sr.dormName, sr.suiteID, sr.number; -- group first by dorm, alphabetically, then group data by suite for later processing, then finally by room number, for later processing
 END $$
@@ -210,7 +237,7 @@ BEGIN
 		   dr.numOccupants, dr.connectingRoomNum,
 		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
 	FROM DormRoom AS dr, CommonRoom AS cr, (SELECT * FROM Room AS r LEFT JOIN Suite AS s ON r.suiteID = s.suiteID) AS sr, SuiteGroup AS sg
-	WHERE dr.dormRoomNum = sr.number AND dr.dormName = sr.dormName
+	WHERE dr.number = sr.number AND dr.dormName = sr.dormName
 		  AND cr.number = sr.number AND cr.dormName = sr.dormName
 		  AND sg.emailID = emailID AND sg.suiteID IS NOT NULL -- select only the rooms in the suite the student is in. If the student doesn't have a suite, nothing gets returned
 	ORDER BY sr.dormName, sr.suiteID, sr.number; -- group first by dorm, alphabetically, then group data by suite for later processing, then finally by room number, for later processing
@@ -221,10 +248,10 @@ CREATE PROCEDURE GetMyRoomDetails(
 	IN emailID CHAR(8)
 )
 BEGIN
-	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription,
+	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree,
 		   dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription,
-		   s.roommateEID
-	FROM DormRoom AS dr, Room AS r, Student AS s
+		   roommate.name
+	FROM DormRoom AS dr, Room AS r, Student AS myself, Student AS roommate
 	WHERE r.number IN (SELECT cs.dormRoomNum
 					   FROM Student AS cs
 					   WHERE cs.emailID  = emailID)
@@ -232,7 +259,8 @@ BEGIN
 			  				FROM Student AS cs
 	  						WHERE cs.emailID  = emailID)
 		  AND dr.dormName = r.dormName
-		  AND dr.number = r.number;
+		  AND dr.number = r.number
+		  AND myself.emailID = emailID AND myself.roommateEID = roommate.emailID;
 END $$
 
 DELIMITER ;
