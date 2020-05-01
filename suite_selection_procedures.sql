@@ -1,3 +1,5 @@
+DELIMITER $$
+
 DROP PROCEDURE IF EXISTS GetMySuiteRooms$$
 CREATE PROCEDURE GetMySuiteRooms(
 	IN emailID CHAR(8)
@@ -27,7 +29,6 @@ BEGIN
 	ORDER BY sr.dormName, sr.suiteID, sr.number; -- group first by dorm, alphabetically, then group data by suite for later processing, then finally by room number, for later processing
 END $$
 
--- no common rooms
 DROP PROCEDURE IF EXISTS GetDormRoomsAndSuiteSummaryForDorm$$
 CREATE PROCEDURE GetDormRoomsAndSuiteSummaryForDorm(
 	IN dormName VARCHAR(50)
@@ -51,7 +52,6 @@ BEGIN
 	WHERE r.dormName = dormName
 		  AND cr.dormName = r.dormName AND cr.number = r.number
 	ORDER BY r.number;
-
 END $$
 
 DROP PROCEDURE IF EXISTS RemoveMyselfFromSuiteGroup$$
@@ -152,7 +152,7 @@ END $$
 DROP PROCEDURE IF EXISTS SetSuite$$
 CREATE PROCEDURE SetSuite(
 	IN suiteID VARCHAR(50),
-	IN emailIDSuiteRep INT
+	IN emailIDSuiteRep CHAR(8)
 )
 BEGIN
 	UPDATE SuiteGroup AS sg
@@ -164,3 +164,5 @@ BEGIN
 							  FROM SuiteGroup AS sg
 							  WHERE sg.emailID = emailIDSuiteRep));
 END $$
+
+DELIMITER ;
