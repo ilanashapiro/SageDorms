@@ -1,15 +1,10 @@
 import string
 import random
 
+
 def createDorms(cursor):
     try:
         cursor.callproc('AddDorms', [])
-    except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error))
-
-def addStudents(cursor):
-    try:
-        cursor.callproc('AddStudents', [])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
@@ -18,7 +13,7 @@ def populateRooms(cursor):
     csv_data = csv.reader(csv_file)
     for row in csv_data:
         isSubFree = random.getrandbits(1)
-        query = f"""REPLACE INTO ROOM (dormName, number, dimensionsDescription, squareFeet, isSubFree, windowsDescription, otherDescription) VALUES('{row[0]}', '{row[1]}', '{row[2]}', '{row[3]}', {isSubFree}, '{row[4]}', '{row[5]}')"""
+        query = f"""INSERT INTO ROOM (dormName, number, dimensionsDescription, squareFeet, isSubFree, windowsDescription, otherDescription) VALUES('{row[0]}', '{row[1]}', '{row[2]}', '{row[3]}', {isSubFree}, '{row[4]}', '{row[5]}')"""
         print(query)
         cursor.execute(query)
     csv_file.close()
@@ -120,3 +115,9 @@ def createSuites(cursor):
     cursor.execute(queryString)
     queryString = f'UPDATE Room SET suite = \'{suite11ID}\' WHERE dormName = \'WALKER\' AND number IN (729, 730, 731, 732, 733);'
     cursor.execute(queryString)
+
+def addStudents(cursor):
+    try:
+        cursor.callproc('AddStudents', [])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
