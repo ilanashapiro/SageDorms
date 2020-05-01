@@ -133,7 +133,6 @@ def login():
         if cookies:
             session['cookies'] = cookies
             session['username'] = login_info['dispname']
-            print(global_vars.emailID)
             return redirect('/')
 
         # no cookies means login failed, so we open the login page again
