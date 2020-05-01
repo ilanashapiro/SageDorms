@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Dorm (
     otherDescription VARCHAR(100),
     PRIMARY KEY (name));
 
- CREATE TABLE IF NOT EXISTS Suite (
+CREATE TABLE IF NOT EXISTS Suite (
   	suiteID VARCHAR(50) NOT NULL,
   	isSubFree BOOLEAN NOT NULL,
   	numRooms INT NOT NULL,
@@ -15,15 +15,6 @@ CREATE TABLE IF NOT EXISTS Dorm (
   	FOREIGN KEY (dormName) REFERENCES Dorm(name),
   	PRIMARY KEY (suiteID));
 
-CREATE TABLE IF NOT EXISTS SuiteGroup (
-    emailID CHAR(8) NOT NULL,
-    avgDrawNum DOUBLE NOT NULL, -- students with the same avgDrawNum are in the same group
-    avgDrawTime DATETIME,
-    isSuiteRepresentative BOOLEAN NOT NULL,
-    suiteID VARCHAR(50) NULL,
-    FOREIGN KEY (emailID) REFERENCES Student(emailID),
-    FOREIGN KEY (suiteID) REFERENCES Suite(suiteID),
-    PRIMARY KEY (emailID)); -- a student can't be part of multiple prospective suite groups
 
 CREATE TABLE IF NOT EXISTS Room (
 	dormName VARCHAR(50) NOT NULL,
@@ -50,7 +41,7 @@ CREATE TABLE IF NOT EXISTS DormRoom (
     bathroomDescription VARCHAR(250),
 	connectingRoomNum VARCHAR(10),
 	PRIMARY KEY (dormName, number),
-	FOREIGN KEY (connectingRoomNum, dormName) REFERENCES DormRoom(number, dormName),
+	FOREIGN KEY (dormName, connectingRoomNum) REFERENCES DormRoom(dormName, number),
 	FOREIGN KEY (dormName, number) REFERENCES Room(dormName, number));
 
 CREATE TABLE IF NOT EXISTS Student (
@@ -65,7 +56,30 @@ CREATE TABLE IF NOT EXISTS Student (
 	dormName VARCHAR(50),
     roommateEID CHAR(8) NOT NULL,
     PRIMARY KEY (emailID),
-	FOREIGN KEY (dormRoomNum, dormName) REFERENCES DormRoom(number, dormName));
+	FOREIGN KEY (dormName, dormRoomNum) REFERENCES DormRoom(dormName, number));
+
+CREATE TABLE IF NOT EXISTS SuiteGroup (
+    emailID CHAR(8) NOT NULL,
+    avgDrawNum DOUBLE NOT NULL, -- students with the same avgDrawNum are in the same group
+    avgDrawTime DATETIME,
+    isSuiteRepresentative BOOLEAN NOT NULL,
+    suiteID VARCHAR(50) NULL,
+    FOREIGN KEY (emailID) REFERENCES Student(emailID),
+    FOREIGN KEY (suiteID) REFERENCES Suite(suiteID),
+    PRIMARY KEY (emailID)); -- a student can't be part of multiple prospective suite groups
+
+CREATE TABLE IF NOT EXISTS DormRoom (
+    dormName VARCHAR(50) NOT NULL,
+	number VARCHAR(10) NOT NULL,
+	numOccupants INT NOT NULL,
+	hasPrivateBathroom BOOLEAN NOT NULL DEFAULT FALSE,
+	numDoors INT NOT NULL DEFAULT 1,
+	closetsDescription VARCHAR(250) NOT NULL,
+    bathroomDescription VARCHAR(250),
+	connectingRoomNum VARCHAR(10),
+	PRIMARY KEY (dormName, number),
+	FOREIGN KEY (connectingRoomNum, dormName) REFERENCES DormRoom(number, dormName),
+	FOREIGN KEY (dormName, number) REFERENCES Room(dormName, number));
 
 CREATE TABLE IF NOT EXISTS WishList (
   emailID CHAR(8) NOT NULL,

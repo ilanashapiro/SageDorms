@@ -238,7 +238,14 @@ def main(info = None):
         info = {'dormName': 'CLARK-I', 'number': '100A', 'roommateEID' : None}
         # info['CLARK-I', '100A']
         # getDormRoomsAndSuiteSummaryForDorm(cursor, info)
+
+        # populate_database.createDorms(cursor)
+        # populate_database.addStudents(cursor)
+        # populate_database.populateRooms(cursor)
+        # populate_database.populateDormRooms(cursor)
+        populate_database.addConnectingRoomInfo(cursor)
         populate_database.createSuites(cursor)
+
         # print(global_vars.emailID, info["dormName"], info["dormRoomNum"])
         # generate_fake_students(sagedormsdb, cursor)
         cursor.close()
