@@ -57,8 +57,6 @@ BEGIN
 	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by number for later processing
 END $$
 
-
-
 DROP PROCEDURE IF EXISTS GetRoomDetails$$
 CREATE PROCEDURE GetRoomDetails(  -- common or dorm
 	IN dormName VARCHAR(50),
@@ -84,18 +82,13 @@ CREATE PROCEDURE GetMyRoomDetails(
 )
 BEGIN
 	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree,
-		   dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription,
-		   roommate.name
-	FROM DormRoom AS dr, Room AS r, Student AS myself, Student AS roommate
-	WHERE r.number IN (SELECT cs.dormRoomNum
-					   FROM Student AS cs
-					   WHERE cs.emailID  = emailID)
-		  AND r.dormName IN (SELECT cs.dormRoomNum
-			  				FROM Student AS cs
-	  						WHERE cs.emailID  = emailID)
-		  AND dr.dormName = r.dormName
+		   dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription
+	FROM DormRoom AS dr, Room AS r, Student AS s, Student AS roommate
+	WHERE dr.dormName = r.dormName
 		  AND dr.number = r.number
-		  AND myself.emailID = emailID AND myself.roommateEID = roommate.emailID;
+		  AND r.dormName = s.dormName
+		  AND r.number = s.dormRoomNum
+		  AND s.emailID = emailID;
 END $$
 
 DELIMITER ;

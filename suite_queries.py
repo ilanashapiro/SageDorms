@@ -1,3 +1,8 @@
+import string
+import random
+import mysql.connector
+from mysql.connector import Error
+
 def searchForSuites(cursor, info):
     queryString = '''SELECT s.suiteID FROM Suite AS s WHERE'''
     isFirstCond = True

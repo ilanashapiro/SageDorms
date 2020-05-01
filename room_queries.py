@@ -1,5 +1,10 @@
+import string
+import random
+import mysql.connector
+from mysql.connector import Error
+
 def searchForDormRooms(cursor, info):
-    queryString = '''SELECT r.dormName, r.number FROM DormRoom AS dr, Room AS r WHERE r.isReservedForSponsorGroup = FALSE'''
+    queryString = '''SELECT DISTINCT r.dormName, r.number FROM DormRoom AS dr, Room AS r WHERE r.isReservedForSponsorGroup = FALSE'''
     for key, value in info.items():
         if value is not None: # or "" or whatever means empty input
             # case this is dormRoom info
@@ -8,20 +13,23 @@ def searchForDormRooms(cursor, info):
                 key == "numOccupants" or
                 key == "hasPrivateBathroom" or
                 key == "hasConnectingRoom"):
-                    if (key == "hasConnectingRoom"):
-                        queryString += f' AND dr.connectingRoomNum IS NOT NULL'
+                    if key == "hasConnectingRoom":
+                        if value == False:
+                            queryString += f' AND dr.connectingRoomNum IS NULL'
+                            print("false")
+                        else:
+                            queryString += f' AND dr.connectingRoomNum IS NOT NULL'
                     else:
                         if key == "number" or key == "dormName":
                             # data is string value, enclose in quote
                             queryString += f' AND dr.{key} = \'{value}\''
-                            # perform the join
-                            queryString += f' AND dr.{key} = r.{key}'
                         else:
                             # data is not a string value, no quotes
                             queryString += f' AND dr.{key} = {value}'
             else: # this is room, rather than dormRoom, information
                 queryString += f' AND r.{key} = {value}'
-    queryString += ';'
+    # perform the join
+    queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number;'
 
     print(queryString)
     cursor.execute(queryString)

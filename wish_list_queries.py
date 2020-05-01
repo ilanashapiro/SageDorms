@@ -1,3 +1,8 @@
+import string
+import random
+import mysql.connector
+from mysql.connector import Error
+
 def getMyWishList(cursor):
     try:
         cursor.callproc('GetMyWishList', [global_vars.emailID])

@@ -32,7 +32,6 @@ def init_db(cursor):
         cursor.execute("USE sagedormsdb;")
         executeScriptsFromFile("tables.sql", cursor)
 
-    print('yay')
     cursor.execute("USE sagedormsdb;")
 
 def generate_fake_students(sagedormsdb, cursor):
@@ -98,24 +97,19 @@ def main(info = None):
         cursor = sagedormsdb.cursor()
         init_db(cursor)
 
-        cursor.execute(f"select * from Student where emailID = '{info}';")
+        global_vars.emailID = 'issa2018'
 
-        # global_vars.emailID = 'issa2018'
-        # info = {'dormName': 'CLARK-I', 'number': '100A', 'roommateEID' : None}
-        # info['CLARK-I', '100A']
-        # getDormRoomsAndSuiteSummaryForDorm(cursor, info)
+        # info = {'dormName': 'NORTON-CLARK', 'number': '18'}
+        info = {'numOccupants': 2, 'hasPrivateBathroom': True, 'hasConnectingRoom': True}
+        room_queries.searchForDormRooms(cursor, info)
 
         # populate_database.createDorms(cursor)
-        # populate_database.addStudents(cursor)
         # populate_database.populateRooms(cursor)
         # populate_database.populateDormRooms(cursor)
         # populate_database.addConnectingRoomInfo(cursor)
+        # populate_database.addStudents(cursor)
         # populate_database.createSuites(cursor)
 
-        # print(global_vars.emailID, info["dormName"], info["dormRoomNum"])
-        # generate_fake_students(sagedormsdb, cursor)
-        if info:
-            return cursor.fetchall()
         cursor.close()
 
 
