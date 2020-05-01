@@ -29,9 +29,11 @@ def init_db(cursor):
     # create database if not yet already
     if('sagedormsdb' not in db_names):
         cursor.execute("CREATE DATABASE IF NOT EXISTS sagedormsdb;")
+        cursor.execute("USE sagedormsdb;")
+        executeScriptsFromFile("tables.sql", cursor)
 
+    print('yay')
     cursor.execute("USE sagedormsdb;")
-    executeScriptsFromFile("tables.sql", cursor)
 
 def generate_fake_students(sagedormsdb, cursor):
     """ Generates many fake students for 'room draw'
@@ -95,8 +97,11 @@ def main(info = None):
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
         init_db(cursor)
-        global_vars.emailID = 'issa2018'
-        info = {'dormName': 'CLARK-I', 'number': '100A', 'roommateEID' : None}
+
+        cursor.execute(f"select * from Student where emailID = '{info}';")
+
+        # global_vars.emailID = 'issa2018'
+        # info = {'dormName': 'CLARK-I', 'number': '100A', 'roommateEID' : None}
         # info['CLARK-I', '100A']
         # getDormRoomsAndSuiteSummaryForDorm(cursor, info)
 
@@ -104,12 +109,15 @@ def main(info = None):
         # populate_database.addStudents(cursor)
         # populate_database.populateRooms(cursor)
         # populate_database.populateDormRooms(cursor)
-        populate_database.addConnectingRoomInfo(cursor)
-        populate_database.createSuites(cursor)
+        # populate_database.addConnectingRoomInfo(cursor)
+        # populate_database.createSuites(cursor)
 
         # print(global_vars.emailID, info["dormName"], info["dormRoomNum"])
         # generate_fake_students(sagedormsdb, cursor)
+        if info:
+            return cursor.fetchall()
         cursor.close()
+
 
     except mysql.connector.Error as e:
         if (e.errno == 1045):

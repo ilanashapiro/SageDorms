@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 import sagedorm_db
+import mysql.connector
 import random
 import cas_login
 import global_vars
@@ -9,6 +10,18 @@ app.secret_key = "shhhhh keep it a secret"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+
+    sagedormsdb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            passwd="databases133",
+            auth_plugin='mysql_native_password',
+            autocommit=True)
+
+    # cursor executes SQL commands
+    session['cursor']= sagedormsdb.cursor()
+    sagedorm_db.init_db(cursor)
+
     # # student selected housing
     # if request.method == 'POST':
         # # save all inputted data
@@ -64,19 +77,35 @@ def index():
         # sagedorm_db.main('u', studInfo)
     loggedIn = False
     if 'cookies' in session:
-        print(session['cookies'])
-        global_vars.emailID = session['username']
         loggedIn = True
     return render_template('index.html', loggedIn=loggedIn)
 
-@app.route('/students')
-def students():
-    students = sagedorm_db.main('r')
+@app.route('/test')
+def test():
+    students = sagedorm_db.main(session['username'])
     return render_template('students.html', students=students)
 
 @app.route('/dorms')
 def dorms():
     return render_template('generic.html')
+
+@app.route('/wishlist')
+def wishlist():
+    return render_template('wishlist.html')
+
+@app.route('/smiley', methods=['GET', 'POST'])
+def smiley():
+    
+    if request.method == 'POST':
+        dorm = request.form.split()
+        dormName = dorm[0]
+        number = int(dorm[1])
+
+        #TODO: add to wishlist
+        cursor = session['cursor']
+
+
+    return render_template('smiley.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -10,8 +10,8 @@
 	<title>Smiley - SageDorms</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<script src="wishlist.js"></script>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+	<script src="{{url_for('static', filename='js/wishlist.js')}}"></script>
 </head>
 
 <body class="subpage">
@@ -19,11 +19,11 @@
 	<!-- Header -->
 	<header id="header">
 		<div class="inner">
-			<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
+			<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong> </a>
 			<nav id="nav">
-				<a href="index.html">Home</a>
-				<a href="generic.html">View & Search Dorms</a>
-				<a href="wishlist.html">My Wishlist</a>
+				<a href="{{url_for('index')}}">Home</a>
+				<a href="{{url_for('dorms')}}">View & Search Dorms</a>
+				<a href="{{url_for('wishlist')}}">My Wishlist</a>
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 		</div>
@@ -37,11 +37,14 @@
 				<hr class="major" />
 
 				<span class="image fit"><img src="images/maps/smiley15.jpg" alt="" /></span>
+				<span class="image fit"><img src="{{url_for('static',
+                    filename='images/maps/smiley15.jpg')}}" alt="" /></span>
 				<p>First Floor</p>
 			</header>
 		</div>
 	</section>
 
+    <form id="room-select" action="" method="post">
 	<div class="table-wrapper">
 		<table>
 			<thead>
@@ -61,7 +64,9 @@
 				<tr>
 					<td>101</td>
 					<td>Single. 99 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button" data-name="Smiley, 101">Wishlist</button>
+					<td><input class="wishlist_button js_wishlist_button" 
+                                data-name="Smiley, 101" value="SMILEY 101"
+                                type="submit">Wishlist</button>
 						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
 				</tr>
 				<tr>
@@ -463,6 +468,7 @@
 			</tbody>
 		</table>
 	</div>
+    </form>
 	<!-- Footer -->
 
 

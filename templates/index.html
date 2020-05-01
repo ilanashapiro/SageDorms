@@ -18,7 +18,7 @@
 				<div class="inner">
 					<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
 					<nav id="nav">
-						<a href="index.html">Home</a>
+						<a href="{{url_for('index')}}">Home</a>
 						<a href="{{url_for('dorms')}}">View & Search Dorms</a>
 						<a href="elements.html">My Wishlist</a>
                         {% if loggedIn == False %}
@@ -26,7 +26,7 @@
                         {% else %}
                             <a href="{{url_for('logout')}}">Logout</a>
                         {% endif %}
-                        <a href="{{url_for('students')}}">Developer Tool (see Students)</a>
+                        <a href="{{url_for('test')}}">Developer Tool</a>
 					</nav>
 				</div>
 			</header>
