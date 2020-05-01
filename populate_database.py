@@ -1,5 +1,8 @@
 import string
 import random
+import mysql.connector
+import csv
+import re
 
 
 def createDorms(cursor):
