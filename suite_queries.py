@@ -1,6 +1,7 @@
 import string
 import random
 import mysql.connector
+import global_vars
 from mysql.connector import Error
 
 def searchForSuites(cursor, info):
@@ -37,10 +38,11 @@ def createSuiteGroup(cursor, info):
         # query the students in the prospective suite group to calculate average draw num. (note: the emailIDs entered is everyone ELSE in the list,
         # not including the student doing the entering -- that person is global_vars.emailID
         getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = \'{global_vars.emailID}\''
+        emailIDsToAdd = []
         for key, value in info.items():
-            if info[value] is not None: # or "" or whatever means empty input
-                emailID = info[value]
-                queryString += f' OR s.emailID = \'{emailID}\''
+            if value is not None: # or "" or whatever means empty input
+                emailID = value
+                getAvgDrawNumQueryString += f' OR s.emailID = \'{emailID}\''
                 emailIDsToAdd.append(emailID)
         getAvgDrawNumQueryString += ';'
         cursor.execute(getAvgDrawNumQueryString)
@@ -53,10 +55,14 @@ def createSuiteGroup(cursor, info):
         # If a group wants to add another student, they'll need to fill out the form again to register the group for everyone
         addStudentsQueryString = f'''REPLACE INTO SuiteGroup (emailID, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
                                      (\'{global_vars.emailID}\', {avgDrawNum}, NULL, TRUE, NULL)'''
+
+        # add the students to the suite group
         for emailID in emailIDsToAdd:
-            addStudentsQueryString += f', (\'{emailID}\', {avgDrawNum}, NULL, FALSE, NULL)'
-        # addStudentsQueryString += ' ON DUPLICATE KEY UPDATE avgDrawNum = VALUES(avgDrawNum), isSuiteRepresentative = VALUES(isSuiteRepresentative)'THIS LINE UPDATES EXISTING DATA
-        # RATHER THAN REPLACING, COULD USE THIS IF WE WANT TO UPDATE RATHER THAN REPLACE
+            #the suite representative is automatically the person creating the suite for their group
+            if emailID == global_vars.emailID:
+                addStudentsQueryString += f', (\'{emailID}\', {avgDrawNum}, NULL, TRUE, NULL)'
+            else:
+                addStudentsQueryString += f', (\'{emailID}\', {avgDrawNum}, NULL, FALSE, NULL)'
 
         addStudentsQueryString += ';'
         cursor.execute(addStudentsQueryString)
