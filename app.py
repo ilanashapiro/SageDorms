@@ -65,6 +65,7 @@ def index():
     loggedIn = False
     if 'cookies' in session:
         print(session['cookies'])
+        global_vars.emailID = session['username']
         loggedIn = True
     return render_template('index.html', loggedIn=loggedIn)
 
@@ -103,7 +104,6 @@ def login():
         if cookies:
             session['cookies'] = cookies
             session['username'] = login_info['dispname']
-            print(global_vars.emailID)
             return redirect('/')
 
         # no cookies means login failed, so we open the login page again
