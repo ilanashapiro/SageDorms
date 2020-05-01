@@ -85,15 +85,14 @@ def searchForDormRooms(cursor, info):
                     if (key == "hasConnectingRoom"):
                         queryString += f' AND dr.connectingRoomNum IS NOT NULL'
                     else:
-                        # data is string value, enclose in quote
-                        if key == "number" or key == "dormName" or key == "closetsDescription" or key == "bathroomDescription":
+                        if key == "number" or key == "dormName":
+                            # data is string value, enclose in quote
                             queryString += f' AND dr.{key} = \'{value}\''
-                        # data is not a string value, no quotes
-                        else:
-                            queryString += f' AND dr.{key} = {value}'
-                        # perform the join with room
-                        if key == "dormName" or key == "number":
+                            # perform the join
                             queryString += f' AND dr.{key} = r.{key}'
+                        else:
+                            # data is not a string value, no quotes
+                            queryString += f' AND dr.{key} = {value}'
             else: # this is room, rather than dormRoom, information
                 queryString += f' AND r.{key} = {value}'
     queryString += ';'
@@ -103,35 +102,21 @@ def searchForDormRooms(cursor, info):
     print(cursor.fetchall())
 
 def searchForSuites(cursor, info):
-    queryString = '''SELECT r.dormName, r.number FROM DormRoom AS dr, Room AS r WHERE r.isReservedForSponsorGroup = FALSE'''
+    queryString = '''SELECT s.suiteID FROM Suite AS s WHERE'''
+    isFirstCond = True
     for key, value in info.items():
         if value is not None: # or "" or whatever means empty input
-            # case this is dormRoom info
-            if (key == "dormName" or
-                key == "number" or
-                key == "numOccupants" or
-                key == "hasPrivateBathroom" or
-                key == "hasConnectingRoom"):
-                    if (key == "hasConnectingRoom"):
-                        queryString += f' AND dr.connectingRoomNum IS NOT NULL'
-                    else:
-                        # data is string value, enclose in quote
-                        if key == "number" or key == "dormName" or key == "closetsDescription" or key == "bathroomDescription":
-                            queryString += f' AND dr.{key} = \'{value}\''
-                        # data is not a string value, no quotes
-                        else:
-                            queryString += f' AND dr.{key} = {value}'
-                        # perform the join with room
-                        if key == "dormName" or key == "number":
-                            queryString += f' AND dr.{key} = r.{key}'
-            else: # this is room, rather than dormRoom, information
-                queryString += f' AND r.{key} = {value}'
+            if (isFirstCond):
+                queryString += f' r.{key} = {value}'
+                isFirstCond = False
+            else:
+                queryString += f' r.{key} = {value}'
+
     queryString += ';'
 
     print(queryString)
     cursor.execute(queryString)
     print(cursor.fetchall())
-
 
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(cursor, info):
