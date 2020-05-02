@@ -53,6 +53,19 @@ def getDormRoomsSinglesSummary(cursor):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
+def getDormRoomSinglesSummaryForRoom(cursor, info):
+    try:
+        cursor.callproc('GetDormRoomSinglesSummaryForRoom', [info["dormName"], info["dormRoomNum"]])
+        results = []
+        for result in cursor.stored_results():
+            data = result.fetchall()
+            if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
+                results.append(data)
+        print(results)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
 def getRoomDetails(cursor, info):
     try:
         cursor.callproc('GetRoomDetails', [info["dormName"], info["dormRoomNum"]])
