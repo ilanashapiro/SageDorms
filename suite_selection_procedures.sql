@@ -1,32 +1,54 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS GetMySuiteRooms$$
-CREATE PROCEDURE GetMySuiteRooms(
+DROP PROCEDURE IF EXISTS GetMySuiteDetails$$
+CREATE PROCEDURE GetMySuiteDetails(
 	IN emailID CHAR(8)
 )
 BEGIN
-	SELECT sr.suiteID, sr.isSubFree, sr.numRooms, sr.dormName, sr.otherDescription,
-		   sr.number, sr.squareFeet, sr.otherDescription,
-		   dr.numOccupants, dr.connectingRoomNum,
+	-- suite info
+	SELECT s.suiteID, s.dormName, s.isSubFree, s.numRooms, s.numPeople, s.otherDescription
+	FROM Suite AS s, SuiteGroup AS sg
+	WHERE sg.emailID = emailID AND s.suiteID = sg.suiteID;
+
+	-- dorm room info
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.otherDescription,
+					dr.numOccupants, dr.connectingRoomNum
+	FROM DormRoom AS dr, Room AS r, SuiteGroup AS sg
+	WHERE sg.emailID = emailID AND r.suite = sg.suiteID
+		  AND dr.dormName = r.dormName AND dr.number = r.number
+	ORDER BY r.number;
+
+	-- common room info
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.otherDescription,
 		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
-	FROM DormRoom AS dr, CommonRoom AS cr, (SELECT * FROM Room AS r LEFT JOIN Suite AS s ON r.suiteID = s.suiteID) AS sr, SuiteGroup AS sg
-	WHERE dr.number = sr.number AND dr.dormName = sr.dormName
-		  AND cr.number = sr.number AND cr.dormName = sr.dormName
-		  AND sg.emailID = emailID AND sg.suiteID IS NOT NULL -- select only the rooms in the suite the student is in. If the student doesn't have a suite, nothing gets returned
-	ORDER BY sr.dormName, sr.suiteID, sr.number; -- group first by dorm, alphabetically, then group data by suite for later processing, then finally by room number, for later processing
+	FROM Room AS r, CommonRoom AS cr, SuiteGroup AS sg
+	WHERE sg.emailID = emailID AND r.suite = sg.suiteID
+		  AND cr.dormName = r.dormName AND cr.number = r.number
+	ORDER BY r.number;
 END $$
 
 DROP PROCEDURE IF EXISTS GetAllSuitesSummary$$
 CREATE PROCEDURE GetAllSuitesSummary()
 BEGIN
-	SELECT sr.suiteID, sr.isSubFree, sr.numRooms, sr.dormName, sr.otherDescription,
-		   sr.number, sr.squareFeet, sr.otherDescription,
-		   dr.numOccupants, dr.connectingRoomNum,
+	-- suite info
+	SELECT s.suiteID, s.isSubFree, s.numPeople, s.numRooms
+	FROM Suite AS s;
+
+	-- dorm room info
+	SELECT DISTINCT r.suite, r.number, r.squareFeet, r.otherDescription,
+		   dr.numOccupants, dr.connectingRoomNum
+	FROM DormRoom AS dr, Room AS r
+	WHERE r.suite IS NOT NULL
+		  AND dr.dormName = r.dormName AND dr.number = r.number
+	ORDER BY r.suite;
+
+	-- common room info
+	SELECT DISTINCT r.suite, r.number, r.squareFeet, r.otherDescription,
 		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
-	FROM DormRoom AS dr, CommonRoom AS cr, (SELECT * FROM Room AS r LEFT JOIN Suite AS s ON r.suiteID = s.suiteID) AS sr
-	WHERE dr.number = sr.number AND dr.dormName = sr.dormName
-		  AND cr.number = sr.number AND cr.dormName = sr.dormName
-	ORDER BY sr.dormName, sr.suiteID, sr.number; -- group first by dorm, alphabetically, then group data by suite for later processing, then finally by room number, for later processing
+	FROM Room AS r, CommonRoom AS cr
+	WHERE r.suite IS NOT NULL
+		  AND cr.dormName = r.dormName AND cr.number = r.number
+	ORDER BY r.suite;
 END $$
 
 DROP PROCEDURE IF EXISTS GetRoomsSummaryForSuite$$
@@ -57,16 +79,18 @@ CREATE PROCEDURE RemoveMyselfFromSuiteGroup(
 	IN newSuiteRepID CHAR(8)
 )
 BEGIN
-	UPDATE SuiteGroup AS sg -- recompute average draw num for all remaining members of group. If the removal happens before the draw, this affects their draw time
-	SET sg.avgDrawNum = (SELECT avg(s.drawNum)
-						FROM Student AS s
-						WHERE s.emailID != emailID
-							  AND s.emailID IN (SELECT s.emailID
-										  FROM SuiteGroup AS sg
-										  WHERE sg.avgDrawNum IN
-				   							    (SELECT sg.avgDrawNum
-				   				  			    FROM SuiteGroup AS sg
-				   						  	    WHERE sg.emailID = emailID)));
+	-- recompute average draw num for all remaining members of group. If the removal happens before the draw, this affects their draw time
+	UPDATE /*+ NO_MERGE(average) */ SuiteGroup AS sg,
+		(SELECT avg(s.drawNum) AS avgDrawNum
+		FROM Student AS s
+		WHERE s.emailID != emailID
+			  AND s.emailID IN (SELECT s.emailID
+						  FROM SuiteGroup AS sg
+						  WHERE sg.avgDrawNum IN
+								(SELECT sg.avgDrawNum
+								FROM SuiteGroup AS sg
+								WHERE sg.emailID = emailID))) AS average
+	SET sg.avgDrawNum = average.avgDrawNum;
 
 	-- If you are the suite group rep and you are leaving, you must specify a new representative
 	IF emailID IN (SELECT sg.emailID
@@ -92,43 +116,43 @@ CREATE PROCEDURE AddMyselfToSuiteGroup(
 	IN isNewSuiteRep BOOLEAN
 )
 BEGIN
-	INSERT INTO SuiteGroup (emailID) VALUES (emailID);
+	INSERT INTO SuiteGroup (emailID, avgDrawNum, isSuiteRepresentative) VALUES (emailID, 0.0, 0);
 
 	-- recompute average draw num for all members of group (including your newly added self).
-	UPDATE SuiteGroup AS sg
-	SET sg.avgDrawNum = (SELECT avg(s.drawNum)
-						FROM Student AS s
-						WHERE s.emailID = emailID
-							  OR s.emailID IN (SELECT s.emailID
-										  FROM SuiteGroup AS sg
-										  WHERE sg.avgDrawNum IN
-				   							    (SELECT sg.avgDrawNum
-				   				  			    FROM SuiteGroup AS sg
-				   						  	    WHERE sg.emailID = emailIDInSG)));
+	UPDATE /*+ NO_MERGE(average) */ SuiteGroup AS sg,
+		(SELECT avg(s.drawNum) AS avgDrawNum
+		FROM Student AS s
+		WHERE s.emailID = emailID
+			  OR s.emailID IN (SELECT s.emailID
+						  FROM SuiteGroup AS sg
+						  WHERE sg.avgDrawNum IN
+								(SELECT sg.avgDrawNum
+								FROM SuiteGroup AS sg
+								WHERE sg.emailID = emailIDInSG))) AS average
+	SET sg.avgDrawNum = average.avgDrawNum;
 
 		-- If someone else was originally the SG rep and now you are, update this
 		IF isNewSuiteRep AND emailIDInSG IN (SELECT sg.emailID
 										     FROM SuiteGroup AS sg
 										     WHERE sg.avgDrawNum IN (SELECT avgDrawNum
-											   					  FROM SuiteGroup AS sg1
-																  WHERE sg1.emailID = emailIDInSG)
-												   AND sg.isSuiteRepresentative = TRUE) THEN
+											   					  FROM SuiteGroup AS sg
+																  WHERE sg.emailID = emailIDInSG)
+											   AND sg.isSuiteRepresentative = TRUE) THEN
+		   -- they are no longer suite rep
+           UPDATE /*+ NO_MERGE(oldSuiteRep) */ SuiteGroup AS sg,
+				(SELECT sg.emailID
+				 FROM SuiteGroup AS sg
+				 WHERE sg.avgDrawNum IN (SELECT avgDrawNum
+									  FROM SuiteGroup AS sg
+									  WHERE sg.emailID = emailIDInSG)
+					   AND sg.isSuiteRepresentative = TRUE) AS oldSuiteRep
+			SET sg.isSuiteRepresentative = FALSE WHERE sg.emailID = oldSuiteRep.emailID;
+
+			-- you become new suite rep
 			UPDATE SuiteGroup AS sg
 			SET sg.isSuiteRepresentative = TRUE WHERE sg.emailID = emailID;
-
-            UPDATE SuiteGroup AS sg
-			SET sg.isSuiteRepresentative = FALSE WHERE sg.emailID IN (SELECT sg.emailID
-																     FROM SuiteGroup AS sg
-																     WHERE sg.avgDrawNum IN (SELECT avgDrawNum
-																	   					  FROM SuiteGroup AS sg1
-																						  WHERE sg1.emailID = emailIDInSG)
-																		   AND sg.isSuiteRepresentative = TRUE);
 		END IF;
-
-	DELETE
-	FROM SuiteGroup AS sg
-	WHERE sg.emailID = emailID; -- delete the student from the suite group. This can be done anythime (including during suite draw) before their suite draw time is reached
-END $$
+	END $$
 
 DROP PROCEDURE IF EXISTS GetMySuiteGroup$$
 CREATE PROCEDURE GetMySuiteGroup(
@@ -152,14 +176,35 @@ CREATE PROCEDURE SetSuite(
 	IN emailIDSuiteRep CHAR(8)
 )
 BEGIN
-	UPDATE SuiteGroup AS sg
+	UPDATE /*+ NO_MERGE(mygroup) */ SuiteGroup AS sg,
+		(SELECT sg.emailID
+		FROM SuiteGroup AS sg
+		WHERE sg.avgDrawNum IN
+			  (SELECT sg.avgDrawNum
+			  FROM SuiteGroup AS sg
+			  WHERE sg.emailID = emailIDSuiteRep)) AS mygroup
 	SET sg.suiteID = suiteID
-	WHERE s.emailID IN (SELECT s.emailID
-						FROM SuiteGroup AS sg
-						WHERE sg.avgDrawNum IN
-							  (SELECT sg.avgDrawNum
-							  FROM SuiteGroup AS sg
-							  WHERE sg.emailID = emailIDSuiteRep));
+	WHERE sg.emailID = mygroup.emailID;
+END $$
+
+DROP PROCEDURE IF EXISTS SetSuiteRepresentative$$
+CREATE PROCEDURE SetSuiteRepresentative(
+	IN emailID CHAR(8)
+)
+BEGIN
+	-- old suite rep is no longer suite rep
+   	UPDATE /*+ NO_MERGE(oldSuiteRep) */ SuiteGroup AS sg,
+   		(SELECT sg.emailID
+   		 FROM SuiteGroup AS sg
+   		 WHERE sg.avgDrawNum IN (SELECT avgDrawNum
+   							  FROM SuiteGroup AS sg
+   							  WHERE sg.emailID = emailID)
+   			   AND sg.isSuiteRepresentative = TRUE) AS oldSuiteRep
+   	SET sg.isSuiteRepresentative = FALSE WHERE sg.emailID = oldSuiteRep.emailID AND sg.emailID != emailID;
+
+	-- you become new suite rep
+	UPDATE SuiteGroup AS sg
+	SET sg.isSuiteRepresentative = TRUE WHERE sg.emailID = emailID;
 END $$
 
 DELIMITER ;

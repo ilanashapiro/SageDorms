@@ -85,7 +85,7 @@ def executeScriptsFromFile(filename):
 #             - from what database will we get student information
 #     """
     # try:
-         # connect to localhost mysql server
+        # connect to localhost mysql server
         # sagedormsdb = mysql.connector.connect(
         #         host="localhost",
         #         user="root",
@@ -94,9 +94,9 @@ def executeScriptsFromFile(filename):
         #         autocommit=True)
         #
         # # global_vars.cursor executes SQL commands
-        # global_vars.cursor = sagedormsdb.global_vars.cursor()
-        # global_vars.global_vars.cursor = global_vars.cursor
-        # init_db(global_vars.cursor)
+        # global_vars.cursor = sagedormsdb.cursor()
+        # global_vars.emailID = 'issa2018'
+        # init_db()
 
         # global_vars.emailID = 'issa2018'
 
@@ -105,6 +105,17 @@ def executeScriptsFromFile(filename):
         # info = {'Ilana': 'issa2018', 'Helen': 'hpaa2018', 'Gabe': 'gpaa2018', 'Alan': 'ayza2018', 'Yurie': 'ymac2018'}
         # info = {'isSubFree': True, 'numPeople': 6}
         # suite_queries.createSuiteGroup(global_vars.cursor, info)
+
+
+        # info = {'dormName': 'NORTON-CLARK', 'number': '18'}
+        # info = {'numOccupants': 2, 'hasPrivateBathroom': True, 'hasConnectingRoom': True}
+        # info = {'Ilana': 'issa2018', 'Helen': 'hpaa2018', 'Gabe': 'gpaa2018', 'Alan': 'ayza2018', 'Yurie': 'ymac2018'}
+        # info = {'isSubFree': True, 'numPeople': 6}
+        # info = {'suiteID': 'oxeoqmej', 'emailIDSuiteRep':'issa2018'}
+        # info = {'emailIDInSG': 'gpaa2018', 'isNewSuiteRep': True}
+        # info = {'emailID': 'issa2018'}
+        # suite_queries.setSuiteRepresentative(info)
+        # suite_queries.setSuite(info)
 
         # populate_database.createDorms(global_vars.cursor)
         # populate_database.populateRooms(global_vars.cursor)

@@ -46,7 +46,7 @@ def searchForSuites(info):
         results.append(getRoomsSummaryForSuite(suiteID))
 
     # print(results)
-    return results # done
+    return results
 
 def getMySuiteDetails(info):
     try:
@@ -57,7 +57,7 @@ def getMySuiteDetails(info):
         print(results)
         return results
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def getAllSuitesSummary():
     try:
@@ -68,19 +68,19 @@ def getAllSuitesSummary():
         print(results)
         return results
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def removeMyselfFromSuiteGroup(info):
     try:
         global_vars.cursor.callproc('RemoveMyselfFromSuiteGroup', [global_vars.emailID, info['newSuiteRepID']])
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def addMyselfToSuiteGroup(info):
     try:
         global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], info['isNewSuiteRep']])
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def getMySuiteGroup():
     try:
@@ -91,19 +91,19 @@ def getMySuiteGroup():
         print(results)
         return results
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def setSuite(info):
     try:
         global_vars.cursor.callproc('SetSuite', [info['suiteID'], info['emailIDSuiteRep']])
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def setSuiteRepresentative(info):
     try:
         global_vars.cursor.callproc('SetSuiteRepresentative', [info['emailID']])
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def createSuiteGroup(info):
     try:
@@ -140,4 +140,4 @@ def createSuiteGroup(info):
         global_vars.cursor.execute(addStudentsQueryString)
 
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
