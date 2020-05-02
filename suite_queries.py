@@ -22,10 +22,16 @@ def searchForSuites(cursor, info):
     for key, value in info.items():
         if value is not None: # or "" or whatever means empty input
             if (isFirstCond):
-                queryString += f' s.{key} = \'{value}\''
+                if key == 'isSubFree':
+                    queryString += f' s.{key} = {value}'
+                else:
+                    queryString += f' s.{key} = \'{value}\''
                 isFirstCond = False
             else:
-                queryString += f' AND s.{key} = \'{value}\''
+                if key == 'isSubFree':
+                    queryString += f' AND s.{key} = {value}'
+                else:
+                    queryString += f' AND s.{key} = \'{value}\''
 
     queryString += ';'
 
@@ -36,11 +42,11 @@ def searchForSuites(cursor, info):
     results = []
     for suite in suites:
         suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first and only elem of each tuple
-        # print(suite)
+        print(suite)
         results.append(suite)
         results.append(getRoomsSummaryForSuite(cursor, suiteID))
 
-    print(results)
+    # print(results)
     return results
 
 def getDormRoomAndSuiteSummaryForDorm(cursor):
