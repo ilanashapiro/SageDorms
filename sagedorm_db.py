@@ -84,19 +84,19 @@ def main(info = None):
             - SQL injection???
             - from what database will we get student information
     """
-    try:
+    # try:
          # connect to localhost mysql server
-        sagedormsdb = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                passwd="databases133",
-                auth_plugin='mysql_native_password',
-                autocommit=True)
-
-        # cursor executes SQL commands
-        cursor = sagedormsdb.cursor()
-        global_vars.cursor = cursor
-        init_db(cursor)
+        # sagedormsdb = mysql.connector.connect(
+        #         host="localhost",
+        #         user="root",
+        #         passwd="databases133",
+        #         auth_plugin='mysql_native_password',
+        #         autocommit=True)
+        #
+        # # cursor executes SQL commands
+        # cursor = sagedormsdb.cursor()
+        # global_vars.cursor = cursor
+        # init_db(cursor)
 
         # global_vars.emailID = 'issa2018'
 
@@ -116,10 +116,10 @@ def main(info = None):
         # cursor.close()
 
 
-    except mysql.connector.Error as e:
-        if (e.errno == 1045):
-            print("Wrong password; did you enter databases133 ???")
-        print(traceback.format_exc())
+    # except mysql.connector.Error as e:
+    #     if (e.errno == 1045):
+    #         print("Wrong password; did you enter databases133 ???")
+    #     print(traceback.format_exc())
 
 if __name__ == '__main__':
     main()
