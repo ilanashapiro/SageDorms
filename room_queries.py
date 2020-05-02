@@ -5,6 +5,18 @@ import global_vars
 from mysql.connector import Error
 
 def searchForDormRooms(cursor, info):
+    def getSummaryForDormRoom(cursor, dormName, number):
+        try:
+            cursor.callproc('GetSummaryForDormRoom', [dormName, number])
+            results = []
+            for result in cursor.stored_results():
+                data = result.fetchall()
+                if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
+                    results.append(data)
+            return results
+        except mysql.connector.Error as error:
+            print("Failed to execute stored procedure: {}".format(error))
+
     queryString = '''SELECT DISTINCT r.dormName, r.number FROM DormRoom AS dr, Room AS r WHERE r.isReservedForSponsorGroup = FALSE'''
     for key, value in info.items():
         if value is not None: # or "" or whatever means empty input
@@ -17,7 +29,6 @@ def searchForDormRooms(cursor, info):
                     if key == "hasConnectingRoom":
                         if value == False:
                             queryString += f' AND dr.connectingRoomNum IS NULL'
-                            print("false")
                         else:
                             queryString += f' AND dr.connectingRoomNum IS NOT NULL'
                     else:
@@ -34,7 +45,16 @@ def searchForDormRooms(cursor, info):
 
     print(queryString)
     cursor.execute(queryString)
-    print(cursor.fetchall())
+
+    rooms = cursor.fetchall()
+    results = []
+    for room in rooms:
+        dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
+        number = room[1]
+        results.append(getSummaryForDormRoom(cursor, dormName, number))
+
+    print(results)
+    return results
 
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(cursor, info):
@@ -49,19 +69,6 @@ def getDormRoomsSinglesSummary(cursor):
         results = []
         for result in cursor.stored_results():
             results.append(result.fetchall())
-        return results
-    except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error))
-
-def getDormRoomSinglesSummaryForRoom(cursor, info):
-    try:
-        cursor.callproc('GetDormRoomSinglesSummaryForRoom', [info["dormName"], info["dormRoomNum"]])
-        results = []
-        for result in cursor.stored_results():
-            data = result.fetchall()
-            if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
-                results.append(data)
-        print(results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))

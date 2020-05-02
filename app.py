@@ -11,16 +11,18 @@ app.secret_key = "shhhhh keep it a secret"
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    sagedormsdb = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            passwd="databases133",
-            auth_plugin='mysql_native_password',
-            autocommit=True)
-
-    # cursor executes SQL commands
-    session['cursor']= sagedormsdb.cursor()
-    sagedorm_db.init_db(cursor)
+    # sagedormsdb = mysql.connector.connect(
+    #         host="localhost",
+    #         user="root",
+    #         passwd="databases133",
+    #         auth_plugin='mysql_native_password',
+    #         autocommit=True)
+    #
+    # # cursor executes SQL commands
+    # session['cursor']= sagedormsdb.cursor()
+    # cursor = sagedormsdb.cursor()
+    #
+    # sagedorm_db.init_db(cursor)
 
     # # student selected housing
     # if request.method == 'POST':
@@ -95,7 +97,6 @@ def wishlist():
 
 @app.route('/smiley', methods=['GET', 'POST'])
 def smiley():
-    
     if request.method == 'POST':
         dorm = request.form.split()
         dormName = dorm[0]
@@ -103,6 +104,14 @@ def smiley():
 
         #TODO: add to wishlist
         cursor = session['cursor']
+
+    return render_template('smiley.html')
+
+@app.route('/selectionpage', methods=['POST'])
+def selectionpage():
+    if request.method == 'POST':
+        info = request.form
+        print(info)
 
 
     return render_template('smiley.html')
