@@ -30,11 +30,11 @@ def init_db(cursor):
     if('sagedormsdb' not in db_names):
         cursor.execute("CREATE DATABASE IF NOT EXISTS sagedormsdb;")
         cursor.execute("USE sagedormsdb;")
-        executeScriptsFromFile("tables.sql", cursor)
+        executeScriptsFromFile("tables.sql")
 
     cursor.execute("USE sagedormsdb;")
 
-def generate_fake_students(sagedormsdb, cursor):
+def generate_fake_students(cursor, sagedormsdb):
     """ Generates many fake students for 'room draw'
 
     Keyword arguments:
@@ -56,7 +56,7 @@ def generate_fake_students(sagedormsdb, cursor):
                 1, avgSuiteGroupDrawNum , '{drawTime}')''')
         sagedormsdb.commit()
 
-def executeScriptsFromFile(filename, cursor):
+def executeScriptsFromFile(cursor, filename):
     # Open and read the file as a single buffer
     fd = open(filename, 'r')
     sqlFile = fd.read()
@@ -95,15 +95,16 @@ def main(info = None):
 
         # cursor executes SQL commands
         cursor = sagedormsdb.cursor()
+        global_vars.cursor = cursor
         init_db(cursor)
 
-        global_vars.emailID = 'issa2018'
+        # global_vars.emailID = 'issa2018'
 
         # info = {'dormName': 'NORTON-CLARK', 'number': '18'}
         # info = {'numOccupants': 2, 'hasPrivateBathroom': True, 'hasConnectingRoom': True}
-        info = {'Ilana': 'issa2018', 'Helen': 'hpaa2018', 'Gabe': 'gpaa2018', 'Alan': 'ayza2018', 'Yurie': 'ymac2018'}
+        # info = {'Ilana': 'issa2018', 'Helen': 'hpaa2018', 'Gabe': 'gpaa2018', 'Alan': 'ayza2018', 'Yurie': 'ymac2018'}
         # info = {'isSubFree': True, 'numPeople': 6}
-        suite_queries.createSuiteGroup(cursor, info)
+        # suite_queries.createSuiteGroup(cursor, info)
 
         # populate_database.createDorms(cursor)
         # populate_database.populateRooms(cursor)
@@ -112,7 +113,7 @@ def main(info = None):
         # populate_database.addStudents(cursor)
         # populate_database.createSuites(cursor)
 
-        cursor.close()
+        # cursor.close()
 
 
     except mysql.connector.Error as e:

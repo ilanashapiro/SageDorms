@@ -7,7 +7,7 @@ from mysql.connector import Error
 # NOTE: the keys in the info dict are preliminary
 
 def searchForSuites(cursor, info):
-    def getRoomsSummaryForSuite(cursor, suiteID):
+    def getRoomsSummaryForSuite(suiteID):
         try:
             cursor.callproc('GetRoomsSummaryForSuite', [suiteID])
             results = []
@@ -35,14 +35,14 @@ def searchForSuites(cursor, info):
 
     queryString += ';'
 
-    print(queryString)
+    # print(queryString)
     cursor.execute(queryString)
 
     suites = cursor.fetchall()
     results = []
     for suite in suites:
         suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
-        print(suite)
+        # print(suite)
         results.append(suite)
         results.append(getRoomsSummaryForSuite(cursor, suiteID))
 

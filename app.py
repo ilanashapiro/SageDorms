@@ -10,7 +10,6 @@ app.secret_key = "shhhhh keep it a secret"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-
     # sagedormsdb = mysql.connector.connect(
     #         host="localhost",
     #         user="root",
@@ -107,11 +106,22 @@ def smiley():
 
     return render_template('smiley.html')
 
+@app.route('/displaySelectionInfo')
+def displaySelectionInfo():
+    if request.method == 'POST':
+        rawinfo = request.form
+        info = rawinfo.to_dict(flat=False)
+        data = None
+        if info["searchtype"] == "room":
+            data = room_queries.searchForDormRooms(global_vars.cursor, info)
+        if info["searchtype"] == "suite":
+            data = suite_queries.searchForSuites(global_vars.cursor, info)
+        print(data)
+    return render_template('displaySelectionInfo.html')
+
+
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
-    if request.method == 'POST':
-        info = request.form
-        print(info)
     return render_template('selectionpage.html')
 
 @app.route('/login', methods=['GET', 'POST'])

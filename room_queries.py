@@ -5,7 +5,7 @@ import global_vars
 from mysql.connector import Error
 
 def searchForDormRooms(cursor, info):
-    def getSummaryForDormRoom(cursor, dormName, number):
+    def getSummaryForDormRoom(dormName, number):
         try:
             cursor.callproc('GetSummaryForDormRoom', [dormName, number])
             results = []
@@ -43,7 +43,7 @@ def searchForDormRooms(cursor, info):
     # perform the join
     queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number;'
 
-    print(queryString)
+    # print(queryString)
     cursor.execute(queryString)
 
     rooms = cursor.fetchall()
@@ -53,7 +53,7 @@ def searchForDormRooms(cursor, info):
         number = room[1]
         results.append(getSummaryForDormRoom(cursor, dormName, number))
 
-    print(results)
+    # print(results)
     return results
 
 # https://pynative.com/python-mysql-execute-stored-procedure/
@@ -63,7 +63,7 @@ def setStudentRoom(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getDormRoomsSinglesSummary(cursor):
+def getDormRoomsSinglesSummary():
     try:
         cursor.callproc('GetDormRoomsSinglesSummary', [])
         results = []
@@ -97,7 +97,7 @@ def getRoomDetails(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getMyRoomDetails(cursor):
+def getMyRoomDetails(cursor, info):
     try:
         cursor.callproc('GetMyRoomDetails', [global_vars.emailID])
         results = []
