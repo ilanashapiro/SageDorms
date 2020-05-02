@@ -106,8 +106,9 @@ def smiley():
 
     return render_template('smiley.html')
 
-@app.route('/displaySelectionInfo')
+@app.route('/displaySelectionInfo', methods=['POST'])
 def displaySelectionInfo():
+    print("dis--------------------------------------------------------------------------------------------------")
     if request.method == 'POST':
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
@@ -122,6 +123,7 @@ def displaySelectionInfo():
 
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
+    # print("--------------------------------------------------------------------------------------------------")
     return render_template('selectionpage.html')
 
 @app.route('/login', methods=['GET', 'POST'])
