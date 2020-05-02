@@ -94,9 +94,15 @@ def smiley():
 
     return render_template('smiley.html')
 
-@app.route('/displaySelectionInfo', methods=['POST'])
+@app.route('/displaySelectionInfo', methods=['GET', 'POST'])
 def displaySelectionInfo():
     print("dis--------------------------------------------------------------------------------------------------")
+    return render_template('displaySelectionInfo.html')
+
+
+@app.route('/selectionpage', methods=['GET', 'POST'])
+def selectionpage():
+    # print("--------------------------------------------------------------------------------------------------")
     if request.method == 'POST':
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
@@ -106,12 +112,7 @@ def displaySelectionInfo():
         if info["searchtype"] == "suite":
             data = suite_queries.searchForSuites(global_vars.cursor, info)
         print(data)
-    return render_template('displaySelectionInfo.html')
-
-
-@app.route('/selectionpage', methods=['GET', 'POST'])
-def selectionpage():
-    # print("--------------------------------------------------------------------------------------------------")
+        return redirect('displaySelectionInfo')
     return render_template('selectionpage.html')
 
 @app.route('/login', methods=['GET', 'POST'])
