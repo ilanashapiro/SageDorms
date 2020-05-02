@@ -23,8 +23,8 @@ BEGIN
 	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by number for later processing
 END $$
 
-DROP PROCEDURE IF EXISTS GetDormRoomSinglesSummaryForRoom$$
-CREATE PROCEDURE GetDormRoomSinglesSummaryForRoom(
+DROP PROCEDURE IF EXISTS GetSummaryForDormRoom$$
+CREATE PROCEDURE GetSummaryForDormRoom(
 	IN dormName VARCHAR(50),
 	IN roomNum VARCHAR(10)
 )

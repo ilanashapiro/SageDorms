@@ -85,7 +85,7 @@ def main(info = None):
             - from what database will we get student information
     """
     try:
-        # connect to localhost mysql server
+         # connect to localhost mysql server
         sagedormsdb = mysql.connector.connect(
                 host="localhost",
                 user="root",
