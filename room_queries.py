@@ -73,6 +73,17 @@ def getDormRoomsSinglesSummary(cursor):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
+def getDormRoomAndSuiteSummaryForDorm(cursor, info):
+    try:
+        cursor.callproc('GetDormRoomAndSuiteSummaryForDorm', [info['dormName']])
+        results = []
+        for result in cursor.stored_results():
+            results.append(result.fetchall())
+        print(results)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
 def getRoomDetails(cursor, info):
     try:
         cursor.callproc('GetRoomDetails', [info["dormName"], info["dormRoomNum"]])

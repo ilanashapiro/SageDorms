@@ -49,17 +49,6 @@ def searchForSuites(cursor, info):
     # print(results)
     return results
 
-def getDormRoomAndSuiteSummaryForDorm(cursor):
-    try:
-        cursor.callproc('GetDormRoomAndSuiteSummaryForDorm', [info['dormName']])
-        results = []
-        for result in cursor.stored_results():
-            results.append(result.fetchall())
-        print(results)
-        return results
-    except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error))
-
 def getMySuiteRooms(cursor, info):
     try:
         cursor.callproc('GetMySuiteRooms', [info['emailID']])
