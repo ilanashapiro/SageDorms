@@ -100,10 +100,10 @@ def main(info = None):
         global_vars.emailID = 'issa2018'
 
         # info = {'dormName': 'NORTON-CLARK', 'number': '18'}
-        # info = {'numOccupants': 2, 'hasPrivateBathroom': True, 'hasConnectingRoom': True}
+        info = {'numOccupants': 2, 'hasPrivateBathroom': True, 'hasConnectingRoom': True}
         # info = {'Ilana': 'issa2018', 'Helen': 'hpaa2018', 'Gabe': 'gpaa2018', 'Alan': 'ayza2018', 'Yurie': 'ymac2018'}
-        info = {'isSubFree': True, 'numPeople': 6}
-        suite_queries.searchForSuites(cursor, info)
+        # info = {'isSubFree': True, 'numPeople': 6}
+        room_queries.searchForDormRooms(cursor, info)
 
         # populate_database.createDorms(cursor)
         # populate_database.populateRooms(cursor)

@@ -41,7 +41,7 @@ def searchForSuites(cursor, info):
     suites = cursor.fetchall()
     results = []
     for suite in suites:
-        suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first and only elem of each tuple
+        suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
         print(suite)
         results.append(suite)
         results.append(getRoomsSummaryForSuite(cursor, suiteID))
