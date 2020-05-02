@@ -107,6 +107,18 @@ def smiley():
 
     return render_template('smiley.html')
 
+@app.route('/norton', methods=['GET', 'POST'])
+def norton():
+    
+    if request.method == 'POST':
+        dorm = request.form.split()
+        dormName = dorm[0]
+        number = int(dorm[1])
+
+        cursor = session['cursor']
+
+    return render_template('norton.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
