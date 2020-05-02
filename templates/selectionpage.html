@@ -48,19 +48,19 @@
 									<h4>Choose Dorm</h4>
 									<div class="12u$">
 												<div class="select-wrapper">
-													<select name="demo-category" id="demo-category">
+													<select name="dormName" id="dormName">
 														<option value="">- All Dorms -</option>
-														<option value="clark1">Clark I</option>
-														<option value="clark3">Clark III</option>
-														<option value="clark5">Clark V</option>
+														<option value="CLARK-1">Clark I</option>
+														<option value="NORTON-CLARK">Clark III</option>
+														<option value="CLARK-V">Clark V</option>
 														<option value="dialynas">Dialynas</option>
 														<option value="harwood">Harwood</option>
-														<option value="lawry">Lawry</option>
+														<option value="LAWRY">Lawry</option>
 														<option value="muddblais">Mudd Blaisdell</option>
-														<option value="norton">Norton</option>
-														<option value="smiley">Smiley</option>
+														<option value="NORTON-CLARK">Norton</option>
+														<option value="SMILEY">Smiley</option>
 														<option value="sontag">Sontag</option>
-														<option value="walker">Walker</option>
+														<option value="WALKER">Walker</option>
 														<option value="wig">Wig</option>
 													</select>
 												</div>
@@ -70,22 +70,22 @@
 								<h3> </h3>
 									<h4>Dorm Number</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" name="roomNum" id="roomNum" value="{{request.form.roomNum}}" placeholder="Room #" />
+												<input type="Text" name="number" id="number" value="{{request.form.roomNum}}" placeholder="Room #" />
 											</div>
 										
 									<h3> </h3>
 									<h4>Misc.</h4>
 									<div class="6u 12u$(small)">
-												<input type="checkbox" id="bathroom" name="bathroom">
+												<input type="checkbox" name="hasPrivateBathroom" id="hasPrivateBathroom">
 												<label for="bathroom">Has Private Bathroom</label>
 											</div>
 									<div class="6u 12u$(small)">
-												<input type="checkbox" id="connect" name="connect">
+												<input type="checkbox" id="hasConnectingRoom" name="hasConnectingRoom">
 												<label for="connect">Has Connecting Room</label>
 											</div>
 
 											<div class="6u 12u$(small)">
-												<input type="checkbox" id="subfree" name="subfree">
+												<input type="checkbox" id="isSubFree" name="isSubFree">
 												<label for="subfree">Is Subfree</label>
 											</div>
 									
@@ -100,26 +100,17 @@
 								<!-- Right Side -->
 									<h4>Room Type</h4>
 									<div class="4u 12u$(small)">
-												<input type="radio" id="single" name="single">
-												<label for="single">Single</label>
+												<input type="radio" id="numOccupants" name="numOccupants" value=1>
+												<label for="numOccupants">Single</label>
 											</div>
 											<div class="4u 12u$(small)">
-												<input type="radio" id="double" name="double">
-												<label for="single">Double</label>
+												<input type="radio" id="numOccupants" name="numOccupants" value=2>
+												<label for="numOccupants">Double</label>
 											</div>
 											
 
 								<!-- Form -->
-								<h3> </h3>
-									<h4>Closet Type</h4>
-									<div class="4u 12u$(small)">
-												<input type="radio" id="walkin" name="closet">
-												<label for="walkin">Walk In</label>
-											</div>
-											<div class="4u 12u$(small)">
-												<input type="radio" id="bumpout" name="closet">
-												<label for="bumpout">Bump Out</label>
-											</div>
+								
 
 
 									
@@ -151,17 +142,17 @@
 												<div class="select-wrapper">
 													<select name="demo-category" id="demo-category">
 														<option value="">- All Dorms -</option>
-														<option value="clark1">Clark I</option>
-														<option value="clark3">Clark III</option>
-														<option value="clark5">Clark V</option>
+														<option value="CLARK-1">Clark I</option>
+														<option value="NORTON-CLARK">Clark III</option>
+														<option value="CLARK-V">Clark V</option>
 														<option value="dialynas">Dialynas</option>
 														<option value="harwood">Harwood</option>
-														<option value="lawry">Lawry</option>
+														<option value="LAWRY">Lawry</option>
 														<option value="muddblais">Mudd Blaisdell</option>
-														<option value="norton">Norton</option>
-														<option value="smiley">Smiley</option>
+														<option value="NORTON-CLARK">Norton</option>
+														<option value="SMILEY">Smiley</option>
 														<option value="sontag">Sontag</option>
-														<option value="walker">Walker</option>
+														<option value="WALKER">Walker</option>
 														<option value="wig">Wig</option>
 													</select>
 												</div>
