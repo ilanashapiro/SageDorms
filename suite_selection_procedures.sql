@@ -29,8 +29,8 @@ BEGIN
 	ORDER BY sr.dormName, sr.suiteID, sr.number; -- group first by dorm, alphabetically, then group data by suite for later processing, then finally by room number, for later processing
 END $$
 
-DROP PROCEDURE IF EXISTS GetDormRoomsAndSuiteSummaryForDorm$$
-CREATE PROCEDURE GetDormRoomsAndSuiteSummaryForDorm(
+DROP PROCEDURE IF EXISTS GetDormRoomAndSuiteSummaryForDorm$$
+CREATE PROCEDURE GetDormRoomAndSuiteSummaryForDorm(
 	IN dormName VARCHAR(50)
 )
 BEGIN
@@ -43,7 +43,7 @@ BEGIN
 	ORDER BY r.number;
 
 	-- suite info
-	SELECT s.suiteID, s.numRooms, s.numPeople
+	SELECT s.suiteID, s.numPeople, s.isSubFree
 	FROM Room AS r, Suite AS s
 	WHERE r.dormName = dormName AND r.suite = s.suiteID
 	ORDER BY s.suiteID;
@@ -57,27 +57,21 @@ BEGIN
 	ORDER BY r.number;
 END $$
 
-DROP PROCEDURE IF EXISTS GetDormRoomsAndSuiteSummaryForSuite$$
-CREATE PROCEDURE GetDormRoomsAndSuiteSummaryForSuite(
+DROP PROCEDURE IF EXISTS GetRoomsSummaryForSuite$$
+CREATE PROCEDURE GetRoomsSummaryForSuite(
 	IN suiteID VARCHAR(50)
 )
 BEGIN
 	-- dorm room info
-	SELECT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
 		   dr.numOccupants, dr.connectingRoomNum
 	FROM DormRoom AS dr, Room AS r
 	WHERE r.suite = suiteID
 		  AND dr.dormName = r.dormName AND dr.number = r.number
 	ORDER BY r.number;
 
-	-- suite info
-	SELECT s.suiteID, s.numRooms, s.numPeople
-	FROM Room AS r, Suite AS s
-	WHERE s.suiteID = suiteID AND r.suite = s.suiteID
-	ORDER BY s.suiteID;
-
 	-- common room info
-	SELECT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
 		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
 	FROM Room AS r, CommonRoom AS cr
 	WHERE r.suite = suiteID

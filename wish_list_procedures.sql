@@ -1,3 +1,5 @@
+DELIMITER $$
+
 DROP PROCEDURE IF EXISTS AddToWishlist$$
 CREATE PROCEDURE AddToWishlist(
 	IN emailID CHAR(8),
@@ -31,3 +33,5 @@ BEGIN
 	FROM WishList AS w
 	WHERE w.emailID = emailID;
 END $$
+
+DELIMITER ;

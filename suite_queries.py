@@ -7,28 +7,49 @@ from mysql.connector import Error
 # NOTE: the keys in the info dict are preliminary
 
 def searchForSuites(cursor, info):
-    queryString = '''SELECT s.suiteID FROM Suite AS s WHERE'''
+    def getRoomsSummaryForSuite(cursor, suiteID):
+        try:
+            cursor.callproc('GetRoomsSummaryForSuite', [suiteID])
+            results = []
+            for result in cursor.stored_results():
+                results.append(result.fetchall())
+            return results
+        except mysql.connector.Error as error:
+            print("Failed to execute stored procedure: {}".format(error))
+
+    queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s WHERE'''
     isFirstCond = True
     for key, value in info.items():
         if value is not None: # or "" or whatever means empty input
             if (isFirstCond):
-                queryString += f' r.{key} = {value}'
+                queryString += f' s.{key} = \'{value}\''
                 isFirstCond = False
             else:
-                queryString += f' r.{key} = {value}'
+                queryString += f' AND s.{key} = \'{value}\''
 
     queryString += ';'
 
     print(queryString)
     cursor.execute(queryString)
-    print(cursor.fetchall())
 
-def getDormRoomsAndSuiteSummaryForDorm(cursor, info):
+    suites = cursor.fetchall()
+    results = []
+    for suite in suites:
+        suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first and only elem of each tuple
+        # print(suite)
+        results.append(suite)
+        results.append(getRoomsSummaryForSuite(cursor, suiteID))
+
+    print(results)
+    return results
+
+def getDormRoomAndSuiteSummaryForDorm(cursor):
     try:
-        cursor.callproc('GetDormRoomsAndSuiteSummaryForDorm', [info['dormName']])
+        cursor.callproc('GetDormRoomAndSuiteSummaryForDorm', [info['dormName']])
         results = []
         for result in cursor.stored_results():
             results.append(result.fetchall())
+        print(results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -47,28 +68,6 @@ def getMySuiteRooms(cursor, info):
 def getAllSuitesSummary(cursor):
     try:
         cursor.callproc('GetAllSuitesSummary', [])
-        results = []
-        for result in cursor.stored_results():
-            results.append(result.fetchall())
-        print(results)
-        return results
-    except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error))
-
-def getDormRoomAndSuiteSummaryForSuite(cursor, info):
-    try:
-        cursor.callproc('GetDormRoomsAndSuiteSummaryForSuite', [info['suiteID']])
-        results = []
-        for result in cursor.stored_results():
-            results.append(result.fetchall())
-        print(results)
-        return results
-    except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error))
-
-def getDormRoomAndSuiteSummaryForDorm(cursor):
-    try:
-        cursor.callproc('GetDormRoomsAndSuiteSummaryForDorm', [info['dormName']])
         results = []
         for result in cursor.stored_results():
             results.append(result.fetchall())
