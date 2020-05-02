@@ -95,7 +95,6 @@ def wishlist():
 
 @app.route('/smiley', methods=['GET', 'POST'])
 def smiley():
-    
     if request.method == 'POST':
         dorm = request.form.split()
         dormName = dorm[0]
@@ -103,6 +102,14 @@ def smiley():
 
         #TODO: add to wishlist
         cursor = session['cursor']
+
+    return render_template('smiley.html')
+
+@app.route('/selectionpage', methods=['POST'])
+def selectionpage():
+    if request.method == 'POST':
+        info = request.form
+        print(info)
 
 
     return render_template('smiley.html')
