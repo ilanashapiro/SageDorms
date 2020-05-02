@@ -19,7 +19,7 @@ def searchForDormRooms(info):
 
     queryString = '''SELECT DISTINCT r.dormName, r.number FROM DormRoom AS dr, Room AS r WHERE r.isReservedForSponsorGroup = FALSE'''
     for key, value in info.items():
-        if value is not None: # or "" or whatever means empty input
+        if value != '': # empty input
             # case this is dormRoom info
             if (key == "dormName" or
                 key == "number" or
@@ -38,12 +38,12 @@ def searchForDormRooms(info):
                         else:
                             # data is not a string value, no quotes
                             queryString += f' AND dr.{key} = {value}'
-            else: # this is room, rather than dormRoom, information
+            elif key != "searchtype": # this is room, rather than dormRoom, information. Also, we don't want the searchtype key, which just told us if the form submitted was for rooms or suites
                 queryString += f' AND r.{key} = {value}'
     # perform the join
     queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number;'
 
-    # print(queryString)
+    print(queryString)
     global_vars.cursor.execute(queryString)
 
     rooms = global_vars.cursor.fetchall()

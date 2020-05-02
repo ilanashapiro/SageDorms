@@ -4,6 +4,9 @@ import mysql.connector
 import random
 import cas_login
 import global_vars
+import room_queries
+import suite_queries
+import wish_list_queries
 import sys
 app = Flask(__name__)
 app.secret_key = "shhhhh keep it a secret"
@@ -104,14 +107,18 @@ def selectionpage():
     if request.method == 'POST':
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
-        data = None
-        if info["searchtype"] == "room":
-            data = room_queries.searchForDormRooms(global_vars.cursor, info)
-        if info["searchtype"] == "suite":
-            data = suite_queries.searchForSuites(global_vars.cursor, info)
-        print(data)
-        return redirect('displaySelectionInfo')
 
+        #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
+        for key, value in info.items():
+            info[key] = value[0]
+
+        data = None
+        if info["searchtype"] == 'room': 
+            data = room_queries.searchForDormRooms(info)
+        if info["searchtype"] == "suite":
+            data = suite_queries.searchForSuites(info)
+        print("DATA", data)
+        return redirect('displaySelectionInfo')
     return render_template('selectionpage.html')
 
 @app.route('/login', methods=['GET', 'POST'])

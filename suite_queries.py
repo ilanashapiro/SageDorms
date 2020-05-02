@@ -20,14 +20,14 @@ def searchForSuites(info):
     queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s WHERE'''
     isFirstCond = True
     for key, value in info.items():
-        if value is not None: # or "" or whatever means empty input
+        if value != '': # or "" or whatever means empty input
             if (isFirstCond):
                 if key == 'isSubFree':
                     queryString += f' s.{key} = {value}'
                 else:
                     queryString += f' s.{key} = \'{value}\''
                 isFirstCond = False
-            else:
+            elif key != "searchtype": # We don't want the searchtype key, which just told us if the form submitted was for rooms or suites
                 if key == 'isSubFree':
                     queryString += f' AND s.{key} = {value}'
                 else:
