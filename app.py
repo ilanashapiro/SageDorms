@@ -107,14 +107,12 @@ def smiley():
 
     return render_template('smiley.html')
 
-@app.route('/selectionpage', methods=['POST'])
+@app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
     if request.method == 'POST':
         info = request.form
         print(info)
-
-
-    return render_template('smiley.html')
+    return render_template('selectionpage.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
