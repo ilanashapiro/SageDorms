@@ -9,19 +9,8 @@ app = Flask(__name__)
 app.secret_key = "shhhhh keep it a secret"
 
 @app.route('/', methods=['GET', 'POST'])
+# called when you go to localhost 5000
 def index():
-    sagedormsdb = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            passwd="databases133",
-            auth_plugin='mysql_native_password',
-            autocommit=True)
-
-    # cursor executes SQL commands
-    session['cursor']= sagedormsdb.cursor()
-
-    sagedorm_db.init_db(session['cursor'])
-
     # # student selected housing
     # if request.method == 'POST':
         # # save all inputted data
@@ -101,7 +90,7 @@ def smiley():
         number = int(dorm[1])
 
         #TODO: add to wishlist
-        cursor = session['cursor']
+        global_vars.cursor = session['global_vars.cursor']
 
     return render_template('smiley.html')
 
@@ -164,4 +153,14 @@ def logout():
     return redirect('/')
 
 if __name__ == '__main__':
+    sagedormsdb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            passwd="databases133",
+            auth_plugin='mysql_native_password',
+            autocommit=True)
+
+    # global_vars.cursor executes SQL commands
+    global_vars.cursor = sagedormsdb.cursor()
+    sagedorm_db.init_db()
     app.run(debug=True)

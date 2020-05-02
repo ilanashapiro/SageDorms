@@ -6,7 +6,7 @@ from mysql.connector import Error
 
 # NOTE: the keys in the info dict are preliminary
 
-def searchForSuites(cursor, info):
+def searchForSuites(info):
     def getRoomsSummaryForSuite(suiteID):
         try:
             cursor.callproc('GetRoomsSummaryForSuite', [suiteID])
@@ -44,12 +44,12 @@ def searchForSuites(cursor, info):
         suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
         # print(suite)
         results.append(suite)
-        results.append(getRoomsSummaryForSuite(cursor, suiteID))
+        results.append(getRoomsSummaryForSuite(suiteID))
 
     # print(results)
     return results
 
-def getMySuiteRooms(cursor, info):
+def getMySuiteRooms(info):
     try:
         cursor.callproc('GetMySuiteRooms', [info['emailID']])
         results = []
@@ -60,7 +60,7 @@ def getMySuiteRooms(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getAllSuitesSummary(cursor):
+def getAllSuitesSummary():
     try:
         cursor.callproc('GetAllSuitesSummary', [])
         results = []
@@ -71,19 +71,19 @@ def getAllSuitesSummary(cursor):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def removeMyselfFromSuiteGroup(cursor, info):
+def removeMyselfFromSuiteGroup(info):
     try:
         cursor.callproc('RemoveMyselfFromSuiteGroup', [global_vars.emailID, info['newSuiteRepID']])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def addMyselfToSuiteGroup(cursor, info):
+def addMyselfToSuiteGroup(info):
     try:
         cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], info['isNewSuiteRep']])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getMySuiteGroup(cursor):
+def getMySuiteGroup():
     try:
         cursor.callproc('GetMySuiteGroup', [global_vars.emailID])
         results = []
@@ -94,13 +94,13 @@ def getMySuiteGroup(cursor):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def setSuite(cursor, info):
+def setSuite(info):
     try:
         cursor.callproc('setSuite', [info['suiteID'], info['emailIDSuiteRep']])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def createSuiteGroup(cursor, info):
+def createSuiteGroup(info):
     try:
         # query the students in the prospective suite group to calculate average draw num. (note: the emailIDs entered is everyone ELSE in the list,
         # not including the student doing the entering -- that person is global_vars.emailID

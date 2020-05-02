@@ -4,12 +4,12 @@ import mysql.connector
 import global_vars
 from mysql.connector import Error
 
-def searchForDormRooms(cursor, info):
+def searchForDormRooms(info):
     def getSummaryForDormRoom(dormName, number):
         try:
-            cursor.callproc('GetSummaryForDormRoom', [dormName, number])
+            global_vars.cursor.callproc('GetSummaryForDormRoom', [dormName, number])
             results = []
-            for result in cursor.stored_results():
+            for result in global_vars.cursor.stored_results():
                 data = result.fetchall()
                 if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
                     results.append(data)
@@ -44,51 +44,51 @@ def searchForDormRooms(cursor, info):
     queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number;'
 
     # print(queryString)
-    cursor.execute(queryString)
+    global_vars.cursor.execute(queryString)
 
-    rooms = cursor.fetchall()
+    rooms = global_vars.cursor.fetchall()
     results = []
     for room in rooms:
         dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
         number = room[1]
-        results.append(getSummaryForDormRoom(cursor, dormName, number))
+        results.append(getSummaryForDormRoom(dormName, number))
 
     # print(results)
     return results
 
 # https://pynative.com/python-mysql-execute-stored-procedure/
-def setStudentRoom(cursor, info):
+def setStudentRoom(info):
     try:
-        cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
+        global_vars.cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def getDormRoomsSinglesSummary():
     try:
-        cursor.callproc('GetDormRoomsSinglesSummary', [])
+        global_vars.cursor.callproc('GetDormRoomsSinglesSummary', [])
         results = []
-        for result in cursor.stored_results():
+        for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getDormRoomAndSuiteSummaryForDorm(cursor, info):
+def getDormRoomAndSuiteSummaryForDorm(info):
     try:
-        cursor.callproc('GetDormRoomAndSuiteSummaryForDorm', [info['dormName']])
+        global_vars.cursor.callproc('GetDormRoomAndSuiteSummaryForDorm', [info['dormName']])
         results = []
-        for result in cursor.stored_results():
+        for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
         print(results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getRoomDetails(cursor, info):
+def getRoomDetails(info):
     try:
-        cursor.callproc('GetRoomDetails', [info["dormName"], info["dormRoomNum"]])
+        global_vars.cursor.callproc('GetRoomDetails', [info["dormName"], info["dormRoomNum"]])
         results = []
-        for result in cursor.stored_results():
+        for result in global_vars.cursor.stored_results():
             data = result.fetchall()
             if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
                 results.append(data)
@@ -97,11 +97,11 @@ def getRoomDetails(cursor, info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getMyRoomDetails(cursor, info):
+def getMyRoomDetails(info):
     try:
-        cursor.callproc('GetMyRoomDetails', [global_vars.emailID])
+        global_vars.cursor.callproc('GetMyRoomDetails', [global_vars.emailID])
         results = []
-        for result in cursor.stored_results():
+        for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
         print(results)
         return results
