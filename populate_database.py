@@ -188,6 +188,9 @@ def main(info = None):
 
         executeScriptsFromFile("tables.sql", ";")
         executeScriptsFromFile("add_data_stored_procedures.sql", "$$")
+        executeScriptsFromFile("room_selection_procedures.sql", "$$")
+        executeScriptsFromFile("suite_selection_procedures.sql", "$$")
+        executeScriptsFromFile("wish_list_selection_procedures.sql", "$$")
         createDorms()
         populateRooms()
         populateDormRooms()
