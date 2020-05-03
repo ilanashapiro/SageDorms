@@ -24,14 +24,14 @@ def init_db():
 
     global_vars.cursor.execute("USE test;")
 
-def executeScriptsFromFile(filename):
+def executeScriptsFromFile(filename, delimiter):
     # Open and read the file as a single buffer
     fd = open(filename, 'r')
     sqlFile = fd.read()
     fd.close()
 
     # all SQL commands (split on ';')
-    sqlCommands = sqlFile.split(';')
+    sqlCommands = sqlFile.split(delimiter)
 
     # Execute every command from the input file
     for command in sqlCommands:
@@ -39,8 +39,11 @@ def executeScriptsFromFile(filename):
         # For example, if the tables do not yet exist, this will skip over
         # the DROP TABLE commands
         try:
-            if (command.rstrip() != ""):
-                global_vars.cursor.execute(command + ";")
+            if (command.rstrip() != "" and command.rstrip() != "DELIMITER ;"):
+                print(command.rstrip() + " " + delimiter)
+                global_vars.cursor.execute(command + delimiter)
+            elif (command.rstrip() != "" and command.rstrip() == "DELIMITER ;"):
+                global_vars.cursor.execute("DELIMITER ;")
         except mysql.connector.Error as err:
             print("Something went wrong: {}".format(err))
 
@@ -186,14 +189,14 @@ def main(info = None):
         global_vars.emailID = 'issa2018'
         init_db()
 
-        executeScriptsFromFile("tables.sql")
-        executeScriptsFromFile("add_data_stored_procedures.sql")
-        createDorms()
-        populateRooms()
-        populateDormRooms()
-        addConnectingRoomInfo()
-        createSuites()
-        addStudents()
+        # executeScriptsFromFile("tables.sql", "$$")
+        executeScriptsFromFile("add_data_stored_procedures.sql", "$$")
+        # createDorms()
+        # populateRooms()
+        # populateDormRooms()
+        # addConnectingRoomInfo()
+        # createSuites()
+        # addStudents()
 
         global_vars.cursor.close()
 
