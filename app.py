@@ -104,14 +104,6 @@ def displaySelectionInfo():
     # student selected housing
     if request.method == 'POST':
          # save all inputted data
-        searchResults = request.form
-    return render_template('displaySelectionInfo.html')
-
-# get is when you load, post is when you submit
-@app.route('/selectionpage', methods=['GET', 'POST'])
-def selectionpage():
-    print("SELECTION PAGE")
-    if request.method == 'POST':
         print("POST")
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
@@ -126,7 +118,14 @@ def selectionpage():
             data = room_queries.searchForDormRooms(info)
         elif info["searchtype"] == 'suite':
             data = suite_queries.searchForSuites(info)
-        print("DATA", data)
+        print("DATA", type(data[0][0]), data[0][0][0][0])
+    return render_template('displaySelectionInfo.html', data=data)
+
+# get is when you load, post is when you submit
+@app.route('/selectionpage', methods=['GET', 'POST'])
+def selectionpage():
+    print("SELECTION PAGE")
+    if request.method == 'POST':
         return redirect('displaySelectionInfo')
     return render_template('selectionpage.html')
 

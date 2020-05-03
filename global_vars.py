@@ -1,2 +1,2 @@
-global emailID = None
-global cursor = None
+global emailID
+global cursor
