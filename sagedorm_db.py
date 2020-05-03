@@ -97,7 +97,7 @@ def executeScriptsFromFile(filename):
         # global_vars.cursor = sagedormsdb.cursor()
         # global_vars.emailID = 'issa2018'
         # init_db()
-
+        #
         # global_vars.emailID = 'issa2018'
 
         # info = {'dormName': 'NORTON-CLARK', 'number': '18'}
@@ -113,8 +113,8 @@ def executeScriptsFromFile(filename):
         # info = {'isSubFree': True, 'numPeople': 6}
         # info = {'suiteID': 'oxeoqmej', 'emailIDSuiteRep':'issa2018'}
         # info = {'emailIDInSG': 'gpaa2018', 'isNewSuiteRep': True}
-        # info = {'emailID': 'issa2018'}
-        # suite_queries.setSuiteRepresentative(info)
+        # info = {'numOccupants': '2'}
+        # print(room_queries.searchForDormRooms(info))
         # suite_queries.setSuite(info)
 
         # populate_database.createDorms(global_vars.cursor)

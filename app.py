@@ -70,6 +70,8 @@ def index():
     loggedIn = False
     if 'cookies' in session:
         loggedIn = True
+        global_vars.emailID = session['username']
+        print(global_vars.emailID)
     return render_template('index.html', loggedIn=loggedIn)
 
 @app.route('/test')
@@ -93,7 +95,7 @@ def smiley():
         number = int(dorm[1])
 
         #TODO: add to wishlist
-        global_vars.cursor = session['global_vars.cursor']
+        global_vars.cursor = session['cursor']
 
     return render_template('smiley.html')
 
@@ -110,6 +112,7 @@ def displaySelectionInfo():
 def selectionpage():
     print("SELECTION PAGE")
     if request.method == 'POST':
+        print("POST")
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
 
