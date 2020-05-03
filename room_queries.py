@@ -17,7 +17,9 @@ def searchForDormRooms(info):
         except mysql.connector.Error as error:
             print("Failed to execute stored procedure: {}".format(error))
 
-    queryString = '''SELECT DISTINCT r.dormName, r.number FROM DormRoom AS dr, Room AS r WHERE r.isReservedForSponsorGroup = FALSE'''
+    queryString = 'SELECT DISTINCT r.dormName, r.number FROM DormRoom AS dr, Room AS r'
+    if len(info.items() > 0):
+         queryString += ' WHERE r.isReservedForSponsorGroup = FALSE'
     for key, value in info.items():
         if value != '': # empty input
             # case this is dormRoom info

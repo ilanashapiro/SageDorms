@@ -16,15 +16,15 @@ def searchForSuites(info):
         except mysql.connector.Error as error:
             print("Failed to execute stored procedure: {}".format(error))
 
-    queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s WHERE'''
+    queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s'''
     isFirstCond = True
     for key, value in info.items():
         if value != '': # or "" or whatever means empty input
             if (isFirstCond):
                 if key == 'isSubFree':
-                    queryString += f' s.{key} = {value}'
+                    queryString += f' WHERE s.{key} = {value}'
                 else:
-                    queryString += f' s.{key} = \'{value}\''
+                    queryString += f' WHERE s.{key} = \'{value}\''
                 isFirstCond = False
             elif key != "searchtype": # We don't want the searchtype key, which just told us if the form submitted was for rooms or suites
                 if key == 'isSubFree':
