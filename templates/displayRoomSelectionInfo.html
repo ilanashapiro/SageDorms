@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<!--
+	Projection by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Generic - SageDorms</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+	</head>
+	<body class="subpage">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
+					<nav id="nav">
+						<a href="{{url_for('index')}}">Home</a>
+						<a href="{{url_for('dorms')}}">View Dorms</a>
+						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
+						<a href="{{url_for('wishlist')}}">My Wishlist</a>
+                        {% if loggedIn == False %}
+                            <a href="{{url_for('login')}}">Login</a>
+                        {% else %}
+                            <a href="{{url_for('logout')}}">Logout</a>
+                        {% endif %}
+                        <a href="{{url_for('test')}}">Developer Tool</a>
+					</nav>
+				</div>
+			</header>
+
+
+		<!-- Three -->
+			<section id="three" class="wrapper">
+				<div class="inner">
+					<header class="align-center">
+						<h2>View Room Options</h2>
+
+					</header>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+	<th>Dorm Name</th>
+	<th>Room #</th>
+	<th>Square Feet</th>
+	<th>Number of Occupants</th>
+	<th>Is Subfree</th>
+	<th>Has Connecting Room</th>
+	<th>Details</th>
+	<th>Add</th>
+		{% for room in data %}
+    <tr>
+		{% for item2 in room %}
+			{% for item3 in item2 %}
+				<td> {{item3[0]}} </td>   <!-- Dorm Name -->
+		        <td> {{item3[1]}} </td>   <!-- Room # -->
+		        <td> {{item3[2]}} </td>   <!--  Sq Ft -->
+		        <td> {{item3[3]}} </td>   <!-- Num Occupants -->
+		        <td> {{item3[4]}} </td>   <!-- Subfree -->
+		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+		        <td><button class="wishlist_button js_wishlist_button" data-name="Smiley, 109">Wishlist</button> <a class="button is-info is-outlined"
+								 href="/housing/rooms/2/reviews">Select</a></td>
+			{% endfor %}
+		{% endfor %}
+    </tr>
+    {% endfor %}
+</tr>
+</thead>
+</table>
+</div>
+
+</div>
+</section>
+
+		<!-- Footer -->
+
+
+		<!-- Scripts -->
+		<link rel="stylesheet" href="{{url_for('static', filename='js/jquery.min.css')}}" />
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/skel.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+	</body>
+</html>

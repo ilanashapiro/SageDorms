@@ -57,11 +57,10 @@ CREATE PROCEDURE GetSummaryForDormRoom(
 	IN roomNum VARCHAR(10)
 )
 BEGIN
-	SELECT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription 
+	SELECT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription
 	FROM DormRoom AS dr, Room AS r
 	WHERE r.number = roomNum AND r.dormName = dormName
-		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
-	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by number for later processing
+		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL; -- this is for singles/doubles draw, NOT suite draw
 END $$
 
 DROP PROCEDURE IF EXISTS GetRoomDetails$$

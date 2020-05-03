@@ -104,11 +104,11 @@ def smiley():
             return redirect('login')
     return render_template('smiley.html')
 
-@app.route('/displaySelectionInfo', methods=['GET', 'POST'])
-def displaySelectionInfo():
+@app.route('/displayRoomSelectionInfo', methods=['GET', 'POST'])
+def displayRoomSelectionInfo():
     # student selected housing
     if request.method == 'POST':
-         # save all inputted data
+        # save all inputted data
         print("POST")
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
@@ -123,14 +123,25 @@ def displaySelectionInfo():
         elif info["searchtype"] == 'suite':
             data = suite_queries.searchForSuites(info)
         # print("DATA", type(data[0][0]), data[0][0][0][0])
-    return render_template('displaySelectionInfo.html', data=data)
+        return render_template('displayRoomSelectionInfo.html', data=data)
+    return render_template('displayRoomSelectionInfo.html')
+
+@app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
+def displaySuiteSelectionInfo():
+    # student selected housing
+    # if request.method == 'POST':
+
+    return render_template('displaySuiteSelectionInfo.html', data=data)
 
 # get is when you load, post is when you submit
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
     print("SELECTION PAGE")
-    if request.method == 'POST':
-        return redirect('displaySelectionInfo')
+    # if request.method == 'POST':
+    #     if info["searchtype"] == 'room':
+    #         return redirect('displayRoomSelectionInfo')
+    #     elif info["searchtype"] == 'suite':
+    #         return redirect('displaySuiteSelectionInfo')
     return render_template('selectionpage.html')
 
 @app.route('/login', methods=['GET', 'POST'])

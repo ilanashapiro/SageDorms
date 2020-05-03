@@ -45,7 +45,10 @@ def searchForDormRooms(info):
             elif key != "searchtype": # this is room, rather than dormRoom, information. Also, we don't want the searchtype key, which just told us if the form submitted was for rooms or suites
                 queryString += f' AND r.{key} = {value}'
     # perform the join
-    queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number;'
+    queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number'
+
+    # order results
+    queryString += f' ORDER BY CAST(r.number AS unsigned);'
 
     print(queryString)
     global_vars.cursor.execute(queryString)
