@@ -31,7 +31,7 @@ DROP PROCEDURE IF EXISTS GetAllSuitesSummary$$
 CREATE PROCEDURE GetAllSuitesSummary()
 BEGIN
 	-- suite info
-	SELECT s.suiteID, s.isSubFree, s.numPeople, s.numRooms
+	SELECT *
 	FROM Suite AS s;
 
 	-- dorm room info
@@ -57,13 +57,12 @@ CREATE PROCEDURE GetSuiteSummaryForSuite(
 )
 BEGIN
 	-- suite info
-	SELECT s.suiteID, s.isSubFree, s.numPeople, s.numRooms
+	SELECT *
 	FROM Suite AS s
 	WHERE s.suiteID = suiteID;
 
 	-- dorm room info
-	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.otherDescription, r.isSubFree,
-		   dr.numOccupants, dr.connectingRoomNum
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, dr.connectingRoomNum, r.otherDescription
 	FROM DormRoom AS dr, Room AS r
 	WHERE r.suite = suiteID
 		  AND dr.dormName = r.dormName AND dr.number = r.number
