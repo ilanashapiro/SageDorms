@@ -113,8 +113,8 @@ def selectionpage():
             info[key] = value[0]
 
         data = None
-        print(info['searchtype'])
-        if info["searchtype"] == 'room': 
+        print(info)
+        if info["searchtype"] == 'room':
             data = room_queries.searchForDormRooms(info)
         elif info["searchtype"] == 'suite':
             data = suite_queries.searchForSuites(info)

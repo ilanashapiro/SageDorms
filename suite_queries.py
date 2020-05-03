@@ -16,15 +16,15 @@ def searchForSuites(info):
         except mysql.connector.Error as error:
             print("Failed to execute stored procedure: {}".format(error))
 
-    queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s WHERE'''
+    queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s'''
     isFirstCond = True
     for key, value in info.items():
         if value != '': # or "" or whatever means empty input
-            if isFirstCond and key != 'searchtype':
+            if isFirstCond and key != "searchtype":
                 if key == 'isSubFree':
-                    queryString += f' s.{key} = {value}'
+                    queryString += f' WHERE s.{key} = {value}'
                 else:
-                    queryString += f' s.{key} = \'{value}\''
+                    queryString += f' WHERE s.{key} = \'{value}\''
                 isFirstCond = False
             elif key != "searchtype": # We don't want the searchtype key, which just told us if the form submitted was for rooms or suites
                 if key == 'isSubFree':
@@ -33,8 +33,8 @@ def searchForSuites(info):
                     queryString += f' AND s.{key} = \'{value}\''
 
     queryString += ';'
-
-    print(queryString)
+    print("QUERY STRING", queryString)
+    # print(queryString)
     global_vars.cursor.execute(queryString)
 
     suites = global_vars.cursor.fetchall()
@@ -46,7 +46,7 @@ def searchForSuites(info):
         results.append(getRoomsSummaryForSuite(suiteID))
 
     # print(results)
-    return results # done
+    return results
 
 def getMySuiteDetails(info):
     try:
@@ -57,7 +57,7 @@ def getMySuiteDetails(info):
         print(results)
         return results
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def getAllSuitesSummary():
     try:
@@ -68,19 +68,19 @@ def getAllSuitesSummary():
         print(results)
         return results
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def removeMyselfFromSuiteGroup(info):
     try:
         global_vars.cursor.callproc('RemoveMyselfFromSuiteGroup', [global_vars.emailID, info['newSuiteRepID']])
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def addMyselfToSuiteGroup(info):
     try:
         global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], info['isNewSuiteRep']])
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def getMySuiteGroup():
     try:
@@ -91,19 +91,19 @@ def getMySuiteGroup():
         print(results)
         return results
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def setSuite(info):
     try:
         global_vars.cursor.callproc('SetSuite', [info['suiteID'], info['emailIDSuiteRep']])
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def setSuiteRepresentative(info):
     try:
         global_vars.cursor.callproc('SetSuiteRepresentative', [info['emailID']])
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))
 
 def createSuiteGroup(info):
     try:
@@ -140,4 +140,4 @@ def createSuiteGroup(info):
         global_vars.cursor.execute(addStudentsQueryString)
 
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error)) # done
+        print("Failed to execute stored procedure: {}".format(error))

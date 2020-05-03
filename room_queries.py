@@ -18,11 +18,13 @@ def searchForDormRooms(info):
             print("Failed to execute stored procedure: {}".format(error))
 
     queryString = 'SELECT DISTINCT r.dormName, r.number FROM DormRoom AS dr, Room AS r'
-    if len(info.items() > 0):
-         queryString += ' WHERE r.isReservedForSponsorGroup = FALSE'
+    isFirstCond = True
     for key, value in info.items():
         if value != '': # empty input
             # case this is dormRoom info
+            if isFirstCond:
+                queryString += ' WHERE r.isReservedForSponsorGroup = FALSE'
+                isFirstCond = False
             if (key == "dormName" or
                 key == "number" or
                 key == "numOccupants" or
