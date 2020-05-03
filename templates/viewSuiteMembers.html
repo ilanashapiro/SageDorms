@@ -47,6 +47,7 @@
 	<th>Member Name</th>
 	<th>Email ID</th>
 	<th>Is Representative</th>
+	<th>Avg Draw Number</th>
 		{% for suitegroup in data %}
 			<!-- example of the suite group: [('Gabe Alzate', 'gpaa2018'), ('Helen Paulini', 'hpaa2018')] -->
 			{% for person in suitegroup %}
@@ -54,6 +55,7 @@
 					<td> {{person[0]}} </td>   <!-- Member Name -->
 			        <td> {{person[1]}} </td>   <!-- Email ID -->
 			        <td> {{"Yes" if person[2] == 1 else "No"}} </td>   <!-- Is Rep -->
+					<td> {{person[3]}} </td>   <!-- Average Draw Num -->
 				<tr>
 			{% endfor %}
     	{% endfor %}
@@ -65,7 +67,7 @@
 <h3> </h3>
 	<div class="12u$">
 			<ul class="actions">
-		<form action="index" > 
+		<form action="" >
 		<button type="submit">Remove Yourself from this Suite</button>
         </ul>
 		</div>

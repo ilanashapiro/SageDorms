@@ -143,8 +143,24 @@ def displaySuiteSelectionInfo():
         return render_template('displaySuiteSelectionInfo.html', data=data)
     return render_template('displaySuiteSelectionInfo.html')
 
+# @app.route('/viewRoomDetails', methods=['GET'])
+# def viewRoomDetails():
+#     rawinfo = request.form
+#     info = rawinfo.to_dict(flat=False)
+#     #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
+#     for key, value in info.items():
+#         info[key] = value[0]
+#     print(info)
+#     # data = room_queries.getRoomDetails(info)
+#     # print(data)
+#     return render_template('viewRoomDetails.html')#, data = data)
+
 @app.route('/viewSuiteMembers', methods=['GET'])
 def viewSuiteMembers():
+    if request.method == 'POST':
+        print("POST")
+        suite_queries.removeMyselfFromSuiteGroup()
+        return redirect('/')
     data = suite_queries.getMySuiteGroup()
     print(data)
     return render_template('viewSuiteMembers.html', data = data)
@@ -158,7 +174,10 @@ def suiteFormation():
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
         for key, value in info.items():
             info[key] = value[0]
-        suite_queries.createSuiteGroup(info)
+        if info['inputType'] == 'new':
+            suite_queries.createSuiteGroup(info)
+        elif info['inputType'] == 'existing':
+            suite_queries.addMyselfToSuiteGroup(info)
         return redirect('/viewSuiteMembers')
     return render_template('suiteFormation.html')
 

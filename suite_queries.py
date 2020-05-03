@@ -77,7 +77,7 @@ def removeMyselfFromSuiteGroup(info):
 
 def addMyselfToSuiteGroup(info):
     try:
-        global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], info['isNewSuiteRep']])
+        global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], False])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
@@ -110,7 +110,7 @@ def createSuiteGroup(info):
         getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = \'{global_vars.emailID}\''
         emailIDsToAdd = []
         for key, value in info.items():
-            if value is not None: # or "" or whatever means empty input
+            if value != '' and key != inputType: # or "" or whatever means empty input
                 emailID = value
                 getAvgDrawNumQueryString += f' OR s.emailID = \'{emailID}\''
                 emailIDsToAdd.append(emailID)
