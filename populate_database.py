@@ -1,3 +1,4 @@
+import traceback
 import string
 import random
 import mysql.connector
@@ -17,16 +18,15 @@ def init_db():
     db_names = [i[0] for i in global_vars.cursor.fetchall()]
 
     # create database if not yet already
-    if('sagedormsdb' not in db_names):
-        global_vars.cursor.execute("CREATE DATABASE IF NOT EXISTS sagedormsdb;")
-        global_vars.cursor.execute("USE sagedormsdb;")
-        executeScriptsFromFile("tables.sql")
+    if('test' not in db_names):
+        global_vars.cursor.execute("CREATE DATABASE IF NOT EXISTS test;")
+        global_vars.cursor.execute("USE test;")
 
-    global_vars.cursor.execute("USE sagedormsdb;")
+    global_vars.cursor.execute("USE test;")
 
-def initAddProcedures():
+def executeScriptsFromFile(filename):
     # Open and read the file as a single buffer
-    fd = open("add_data_stored_procedures.sql", 'r')
+    fd = open(filename, 'r')
     sqlFile = fd.read()
     fd.close()
 
@@ -173,7 +173,7 @@ def main(info = None):
             - from what database will we get student information
     """
     try:
-        connect to localhost mysql server
+        # connect to localhost mysql server
         sagedormsdb = mysql.connector.connect(
                 host="localhost",
                 user="root",
@@ -186,14 +186,15 @@ def main(info = None):
         global_vars.emailID = 'issa2018'
         init_db()
 
-        initAddProcedures()
+        executeScriptsFromFile("tables.sql")
+        executeScriptsFromFile("add_data_stored_procedures.sql")
         createDorms()
         populateRooms()
         populateDormRooms()
         addConnectingRoomInfo()
         createSuites()
         addStudents()
-        
+
         global_vars.cursor.close()
 
 
