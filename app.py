@@ -144,15 +144,28 @@ def displaySuiteSelectionInfo():
         return render_template('displaySuiteSelectionInfo.html', data=data)
     return render_template('displaySuiteSelectionInfo.html')
 
+@app.route('/viewSuiteMembers', methods=['GET'])
+def viewSuiteMembers():
+    data = suite_queries.getMySuiteGroup()
+    print(data)
+    return render_template('viewSuiteMembers.html', data = data)
+
+@app.route('/suiteFormation', methods=['GET', 'POST'])
+def suiteFormation():
+    if request.method == 'POST':
+        # save all inputted data
+        rawinfo = request.form
+        info = rawinfo.to_dict(flat=False)
+        #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
+        for key, value in info.items():
+            info[key] = value[0]
+        suite_queries.createSuiteGroup(info)
+        return redirect('/viewSuiteMembers')
+    return render_template('suiteFormation.html')
+
 # get is when you load, post is when you submit
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
-    print("SELECTION PAGE")
-    # if request.method == 'POST':
-    #     if info["searchtype"] == 'room':
-    #         return redirect('displayRoomSelectionInfo')
-    #     elif info["searchtype"] == 'suite':
-    #         return redirect('displaySuiteSelectionInfo')
     return render_template('selectionpage.html')
 
 @app.route('/login', methods=['GET', 'POST'])

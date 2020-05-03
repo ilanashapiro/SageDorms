@@ -20,21 +20,21 @@ def searchForSuites(info):
     isFirstCond = True
     for key, value in info.items():
         if value != '': # or "" or whatever means empty input
-            if isFirstCond and key != "searchtype":
+            if isFirstCond:
                 if key == 'isSubFree':
                     queryString += f' WHERE s.{key} = {value}'
                 else:
                     queryString += f' WHERE s.{key} = \'{value}\''
                 isFirstCond = False
-            elif key != "searchtype": # We don't want the searchtype key, which just told us if the form submitted was for rooms or suites
+            else: # We don't want the searchtype key, which just told us if the form submitted was for rooms or suites
                 if key == 'isSubFree':
                     queryString += f' AND s.{key} = {value}'
                 else:
                     queryString += f' AND s.{key} = \'{value}\''
 
     queryString += ';'
-    print("QUERY STRING", queryString)
-    # print(queryString)
+
+    print(queryString)
     global_vars.cursor.execute(queryString)
 
     suites = global_vars.cursor.fetchall()
@@ -87,7 +87,6 @@ def getMySuiteGroup():
         results = []
         for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
-        print(results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -117,22 +116,19 @@ def createSuiteGroup(info):
                 emailIDsToAdd.append(emailID)
         getAvgDrawNumQueryString += ';'
         global_vars.cursor.execute(getAvgDrawNumQueryString)
+
         avgDrawNum = global_vars.cursor.fetchone()[0] # there's only one (single-value) result tuple that contains the average
 
         # now that we have the avg draw num, add all students to the SuiteGroup table with this avg draw num
         # the avg draw times will be calculated later, just before the draw, after all groups have been created (so it's null for now)
-        # The student doing the entering becomes the suite representative
+        # The student ID entered first becomes the suite rep
         # If a student is already in a different prospective suite group, that data will be overwritten and they will be part of the new group
-        # If a group wants to add another student, they'll need to fill out the form again to register the group for everyone
-        addStudentsQueryString = f'''REPLACE INTO SuiteGroup (emailID, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
-                                     (\'{global_vars.emailID}\', {avgDrawNum}, NULL, TRUE, NULL)'''
+        addStudentsQueryString = f'''INSERT INTO SuiteGroup (emailID, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
+                                     (\'{emailIDsToAdd[0]}\', {avgDrawNum}, NULL, TRUE, NULL)'''
 
         # add the students to the suite group
-        for emailID in emailIDsToAdd:
-            #the suite representative is automatically the person creating the suite for their group
-            if emailID == global_vars.emailID:
-                addStudentsQueryString += f', (\'{emailID}\', {avgDrawNum}, NULL, TRUE, NULL)'
-            else:
+        for emailID in emailIDsToAdd[1:]:
+            if (emailID != ''):
                 addStudentsQueryString += f', (\'{emailID}\', {avgDrawNum}, NULL, FALSE, NULL)'
 
         addStudentsQueryString += ';'

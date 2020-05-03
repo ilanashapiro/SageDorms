@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<!--
+	Projection by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Generic - SageDorms</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+		<!-- assets/css/main.css -->
+	</head>
+	<body class="subpage">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong> </a>
+					<nav id="nav">
+						<a href="{{url_for('index')}}">Home</a>
+						<a href="{{url_for('dorms')}}">View Dorms</a>
+						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
+						<a href="{{url_for('wishlist')}}">My Wishlist</a>
+					</nav>
+					<!-- <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a> -->
+				</div>
+			</header>
+
+
+		<!-- Three -->
+
+			<section id="three" class="wrapper">
+				<div class="inner">
+					<!-- <header class="align-center"> -->
+						<h3>Form a Suite</h3>
+						<hr class="major" />
+
+
+						<h2>Enter Suite Members & Designate a Suite Representative</h2>
+						<p>Suites can have between 3-6 people and two alternatives.</p>
+						<p>One member of the suite must be the suite representative - this student will be in charge of selecting the suite for the group during room draw.</p>
+					</header>
+
+
+						<!-- <form method="post" action="#">-->
+						<form action="" method="POST" name="singleDoubleForm">
+						<div class="row 200%">
+							<div class="6u 12u$(medium)">
+
+								<!-- Left Side -->
+
+								<h3> </h3>
+									<h4>First Member (this member will be the suite representative)</h4>
+									<div class="6u 12u$(xsmall)">
+												<input type="Text" name="suiteMember1" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+											</div>
+
+									<h3> </h3>
+									<h4>Second Member</h4>
+									<div class="6u 12u$(xsmall)">
+												<input type="Text" name="suiteMember2" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+											</div>
+
+									<h3> </h3>
+									<h4>Third Member</h4>
+									<div class="6u 12u$(xsmall)">
+												<input type="Text" name="suiteMember3" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+											</div>
+
+									<h3> </h3>
+									<h4>Fourth Member</h4>
+									<div class="6u 12u$(xsmall)">
+												<input type="Text" name="suiteMember4" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+											</div>
+
+									<h3> </h3>
+									<h4>Fifth Member/Alternative</h4>
+									<div class="6u 12u$(xsmall)">
+												<input type="Text" name="suiteMember5" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+											</div>
+
+									<h3> </h3>
+									<h4>Sixth Member/Alternative</h4>
+									<div class="6u 12u$(xsmall)">
+												<input type="Text" name="suiteMember6" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+											</div>
+
+
+
+									<h3> </h3>
+							<div class="12u$">
+										<ul class="actions">
+											<!-- <form action="displayRoomSelectionInfo.html" > -->
+  											<button type="submit">Submit</button>
+                                            </ul>
+											</div>
+										</div>
+                                </form>
+
+
+
+
+
+		<!-- Footer -->
+
+
+		<!-- Scripts -->
+		<!-- <link rel="stylesheet" href="{{url_for('static', filename='js/jquery.min.css')}}" /> -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+	</body>
+</html>

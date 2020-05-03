@@ -42,7 +42,7 @@ def searchForDormRooms(info):
                         else:
                             # data is not a string value, no quotes
                             queryString += f' AND dr.{key} = {value}'
-            elif key != "searchtype": # this is room, rather than dormRoom, information. Also, we don't want the searchtype key, which just told us if the form submitted was for rooms or suites
+            else: # this is room, rather than dormRoom, information. 
                 queryString += f' AND r.{key} = {value}'
     # perform the join
     queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number'
@@ -60,7 +60,7 @@ def searchForDormRooms(info):
         number = room[1]
         results.append(getSummaryForDormRoom(dormName, number))
 
-    print(results)
+    # print(results)
     return results
 
 # https://pynative.com/python-mysql-execute-stored-procedure/

@@ -18,11 +18,12 @@ def init_db():
     db_names = [i[0] for i in global_vars.cursor.fetchall()]
 
     # create database if not yet already
-    if('test' not in db_names):
-        global_vars.cursor.execute("CREATE DATABASE IF NOT EXISTS test;")
-        global_vars.cursor.execute("USE test;")
+    if('sagedormsdb' not in db_names):
+        global_vars.cursor.execute("CREATE DATABASE IF NOT EXISTS sagedormsdb;")
+        global_vars.cursor.execute("USE sagedormsdb;")
 
-    global_vars.cursor.execute("USE test;")
+    else:
+        global_vars.cursor.execute("USE sagedormsdb;")
 
 def executeScriptsFromFile(filename, delimiter):
     # Open and read the file as a single buffer
@@ -39,11 +40,9 @@ def executeScriptsFromFile(filename, delimiter):
         # For example, if the tables do not yet exist, this will skip over
         # the DROP TABLE commands
         try:
-            if (command.rstrip() != "" and command.rstrip() != "DELIMITER ;"):
-                print(command.rstrip() + " " + delimiter)
-                global_vars.cursor.execute(command + delimiter)
-            elif (command.rstrip() != "" and command.rstrip() == "DELIMITER ;"):
-                global_vars.cursor.execute("DELIMITER ;")
+            command = command.rstrip()
+            if (command != "" and "DELIMITER" not in command):
+                global_vars.cursor.execute(command)
         except mysql.connector.Error as err:
             print("Something went wrong: {}".format(err))
 
@@ -59,7 +58,6 @@ def populateRooms():
     for row in csv_data:
         isSubFree = random.getrandbits(1)
         query = f"""INSERT INTO ROOM (dormName, number, dimensionsDescription, squareFeet, isSubFree, windowsDescription, otherDescription) VALUES('{row[0]}', '{row[1]}', '{row[2]}', '{row[3]}', {isSubFree}, '{row[4]}', '{row[5]}')"""
-        print(query)
         global_vars.cursor.execute(query)
     csv_file.close()
 
@@ -72,7 +70,6 @@ def populateDormRooms():
             numOccupants = 2
         hasPrivateBathroom = int("Shared" in row[4] or "Private" in row[4])
         query = f"""INSERT INTO DormRoom (dormName, number, numOccupants, hasPrivateBathroom, closetsDescription, bathroomDescription) VALUES('{row[0]}', '{row[1]}', {numOccupants}, {hasPrivateBathroom}, '{row[2]}', '{row[4]}')"""
-        print(query)
         global_vars.cursor.execute(query)
     csv_file.close()
     addConnectingRoomInfo()
@@ -189,17 +186,19 @@ def main(info = None):
         global_vars.emailID = 'issa2018'
         init_db()
 
-        # executeScriptsFromFile("tables.sql", "$$")
+        executeScriptsFromFile("tables.sql", ";")
         executeScriptsFromFile("add_data_stored_procedures.sql", "$$")
-        # createDorms()
-        # populateRooms()
-        # populateDormRooms()
-        # addConnectingRoomInfo()
-        # createSuites()
-        # addStudents()
+        executeScriptsFromFile("room_selection_procedures.sql", "$$")
+        executeScriptsFromFile("suite_selection_procedures.sql", "$$")
+        executeScriptsFromFile("wish_list_selection_procedures.sql", "$$")
+        createDorms()
+        populateRooms()
+        populateDormRooms()
+        addConnectingRoomInfo()
+        createSuites()
+        addStudents()
 
         global_vars.cursor.close()
-
 
     except mysql.connector.Error as e:
         if (e.errno == 1045):

@@ -1,4 +1,4 @@
 global emailID
-emailID = "email"
+emailID = None
 global cursor
 cursor = None

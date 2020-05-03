@@ -9,7 +9,8 @@
 		<title>Generic - SageDorms</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+		<!-- assets/css/main.css -->
 	</head>
 	<body class="subpage">
 
@@ -22,8 +23,8 @@
 						<a href="{{url_for('dorms')}}">View Dorms</a>
 						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
 						<a href="{{url_for('wishlist')}}">My Wishlist</a>
-
 					</nav>
+					<!-- <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a> -->
 				</div>
 			</header>
 
@@ -32,12 +33,12 @@
 
 			<section id="three" class="wrapper">
 				<div class="inner">
-					<header class="align-center">
-						<h2>Search Rooms</h2>
+					<!-- <header class="align-center"> -->
+						<h3>Search Rooms</h3>
 						<hr class="major" />
 
 
-						<p>Filter Your Room Selection Results for Singles or Doubles!</p>
+						<h2>Filter Your Room Selection Results for Singles or Doubles!</h2>
 					</header>
 
 
@@ -78,19 +79,20 @@
 									<h3> </h3>
 									<h4>Misc.</h4>
 									<div class="6u 12u$(small)">
-												<input type="checkbox" name="hasPrivateBathroom" id="hasPrivateBathroom" value=true>
-												<label for="bathroom">Has Private Bathroom</label>
+												<input type="checkbox" id="hasPrivateBathroom" name="hasPrivateBathroom" value=true>
+												<label for="hasPrivateBathroom">Has Private Bathroom</label>
 											</div>
 									<div class="6u 12u$(small)">
 												<input type="checkbox" id="hasConnectingRoom" name="hasConnectingRoom" value=true>
-												<label for="connect">Has Connecting Room</label>
+												<label for="hasConnectingRoom">Has Connecting Room</label>
 											</div>
 
 											<div class="6u 12u$(small)">
 												<input type="checkbox" id="isSubFree" name="isSubFree" value=true>
-												<label for="subfree">Is Subfree</label>
+												<label for="isSubFree">Is Subfree</label>
 											</div>
 
+										<h3> </h3>
 
 
 
@@ -102,12 +104,12 @@
 								<!-- Right Side -->
 									<h4>Room Type</h4>
 									<div class="4u 12u$(small)">
-												<input type="radio" id="numOccupants" name="numOccupants" value=1>
-												<label for="numOccupants">Single</label>
+												<input type="radio" id="single" name="numOccupants" value=1>
+												<label for="single">Single</label>
 											</div>
 											<div class="4u 12u$(small)">
-												<input type="radio" id="numOccupants" name="numOccupants" value=2>
-												<label for="numOccupants">Double</label>
+												<input type="radio" id="double" name="numOccupants" value=2>
+												<label for="double">Double</label>
 											</div>
 
 
@@ -120,7 +122,7 @@
 							<div class="12u$">
 										<ul class="actions">
 											<!-- <form action="displayRoomSelectionInfo.html" > -->
-  											<button type="submit" name="searchtype" value="room">Submit</button>
+  											<button type="submit">Submit</button>
                                             </ul>
 											</div>
 										</div>
@@ -132,7 +134,7 @@
 						<hr class="major" />
 
 
-						<p>Filter Your Room Selection Results for Suites!</p>
+						<h2>Filter Your Room Selection Results for Suites!</h2>
 					</header>
 						<form action="displaySuiteSelectionInfo" method="POST" name="suiteForm">
 
@@ -180,7 +182,7 @@
 							<div class="12u$">
 										<ul class="actions">
 											<!-- <form action="displaySuiteSelectionInfo.html" > -->
-  											<button type="submit" name="searchtype" value="suite">Submit</button>
+  											<button type="submit">Submit</button>
 
 												</ul>
 											</div>
@@ -190,6 +192,7 @@
 
 
 		<!-- Scripts -->
+		<!-- <link rel="stylesheet" href="{{url_for('static', filename='js/jquery.min.css')}}" /> -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
