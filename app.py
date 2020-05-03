@@ -130,8 +130,9 @@ def displayRoomSelectionInfo():
 def displaySuiteSelectionInfo():
     # student selected housing
     # if request.method == 'POST':
-
-    return render_template('displaySuiteSelectionInfo.html', data=data)
+    # info = {'number': 'issa2018', 'Helen': 'hpaa2018', 'Gabe': 'gpaa2018', 'Alan': 'ayza2018', 'Yurie': 'ymac2018'}
+    info = [['suite1', 'room1'], ['suite1', 'room2'], ['suite1', 'room3']]
+    return render_template('displaySuiteSelectionInfo.html', elements=info)
 
 # get is when you load, post is when you submit
 @app.route('/selectionpage', methods=['GET', 'POST'])
