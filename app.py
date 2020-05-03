@@ -99,6 +99,11 @@ def smiley():
 
 @app.route('/displaySelectionInfo', methods=['GET', 'POST'])
 def displaySelectionInfo():
+    # student selected housing
+     if request.method == 'POST':
+
+         # save all inputted data
+         searchResults = request.form
     return render_template('displaySelectionInfo.html')
 
 # get is when you load, post is when you submit
@@ -113,8 +118,8 @@ def selectionpage():
             info[key] = value[0]
 
         data = None
-        print(info)
-        if info["searchtype"] == 'room':
+        print(info['searchtype'])
+        if info["searchtype"] == 'room': 
             data = room_queries.searchForDormRooms(info)
         elif info["searchtype"] == 'suite':
             data = suite_queries.searchForSuites(info)
