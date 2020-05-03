@@ -1,5 +1,36 @@
 DELIMITER $$
 
+DROP PROCEDURE IF EXISTS GetDormRoomAndSuiteSummaryForDorm$$
+CREATE PROCEDURE GetDormRoomAndSuiteSummaryForDorm(
+	IN dormName VARCHAR(50)
+)
+BEGIN
+	-- dorm room info
+	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+		   dr.numOccupants, dr.connectingRoomNum
+	FROM DormRoom AS dr, Room AS r
+	WHERE r.dormName = dormName
+		  AND dr.dormName = r.dormName AND dr.number = r.number
+		  AND NOT EXISTS (SELECT * FROM Student AS s where s.dormName = dr.dormName) --  we only want rooms that are still free
+		  AND NOT EXISTS (SELECT * FROM Student AS s where s.dormRoomNum = dr.number)
+	ORDER BY r.number;
+
+	-- suite info
+	SELECT DISTINCT s.suiteID, s.numPeople, s.isSubFree
+	FROM Room AS r, Suite AS s
+	WHERE r.dormName = dormName AND r.suite = s.suiteID
+		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID) --  we only want suites that are still free
+	ORDER BY s.suiteID;
+
+	-- common room info
+	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
+	FROM Room AS r, CommonRoom AS cr
+	WHERE r.dormName = dormName
+		  AND cr.dormName = r.dormName AND cr.number = r.number
+	ORDER BY r.number;
+END $$
+
 DROP PROCEDURE IF EXISTS GetMySuiteDetails$$
 CREATE PROCEDURE GetMySuiteDetails(
 	IN emailID CHAR(8)
@@ -30,7 +61,7 @@ END $$
 DROP PROCEDURE IF EXISTS GetAllSuitesSummary$$
 CREATE PROCEDURE GetAllSuitesSummary()
 BEGIN
-	-- suite info
+	-- suite info. DISPLAYS ALL SUITES REGARDLESS IF THEY'VE BEEN SELECTED -- INFORMATIONAL ONLY
 	SELECT *
 	FROM Suite AS s;
 
@@ -59,7 +90,7 @@ BEGIN
 	-- suite info
 	SELECT *
 	FROM Suite AS s
-	WHERE s.suiteID = suiteID;
+	WHERE s.suiteID = suiteID AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID); --  we only want suites that are still free;
 
 	-- dorm room info
 	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, dr.connectingRoomNum, r.otherDescription

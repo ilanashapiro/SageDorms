@@ -19,8 +19,10 @@ def searchForDormRooms(info):
 
     queryString = 'SELECT DISTINCT r.dormName, r.number FROM DormRoom AS dr, Room AS r'
     isFirstCond = True
+    foundInfo = False
     for key, value in info.items():
         if value != '': # empty input
+            foundInfo = True
             # case this is dormRoom info
             if isFirstCond:
                 queryString += ' WHERE r.isReservedForSponsorGroup = FALSE'
@@ -42,10 +44,13 @@ def searchForDormRooms(info):
                         else:
                             # data is not a string value, no quotes
                             queryString += f' AND dr.{key} = {value}'
-            else: # this is room, rather than dormRoom, information. 
+            else: # this is room, rather than dormRoom, information.
                 queryString += f' AND r.{key} = {value}'
-    # perform the join
-    queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number'
+    if foundInfo:
+        # perform the join
+        queryString += f' AND dr.dormName = r.dormName AND dr.number = r.number'
+    else:
+        queryString += f' WHERE dr.dormName = r.dormName AND dr.number = r.number'
 
     # order results
     queryString += f' ORDER BY CAST(r.number AS unsigned);'
@@ -54,6 +59,7 @@ def searchForDormRooms(info):
     global_vars.cursor.execute(queryString)
 
     rooms = global_vars.cursor.fetchall()
+    print(rooms)
     results = []
     for room in rooms:
         dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple

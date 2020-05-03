@@ -119,7 +119,6 @@ def displayRoomSelectionInfo():
             info[key] = value[0]
 
         data = None
-        print(info['searchtype'])
         data = room_queries.searchForDormRooms(info)
         # print("DATA", type(data[0][0]), data[0][0][0][0])
         return render_template('displayRoomSelectionInfo.html', data=data)
