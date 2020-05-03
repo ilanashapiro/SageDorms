@@ -88,10 +88,12 @@ def wishlist():
     print(data)
     return render_template('wishlist.html', data = data)
 
-@app.route('/smiley', methods=['GET', 'POST'])
-def smiley():
+@app.route('/displaySmiley', methods=['GET', 'POST'])
+def displaySmiley():
+    info = {'': '', 'dormName': 'Smiley'}
+    data = room_queries.searchForDormRooms(info)
+    sdata = suite_queries.searchForSuites(info)
     if request.method == 'POST':
-
         # get email if logged in
         if session['username']:
             global_vars.emailID = session['username']
@@ -104,7 +106,7 @@ def smiley():
             wish_list_queries.addToWishList(global_vars.cursor, info)
         else:
             return redirect('login')
-    return render_template('smiley.html')
+    return render_template('displaySmiley.html', data=data, sdata=sdata)
 
 @app.route('/displayRoomSelectionInfo', methods=['GET', 'POST'])
 def displayRoomSelectionInfo():
