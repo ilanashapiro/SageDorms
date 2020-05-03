@@ -20,7 +20,7 @@ def searchForSuites(info):
     isFirstCond = True
     for key, value in info.items():
         if value != '': # or "" or whatever means empty input
-            if (isFirstCond):
+            if isFirstCond and key != 'searchtype':
                 if key == 'isSubFree':
                     queryString += f' s.{key} = {value}'
                 else:
@@ -34,7 +34,7 @@ def searchForSuites(info):
 
     queryString += ';'
 
-    # print(queryString)
+    print(queryString)
     global_vars.cursor.execute(queryString)
 
     suites = global_vars.cursor.fetchall()
