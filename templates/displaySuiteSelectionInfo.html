@@ -84,7 +84,7 @@
 					        <td> {{room[3]}} </td>   <!-- Num Occupants -->
 					        <td> {{room[4] if room[4] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
 					        <td> {{room[5] if room[5] != '' else 'No additional info'}} </td>   <!-- Details -->
-					        <td><button class="wishlist_button js_wishlist_button" data-name="Smiley, 109">Wishlist</button> <a class="button is-info is-outlined"
+					        <td><button class="wishlist_button js_wishlist_button" data-name="room[0], room[1]">Wishlist</button> <a class="button is-info is-outlined"
 											 href="/housing/rooms/2/reviews">Select</a></td>
 						</tr>
 					{% endfor %}
