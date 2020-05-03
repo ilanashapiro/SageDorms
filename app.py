@@ -122,7 +122,7 @@ def displaySelectionInfo():
             data = room_queries.searchForDormRooms(info)
         elif info["searchtype"] == 'suite':
             data = suite_queries.searchForSuites(info)
-        print("DATA", type(data[0][0]), data[0][0][0][0])
+        # print("DATA", type(data[0][0]), data[0][0][0][0])
     return render_template('displaySelectionInfo.html', data=data)
 
 # get is when you load, post is when you submit

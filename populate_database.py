@@ -4,6 +4,25 @@ import mysql.connector
 import csv
 import re
 
+def initAddProcedures():
+    # Open and read the file as a single buffer
+    fd = open("add_data_stored_procedures.sql", 'r')
+    sqlFile = fd.read()
+    fd.close()
+
+    # all SQL commands (split on ';')
+    sqlCommands = sqlFile.split(';')
+
+    # Execute every command from the input file
+    for command in sqlCommands:
+        # This will skip and report errors
+        # For example, if the tables do not yet exist, this will skip over
+        # the DROP TABLE commands
+        try:
+            if (command.rstrip() != ""):
+                global_vars.cursor.execute(command + ";")
+        except mysql.connector.Error as err:
+            print("Something went wrong: {}".format(err))
 
 def createDorms():
     try:
@@ -124,3 +143,11 @@ def addStudents():
         global_vars.cursor.callproc('AddStudents', [])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
+
+initAddProcedures()
+createDorms()
+populateRooms()
+populateDormRooms()
+addConnectingRoomInfo()
+createSuites()
+addStudents()
