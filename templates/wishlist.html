@@ -10,9 +10,8 @@
 	<title>Generic - SageDorms</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-
-	<script src="result.js"></script>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+	<script src="{{url_for('static', filename='js/result.js')}}"></script>
 	
 
 </head>
@@ -22,12 +21,11 @@
 	<!-- Header -->
 	<header id="header">
 		<div class="inner">
-			<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
+			<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong></a>
 			<nav id="nav">
-				<a href="index.html">Home</a>
-				<a href="generic.html">View & Search Dorms</a>
-				<a href="wishlist.html">My Wishlist</a>
-				<a href="elements.html">Elements</a>
+                <a href="{{url_for('index')}}">Home</a>
+				<a href="{{url_for('dorms')}}">View & Search Dorms</a>
+				<a href="{{url_for('wishlist')}}">My Wishlist</a>
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 		</div>
@@ -43,17 +41,34 @@
 		</div>
 	</section>
 
+    <div class="table-wrapper">
+    <table>
+    <thead>
+    <tr>
+        <th>Dorm Name</th>
+        <th>Room #</th>
+        {% for room in data %}
+            {% for item in room %}
+            <tr>
+                <td> {{item[0]}} </td>   <!-- Dorm Name -->
+                <td> {{item[1]}} </td>   <!-- Room # -->
+            </tr>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+    </thead>
+    </table>
+    </div>
 
-	<div class="columns">
 
-		<ul id="js_result_list" class="result_list"></ul>
-		<!-- <button>DELETE</button> -->
+	<!-- <div class="columns"> -->
+
+	<!-- 	<ul id="js_result_list" class="result_list"></ul> -->
+	<!-- 	<!-1- <button>DELETE</button> -1-> -->
 				
 
-	</div>
-	<div class="columns">
-
-		</section>
+	<!-- </div> -->
+	<!-- <div class="columns"> -->
 
 		<!-- Footer -->
 

@@ -14,18 +14,17 @@
 	<body class="subpage">
 
 		<!-- Header -->
-			<header id="header">
-				<div class="inner">
-					<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
-					<nav id="nav">
-						<a href="index.html">Home</a>
-            <a href="generic.html">View & Search Rooms</a>
-            <a href="wishlist.html">My Wishlist</a>
-						<a href="elements.html">Elements</a>
-					</nav>
-					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-				</div>
-			</header>
+        <header id="header">
+            <div class="inner">
+                <a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong></a>
+                <nav id="nav">
+                    <a href="{{url_for('index')}}">Home</a>
+                    <a href="{{url_for('dorms')}}">View & Search Dorms</a>
+                    <a href="{{url_for('wishlist')}}">My Wishlist</a>
+                </nav>
+                <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+            </div>
+        </header>
 
 		<!-- Three -->
 			<section id="three" class="wrapper">

@@ -84,7 +84,9 @@ def dorms():
 
 @app.route('/wishlist')
 def wishlist():
-    return render_template('wishlist.html')
+    data = wish_list_queries.getMyWishList(global_vars.cursor)
+    print(data)
+    return render_template('wishlist.html', data = data)
 
 @app.route('/smiley', methods=['GET', 'POST'])
 def smiley():
@@ -200,5 +202,6 @@ if __name__ == '__main__':
 
     # global_vars.cursor executes SQL commands
     global_vars.cursor = sagedormsdb.cursor()
+    print(global_vars.cursor)
     sagedorm_db.init_db()
     app.run(debug=True)
