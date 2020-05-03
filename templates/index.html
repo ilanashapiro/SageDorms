@@ -16,7 +16,7 @@
 		<!-- Header -->
 			<header id="header">
 				<div class="inner">
-					<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
+					<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong> </a>
 					<nav id="nav">
 						<a href="{{url_for('index')}}">Home</a>
 						<a href="{{url_for('dorms')}}">View Dorms</a>
@@ -82,7 +82,7 @@
 							</header>
 							<p>Browse dorm options and availability<br /> and find a room that's perfect for you! Add rooms to<br />  your wishlist, or select during your room assignment time slot.</p>
 							<footer>
-								<a href="generic.html" class="button">Learn More</a>
+								<a href="{{url_for('dorms')}}" class="button">Learn More</a>
 							</footer>
 						</article>
 						<article>
@@ -94,7 +94,7 @@
 							</header>
 							<p>Select your top dorm rooms<br />to stay updated on their availability<br /> and help make your room selection as easy as possible!</p>
 							<footer>
-								<a href="elements.html" class="button">Learn More</a>
+								<a href="{{url_for('wishlist')}}" class="button">Learn More</a>
 							</footer>
 						</article>
 					</div>
