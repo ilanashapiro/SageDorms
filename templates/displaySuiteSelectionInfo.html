@@ -60,7 +60,6 @@
 				<th>Number of Occupants</th>
 				<th>Connecting Room</th>
 				<th>Details</th>
-				<th>Add</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -68,11 +67,13 @@
 			{% for suite in data %}
 				<tbody class="labels">
 					<tr>
-						<td colspan="8">
+						<td colspan="7">
 							<!-- ('hjeshkgd', 0, 6, 6, 'SMILEY', None) -->
-							<label for="{{suite[0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
-							<input type="checkbox" name="{{suite[0][0]}}" id="{{suite[0][0]}}" data-toggle="toggle">
+							<label for="{{suite[0][0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
+							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
 						</td>
+						<td><button class="wishlist_button js_wishlist_button" data-name="{{suite[0][0][0]}}">Wishlist</button> <a class="button is-info is-outlined"
+										 href="/housing/rooms/2/reviews">Select</a></td>
 					</tr>
 				</tbody>
 				<tbody class="hide">
@@ -83,9 +84,8 @@
 					        <td> {{room[2]}} </td>   <!--  Sq Ft -->
 					        <td> {{room[3]}} </td>   <!-- Num Occupants -->
 					        <td> {{room[4] if room[4] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
-					        <td> {{room[5] if room[5] != '' else 'No additional info'}} </td>   <!-- Details -->
-					        <td><button class="wishlist_button js_wishlist_button" data-name="room[0], room[1]">Wishlist</button> <a class="button is-info is-outlined"
-											 href="/housing/rooms/2/reviews">Select</a></td>
+					        <td colspan="4"> {{room[5] if room[5] != '' else 'No additional info'}} </td>   <!-- Details -->
+
 						</tr>
 					{% endfor %}
 				</tbody>

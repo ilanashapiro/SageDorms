@@ -33,8 +33,8 @@ def searchForSuites(info):
                     queryString += f' AND s.{key} = \'{value}\''
 
     queryString += ';'
-    print("QUERY STRING", queryString)
-    # print(queryString)
+
+    print(queryString)
     global_vars.cursor.execute(queryString)
 
     suites = global_vars.cursor.fetchall()
