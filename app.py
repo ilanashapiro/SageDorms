@@ -104,6 +104,7 @@ def displaySelectionInfo():
 # get is when you load, post is when you submit
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
+    print("SELECTION PAGE")
     if request.method == 'POST':
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
@@ -113,6 +114,7 @@ def selectionpage():
             info[key] = value[0]
 
         data = None
+
         print(info)
         if info["searchtype"] == 'room':
             data = room_queries.searchForDormRooms(info)
