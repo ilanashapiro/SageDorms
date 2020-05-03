@@ -47,14 +47,13 @@
 	<th>Member Name</th>
 	<th>Email ID</th>
 	<th>Is Representative</th>
-		{% for room in data %}
+		{% for suitegroup in data %}
     <tr>
-		{% for item2 in room %}
-			{% for item3 in item2 %}
-				<td> {{item3[0]}} </td>   <!-- Member Name -->
-		        <td> {{item3[1]}} </td>   <!-- Email ID -->
-		        <td> {{"Yes" if item3[2] == 1 else "No"}} </td>   <!-- Is Rep -->
-			{% endfor %}
+		<!-- example of the suite group: [('Gabe Alzate', 'gpaa2018'), ('Helen Paulini', 'hpaa2018')] -->
+		{% for person in suiteGroup %}
+			<td> {{person[0]}} </td>   <!-- Member Name -->
+	        <td> {{person[1]}} </td>   <!-- Email ID -->
+	        <td> {{"Yes" if person[2] == 1 else "No"}} </td>   <!-- Is Rep -->
 		{% endfor %}
     </tr>
     {% endfor %}

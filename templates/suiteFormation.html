@@ -45,7 +45,7 @@
 
 
 						<!-- <form method="post" action="#">-->
-						<form action="displayRoomSelectionInfo" method="POST" name="singleDoubleForm">
+						<form action="" method="POST" name="singleDoubleForm">
 						<div class="row 200%">
 							<div class="6u 12u$(medium)">
 
@@ -54,37 +54,37 @@
 								<h3> </h3>
 									<h4>First Member (this member will be the suite representative)</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" class="btn btn-xs white" placeholder="8-character email ID"/><input type="hidden" value="{{request.form.suiteMember}}" name="suiteMember" />
+												<input type="Text" name="suiteMember1" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
 											</div>
 
 									<h3> </h3>
 									<h4>Second Member</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" name="suiteMember" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+												<input type="Text" name="suiteMember2" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
 											</div>
 
 									<h3> </h3>
 									<h4>Third Member</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" name="suiteMember" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+												<input type="Text" name="suiteMember3" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
 											</div>
 
 									<h3> </h3>
 									<h4>Fourth Member</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" name="suiteMember" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+												<input type="Text" name="suiteMember4" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
 											</div>
 
 									<h3> </h3>
 									<h4>Fifth Member/Alternative</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" name="suiteMember" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+												<input type="Text" name="suiteMember5" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
 											</div>
 
 									<h3> </h3>
 									<h4>Sixth Member/Alternative</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" name="suiteMember" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
+												<input type="Text" name="suiteMember6" id="suiteMember" value="{{request.form.suiteMember}}" placeholder="8-character email ID" />
 											</div>
 
 
@@ -93,7 +93,7 @@
 							<div class="12u$">
 										<ul class="actions">
 											<!-- <form action="displayRoomSelectionInfo.html" > -->
-  											<button type="submit" name="searchtype" value="room">Submit</button>
+  											<button type="submit">Submit</button>
                                             </ul>
 											</div>
 										</div>
