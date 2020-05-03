@@ -60,7 +60,7 @@ def searchForDormRooms(info):
         number = room[1]
         results.append(getSummaryForDormRoom(dormName, number))
 
-    print(results)
+    # print(results)
     return results
 
 # https://pynative.com/python-mysql-execute-stored-procedure/
