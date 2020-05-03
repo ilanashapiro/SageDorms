@@ -6,9 +6,9 @@ import sagedorm_db
 from mysql.connector import Error
 
 def searchForSuites(info):
-    def getRoomsSummaryForSuite(suiteID):
+    def getSuiteSummaryForSuite(suiteID):
         try:
-            global_vars.cursor.callproc('GetRoomsSummaryForSuite', [suiteID])
+            global_vars.cursor.callproc('GetSuiteSummaryForSuite', [suiteID])
             results = []
             for result in global_vars.cursor.stored_results():
                 results.append(result.fetchall())
@@ -41,9 +41,8 @@ def searchForSuites(info):
     results = []
     for suite in suites:
         suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
-        # print(suite)
-        results.append(suite)
-        results.append(getRoomsSummaryForSuite(suiteID))
+        results.append(getSuiteSummaryForSuite(suiteID))
+
 
     # print(results)
     return results

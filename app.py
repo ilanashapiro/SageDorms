@@ -118,10 +118,7 @@ def displayRoomSelectionInfo():
 
         data = None
         print(info['searchtype'])
-        if info["searchtype"] == 'room':
-            data = room_queries.searchForDormRooms(info)
-        elif info["searchtype"] == 'suite':
-            data = suite_queries.searchForSuites(info)
+        data = room_queries.searchForDormRooms(info)
         # print("DATA", type(data[0][0]), data[0][0][0][0])
         return render_template('displayRoomSelectionInfo.html', data=data)
     return render_template('displayRoomSelectionInfo.html')
@@ -131,8 +128,19 @@ def displaySuiteSelectionInfo():
     # student selected housing
     # if request.method == 'POST':
     # info = {'number': 'issa2018', 'Helen': 'hpaa2018', 'Gabe': 'gpaa2018', 'Alan': 'ayza2018', 'Yurie': 'ymac2018'}
-    info = [['suite1', 'room1'], ['suite1', 'room2'], ['suite1', 'room3']]
-    return render_template('displaySuiteSelectionInfo.html', elements=info)
+    # info = [['suite1', 'room1'], ['suite1', 'room2'], ['suite1', 'room3']]
+    if request.method == 'POST':
+        # save all inputted data
+        print("POST")
+        rawinfo = request.form
+        info = rawinfo.to_dict(flat=False)
+        #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
+        for key, value in info.items():
+            info[key] = value[0]
+        data = suite_queries.searchForSuites(info)
+        print(data)
+        return render_template('displaySuiteSelectionInfo.html', data=data)
+    return render_template('displaySuiteSelectionInfo.html')
 
 # get is when you load, post is when you submit
 @app.route('/selectionpage', methods=['GET', 'POST'])

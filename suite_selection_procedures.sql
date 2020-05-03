@@ -51,13 +51,18 @@ BEGIN
 	ORDER BY r.suite;
 END $$
 
-DROP PROCEDURE IF EXISTS GetRoomsSummaryForSuite$$
-CREATE PROCEDURE GetRoomsSummaryForSuite(
+DROP PROCEDURE IF EXISTS GetSuiteSummaryForSuite$$
+CREATE PROCEDURE GetSuiteSummaryForSuite(
 	IN suiteID VARCHAR(50)
 )
 BEGIN
+	-- suite info
+	SELECT s.suiteID, s.isSubFree, s.numPeople, s.numRooms
+	FROM Suite AS s
+	WHERE s.suiteID = suiteID;
+
 	-- dorm room info
-	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.otherDescription, r.isSubFree,
 		   dr.numOccupants, dr.connectingRoomNum
 	FROM DormRoom AS dr, Room AS r
 	WHERE r.suite = suiteID
