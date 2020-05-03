@@ -47,7 +47,7 @@
 			<section id="three" class="wrapper">
 				<div class="inner">
 					<header class="align-center">
-						<h2>View Room Options</h2>
+						<h2>View Suite Options</h2>
 
 					</header>
 <div class="table-wrapper">
@@ -58,19 +58,19 @@
 				<th>Room #</th>
 				<th>Square Feet</th>
 				<th>Number of Occupants</th>
-				<th>Is Subfree</th>
-				<th>Has Connecting Room</th>
+				<th>Connecting Room</th>
 				<th>Details</th>
 				<th>Add</th>
 			</tr>
 		</thead>
 		<tbody>
-			<!-- [[('arkluonz', 1, 4, 4)], [('27', 140.0, '', 1, 1, None), ('28', 140.0, '', 1, 1, None), ('29', 140.0, '', 1, 1, None), ('30', 140.0, '', 1, 1, None)], []] -->
+			<!-- [[('arkluonz', 1, 4, 4, 'NORTON-CLARK', None)], [('NORTON-CLARK', '27', 140.0, '', 1, 1, None), ('NORTON-CLARK', '28', 140.0, '', 1, 1, None), ('NORTON-CLARK', '29', 140.0, '', 1, 1, None), ('NORTON-CLARK', '30', 140.0, '', 1, 1, None)], []] -->
 			{% for suite in data %}
 				<tbody class="labels">
 					<tr>
 						<td colspan="8">
-							<label for="{{suite[0][0]}}">{{suite[0][0]}}</label>
+							<!-- ('hjeshkgd', 0, 6, 6, 'SMILEY', None) -->
+							<label for="{{suite[0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
 							<input type="checkbox" name="{{suite[0][0]}}" id="{{suite[0][0]}}" data-toggle="toggle">
 						</td>
 					</tr>
@@ -82,9 +82,8 @@
 					        <td> {{room[1]}} </td>   <!-- Room # -->
 					        <td> {{room[2]}} </td>   <!--  Sq Ft -->
 					        <td> {{room[3]}} </td>   <!-- Num Occupants -->
-					        <td> {{room[4]}} </td>   <!-- Subfree -->
-					        <td> {{room[5] if room[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
-					        <td> {{room[6] if room[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+					        <td> {{room[4] if room[4] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+					        <td> {{room[5] if room[5] != '' else 'No additional info'}} </td>   <!-- Details -->
 					        <td><button class="wishlist_button js_wishlist_button" data-name="Smiley, 109">Wishlist</button> <a class="button is-info is-outlined"
 											 href="/housing/rooms/2/reviews">Select</a></td>
 						</tr>
