@@ -84,7 +84,8 @@ def dorms():
 
 @app.route('/wishlist')
 def wishlist():
-    data = wish_list_queries.getMyWishList(global_vars.cursor)
+    data = wish_list_queries.getMyWishList()
+    print(data)
     return render_template('wishlist.html', data = data)
 
 @app.route('/displaySmiley', methods=['GET', 'POST'])
