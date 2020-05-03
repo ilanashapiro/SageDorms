@@ -163,6 +163,7 @@ def viewSuiteMembers():
         print("INFO", info)
         suite_queries.removeMyselfFromSuiteGroup(info)
         return redirect('/')
+    print("ID", global_vars.emailID)
     data = suite_queries.getMySuiteGroup()
     print("DATA", data)
     return render_template('viewSuiteMembers.html', data = data)
