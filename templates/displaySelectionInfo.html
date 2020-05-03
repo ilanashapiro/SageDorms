@@ -44,13 +44,21 @@
 <table>
 <thead>
 <tr>
-	<th>Room # or Suite #</th>
-	<th>Description</th>
+	<th>Room #</th>
+	<th>Square Feet</th>
+	<th>Number of Occupants</th>
+	<th>Is Subfree</th>
+	<th>Has Connecting Room</th>
+	<th>Details</th>
 	<th>Add</th>
 		{% for stud in students %}
     <tr>
-        <td> {{room[0]}} </td>
-        <td> {{room[1]}} </td>
+        <td> {{room[0]}} </td>   <!-- Room # -->
+        <td> {{room[1]}} </td>   <!--  Sq Ft -->
+        <td> {{room[2]}} </td>   <!-- Num Occupants -->
+        <td> {{room[3]}} </td>   <!-- Subfree -->
+        <td> {{room[4]}} </td>   <!-- Connecting Room -->
+        <td> {{room[5]}} </td>   <!-- Details -->
         <td><button class="wishlist_button js_wishlist_button" data-name="Smiley, 109">Wishlist</button> <a class="button is-info is-outlined"
 						 href="/housing/rooms/2/reviews">Select</a></td>
     </tr>
