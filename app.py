@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, jsonify
 import sagedorm_db
 import mysql.connector
 import random
@@ -88,25 +88,31 @@ def wishlist():
     print(data)
     return render_template('wishlist.html', data = data)
 
-@app.route('/displaySmiley', methods=['GET', 'POST'])
-def displaySmiley():
-    info = {'': '', 'dormName': 'Smiley'}
-    data = room_queries.searchForDormRooms(info)
-    sdata = suite_queries.searchForSuites(info)
+def addToWishListHelper(room):
+    ''' Adds room to wishlist; called by each room in their PATCH requests
+    '''
+    global_vars.emailID = session['username']
+    info = {}
+    info['dormName'] = room[0]
+    info['dormRoomNum'] = room[1]
+    wish_list_queries.addToWishList(global_vars.cursor, info)
+
+@app.route('/smiley', methods=['GET', 'POST'])
+def smiley():
+    # info = {'': '', 'dormName': 'Smiley'}
+    # data = room_queries.searchForDormRooms(info)
+    # sdata = suite_queries.searchForSuites(info)
     if request.method == 'POST':
         # get email if logged in
         if session['username']:
-            global_vars.emailID = session['username']
-
             # data is in the form of {"room" : "name num"}
-            room = request.form['room'].split()
-            info = {}
-            info['dormName'] = room[0]
-            info['dormRoomNum'] = room[1]
-            wish_list_queries.addToWishList(global_vars.cursor, info)
+            room = request.form['room']
+            addToWishListHelper(room.split())
+            return jsonify(user=session['username'])
         else:
             return redirect('login')
-    return render_template('displaySmiley.html', data=data, sdata=sdata)
+    # return render_template('displaySmiley.html', data=data, sdata=sdata)
+    return render_template('smiley.html')
 
 @app.route('/displayRoomSelectionInfo', methods=['GET', 'POST'])
 def displayRoomSelectionInfo():
