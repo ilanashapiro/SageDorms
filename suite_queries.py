@@ -77,7 +77,7 @@ def removeMyselfFromSuiteGroup(info):
 
 def addMyselfToSuiteGroup(info):
     try:
-        global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], info['isNewSuiteRep']])
+        global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], False])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
@@ -110,7 +110,7 @@ def createSuiteGroup(info):
         getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = \'{global_vars.emailID}\''
         emailIDsToAdd = []
         for key, value in info.items():
-            if value is not None: # or "" or whatever means empty input
+            if value != '' and key != 'inputType': # or "" or whatever means empty input
                 emailID = value
                 getAvgDrawNumQueryString += f' OR s.emailID = \'{emailID}\''
                 emailIDsToAdd.append(emailID)
@@ -125,13 +125,13 @@ def createSuiteGroup(info):
         # If a student is already in a different prospective suite group, that data will be overwritten and they will be part of the new group
         addStudentsQueryString = f'''INSERT INTO SuiteGroup (emailID, avgDrawNum, avgDrawTime, isSuiteRepresentative, suiteID) VALUES
                                      (\'{emailIDsToAdd[0]}\', {avgDrawNum}, NULL, TRUE, NULL)'''
-
         # add the students to the suite group
         for emailID in emailIDsToAdd[1:]:
             if (emailID != ''):
                 addStudentsQueryString += f', (\'{emailID}\', {avgDrawNum}, NULL, FALSE, NULL)'
 
         addStudentsQueryString += ';'
+        print(addStudentsQueryString)
         global_vars.cursor.execute(addStudentsQueryString)
 
     except mysql.connector.Error as error:

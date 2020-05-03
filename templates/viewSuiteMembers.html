@@ -47,6 +47,7 @@
 	<th>Member Name</th>
 	<th>Email ID</th>
 	<th>Is Representative</th>
+	<th>Avg Draw Number</th>
 		{% for suitegroup in data %}
 			<!-- example of the suite group: [('Gabe Alzate', 'gpaa2018'), ('Helen Paulini', 'hpaa2018')] -->
 			{% for person in suitegroup %}
@@ -54,6 +55,7 @@
 					<td> {{person[0]}} </td>   <!-- Member Name -->
 			        <td> {{person[1]}} </td>   <!-- Email ID -->
 			        <td> {{"Yes" if person[2] == 1 else "No"}} </td>   <!-- Is Rep -->
+					<td> {{person[3]}} </td>   <!-- Average Draw Num -->
 				<tr>
 			{% endfor %}
     	{% endfor %}
@@ -63,12 +65,19 @@
 </div>
 
 <h3> </h3>
+<form action="" method="POST" name="removeSelf">
 	<div class="12u$">
 			<ul class="actions">
-		<form action="index" > 
+		<form action="" >
 		<button type="submit">Remove Yourself from this Suite</button>
         </ul>
 		</div>
+		<h4>(If you are the suite rep) Specify a new suite rep emailID to take your place!</h4>
+		<div class="6u 12u$(xsmall)">
+					<input type="Text" name="newSuiteRepID" id="newSuiteRepID" value="{{request.form.newSuiteRepID}}" placeholder="8-character ID of new suite rep" />
+				</div>
+
+
 		</div>
   </form>
 

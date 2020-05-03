@@ -85,7 +85,6 @@ def dorms():
 @app.route('/wishlist')
 def wishlist():
     data = wish_list_queries.getMyWishList(global_vars.cursor)
-    print(data)
     return render_template('wishlist.html', data = data)
 
 @app.route('/displaySmiley', methods=['GET', 'POST'])
@@ -113,7 +112,6 @@ def displayRoomSelectionInfo():
     # student selected housing
     if request.method == 'POST':
         # save all inputted data
-        print("POST")
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
@@ -134,21 +132,41 @@ def displaySuiteSelectionInfo():
     # info = [['suite1', 'room1'], ['suite1', 'room2'], ['suite1', 'room3']]
     if request.method == 'POST':
         # save all inputted data
-        print("POST")
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
         for key, value in info.items():
             info[key] = value[0]
         data = suite_queries.searchForSuites(info)
-        print(data)
         return render_template('displaySuiteSelectionInfo.html', data=data)
     return render_template('displaySuiteSelectionInfo.html')
 
-@app.route('/viewSuiteMembers', methods=['GET'])
+# @app.route('/viewRoomDetails', methods=['GET'])
+# def viewRoomDetails():
+#     rawinfo = request.form
+#     info = rawinfo.to_dict(flat=False)
+#     #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
+#     for key, value in info.items():
+#         info[key] = value[0]
+#     print(info)
+#     # data = room_queries.getRoomDetails(info)
+#     # print(data)
+#     return render_template('viewRoomDetails.html')#, data = data)
+
+@app.route('/viewSuiteMembers', methods=['GET', 'POST'])
 def viewSuiteMembers():
+    if request.method == 'POST':
+        # save all inputted data
+        rawinfo = request.form
+        info = rawinfo.to_dict(flat=False)
+        #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
+        for key, value in info.items():
+            info[key] = value[0]
+        print("INFO", info)
+        suite_queries.removeMyselfFromSuiteGroup(info)
+        return redirect('/')
     data = suite_queries.getMySuiteGroup()
-    print(data)
+    print("DATA", data)
     return render_template('viewSuiteMembers.html', data = data)
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
@@ -160,8 +178,11 @@ def suiteFormation():
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
         for key, value in info.items():
             info[key] = value[0]
-        suite_queries.createSuiteGroup(info)
-        return redirect('/viewSuiteMembers')
+        if info['inputType'] == 'new':
+            suite_queries.createSuiteGroup(info)
+        elif info['inputType'] == 'existing':
+            suite_queries.addMyselfToSuiteGroup(info)
+        return redirect('/')
     return render_template('suiteFormation.html')
 
 # get is when you load, post is when you submit

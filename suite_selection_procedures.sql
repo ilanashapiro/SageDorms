@@ -194,15 +194,15 @@ CREATE PROCEDURE GetMySuiteGroup(
 	IN emailID CHAR(8)
 )
 BEGIN
-	SELECT s.name, s.emailID
-	FROM Student AS s
-	WHERE s.emailID != emailID -- exclude the current student, we just want to see the other ppl in the group
-		  AND s.emailID IN (SELECT sg.emailID
+	SELECT DISTINCT s.name, s.emailID, sg.isSuiteRepresentative, sg.avgDrawNum
+	FROM Student AS s, SuiteGroup AS sg
+	WHERE s.emailID IN (SELECT sg.emailID
 		  				  FROM SuiteGroup AS sg
 					  	  WHERE sg.avgDrawNum IN
 							    (SELECT sg.avgDrawNum
 				  			    FROM SuiteGroup AS sg
-						  	    WHERE sg.emailID = emailID));
+						  	    WHERE sg.emailID = emailID))
+		  AND sg.emailID = s.emailID;
 END $$
 
 DROP PROCEDURE IF EXISTS SetSuite$$
