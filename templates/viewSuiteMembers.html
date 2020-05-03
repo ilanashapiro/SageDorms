@@ -37,7 +37,7 @@
 			<section id="three" class="wrapper">
 				<div class="inner">
 					<header class="align-center">
-						<h2>View Room Options</h2>
+						<h2>View Your Suite Group</h2>
 
 					</header>
 <div class="table-wrapper">
@@ -48,15 +48,15 @@
 	<th>Email ID</th>
 	<th>Is Representative</th>
 		{% for suitegroup in data %}
-    <tr>
-		<!-- example of the suite group: [('Gabe Alzate', 'gpaa2018'), ('Helen Paulini', 'hpaa2018')] -->
-		{% for person in suiteGroup %}
-			<td> {{person[0]}} </td>   <!-- Member Name -->
-	        <td> {{person[1]}} </td>   <!-- Email ID -->
-	        <td> {{"Yes" if person[2] == 1 else "No"}} </td>   <!-- Is Rep -->
-		{% endfor %}
-    </tr>
-    {% endfor %}
+			<!-- example of the suite group: [('Gabe Alzate', 'gpaa2018'), ('Helen Paulini', 'hpaa2018')] -->
+			{% for person in suitegroup %}
+				</tr>
+					<td> {{person[0]}} </td>   <!-- Member Name -->
+			        <td> {{person[1]}} </td>   <!-- Email ID -->
+			        <td> {{"Yes" if person[2] == 1 else "No"}} </td>   <!-- Is Rep -->
+				<tr>
+			{% endfor %}
+    	{% endfor %}
 </tr>
 </thead>
 </table>
