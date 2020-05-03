@@ -71,7 +71,6 @@ def index():
     if 'cookies' in session:
         loggedIn = True
         global_vars.emailID = session['username']
-        print(global_vars.emailID)
     return render_template('index.html', loggedIn=loggedIn)
 
 @app.route('/test')
@@ -90,13 +89,19 @@ def wishlist():
 @app.route('/smiley', methods=['GET', 'POST'])
 def smiley():
     if request.method == 'POST':
-        dorm = request.form.split()
-        dormName = dorm[0]
-        number = int(dorm[1])
 
-        #TODO: add to wishlist
-        global_vars.cursor = session['cursor']
+        # get email if logged in
+        if session['username']:
+            global_vars.emailID = session['username']
 
+            # data is in the form of {"room" : "name num"}
+            room = request.form['room'].split()
+            info = {}
+            info['dormName'] = room[0]
+            info['dormRoomNum'] = room[1]
+            wish_list_queries.addToWishList(global_vars.cursor, info)
+        else:
+            return redirect('login')
     return render_template('smiley.html')
 
 @app.route('/displaySelectionInfo', methods=['GET', 'POST'])
@@ -107,7 +112,6 @@ def displaySelectionInfo():
         print("POST")
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
-
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
         for key, value in info.items():
             info[key] = value[0]

@@ -17,6 +17,7 @@ def getMyWishList(cursor):
 
 def addToWishList(cursor, info):
     try:
+        print(global_vars.emailID)
         cursor.callproc('AddToWishlist', [global_vars.emailID, info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
