@@ -1,9 +1,48 @@
+import traceback
 import string
 import random
 import mysql.connector
 import csv
+import global_vars
 import re
 
+def init_db():
+    """Creates the sagedorms database
+
+    Keyword arguments:
+    global_vars.cursor -- executes SQL commands
+    """
+
+    # get created databases
+    global_vars.cursor.execute("SHOW DATABASES like 'sagedormsdb';")
+    db_names = [i[0] for i in global_vars.cursor.fetchall()]
+
+    # create database if not yet already
+    if('test' not in db_names):
+        global_vars.cursor.execute("CREATE DATABASE IF NOT EXISTS test;")
+        global_vars.cursor.execute("USE test;")
+
+    global_vars.cursor.execute("USE test;")
+
+def executeScriptsFromFile(filename):
+    # Open and read the file as a single buffer
+    fd = open(filename, 'r')
+    sqlFile = fd.read()
+    fd.close()
+
+    # all SQL commands (split on ';')
+    sqlCommands = sqlFile.split(';')
+
+    # Execute every command from the input file
+    for command in sqlCommands:
+        # This will skip and report errors
+        # For example, if the tables do not yet exist, this will skip over
+        # the DROP TABLE commands
+        try:
+            if (command.rstrip() != ""):
+                global_vars.cursor.execute(command + ";")
+        except mysql.connector.Error as err:
+            print("Something went wrong: {}".format(err))
 
 def createDorms():
     try:
@@ -124,3 +163,45 @@ def addStudents():
         global_vars.cursor.callproc('AddStudents', [])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
+
+def main(info = None):
+    """ Main method runs hello world app
+
+        TODO:
+            - invalid entry
+            - SQL injection???
+            - from what database will we get student information
+    """
+    try:
+        # connect to localhost mysql server
+        sagedormsdb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                passwd="databases133",
+                auth_plugin='mysql_native_password',
+                autocommit=True)
+
+        # global_vars.cursor executes SQL commands
+        global_vars.cursor = sagedormsdb.cursor()
+        global_vars.emailID = 'issa2018'
+        init_db()
+
+        executeScriptsFromFile("tables.sql")
+        executeScriptsFromFile("add_data_stored_procedures.sql")
+        createDorms()
+        populateRooms()
+        populateDormRooms()
+        addConnectingRoomInfo()
+        createSuites()
+        addStudents()
+
+        global_vars.cursor.close()
+
+
+    except mysql.connector.Error as e:
+        if (e.errno == 1045):
+            print("Wrong password; did you enter databases133 ???")
+        print(traceback.format_exc())
+
+if __name__ == '__main__':
+    main()
