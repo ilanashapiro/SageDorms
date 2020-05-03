@@ -27,7 +27,7 @@ with open("room_data.txt", "r") as rooms:
 
         elif line_num == 2:
             dim = line.split("-")
-            dimensions = dim[0])
+            dimensions = dim[0]
             sq_ft = dim[1].strip().split(" ")
             area = int(sq_ft[0])
             roomsList[roomNum].append(dimensions.rstrip().replace('\'', 'ft').replace('"', 'in'))

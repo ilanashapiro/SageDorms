@@ -18,11 +18,11 @@ def init_db():
     db_names = [i[0] for i in global_vars.cursor.fetchall()]
 
     # create database if not yet already
-    if('test' not in db_names):
-        global_vars.cursor.execute("CREATE DATABASE IF NOT EXISTS test;")
-        global_vars.cursor.execute("USE test;")
+    if('sagedormsdb' not in db_names):
+        global_vars.cursor.execute("CREATE DATABASE IF NOT EXISTS sagedormsdb;")
+        global_vars.cursor.execute("USE sagedormsdb;")
 
-    global_vars.cursor.execute("USE test;")
+    global_vars.cursor.execute("USE sagedormsdb;")
 
 def executeScriptsFromFile(filename, delimiter):
     # Open and read the file as a single buffer
@@ -190,7 +190,7 @@ def main(info = None):
         init_db()
 
         # executeScriptsFromFile("tables.sql", "$$")
-        executeScriptsFromFile("add_data_stored_procedures.sql", "$$")
+        # executeScriptsFromFile("add_data_stored_procedures.sql", "$$")
         # createDorms()
         # populateRooms()
         # populateDormRooms()
