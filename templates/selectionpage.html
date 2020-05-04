@@ -31,7 +31,6 @@
                         {% else %}
                             <a href="{{url_for('logout')}}">Logout</a>
                         {% endif %}
-                        <a href="{{url_for('test')}}">Developer Tool</a>
 					</nav>
 					<!-- <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a> -->
 				</div>
@@ -174,7 +173,7 @@
 								<h3> </h3>
 									<h4>Number of Occupants</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" name="roomNum" id="roomNum" value="{{request.form.roomNum}}" placeholder="Room #" />
+												<input type="Text" name="roomNum" id="roomNum" value="{{request.form.roomNum}}" placeholder="# People" />
 											</div>
 
 									<h3> </h3>
