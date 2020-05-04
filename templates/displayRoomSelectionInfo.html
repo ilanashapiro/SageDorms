@@ -65,8 +65,9 @@
 		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
                 <td><button class="wishlist_button js_wishlist_button"
                             name="room" value="{{item3[0]}} {{item3[1]}}">Wishlist</button>
-                    <a class="button is-info is-outlined"
-							href="/viewMyRoom" name="room" value="{{item3[0]}} {{item3[1]}}">Select</a>
+                    <form action="viewMyRoom" method="post">
+                        <button type="submit" name="room" value="{{item3[0]}} {{item3[1]}}">Select</button>
+                    </form>
                 </td>
 			{% endfor %}
 		{% endfor %}
