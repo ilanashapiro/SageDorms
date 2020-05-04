@@ -149,6 +149,7 @@ def displaySuiteSelectionInfo():
         for key, value in info.items():
             info[key] = value[0]
         data = suite_queries.searchForSuites(info)
+        print(data)
         return render_template('displaySuiteSelectionInfo.html', data=data)
     return render_template('displaySuiteSelectionInfo.html')
 
