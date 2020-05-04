@@ -49,7 +49,6 @@
 				<h2>Smiley Hall</h2>
 				<hr class="major" />
 
-				<span class="image fit"><img src="images/maps/smiley15.jpg" alt="" /></span>
 				<span class="image fit"><img src="{{url_for('static',
                     filename='images/maps/smiley15.jpg')}}" alt="" /></span>
 				
@@ -82,8 +81,11 @@
 		        <td> {{"Yes" if item3[4] == 1 else "No"}} </td>   <!-- Subfree -->
 		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
 		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
-		        <td><button class="wishlist_button js_wishlist_button" data-name="room[0], room[1]">Wishlist</button> <a class="button is-info is-outlined"
-								 href="/housing/rooms/2/reviews">Select</a></td>
+                <td><button class="wishlist_button js_wishlist_button"
+                            name="room" value="{{item3[0]}} {{item3[1]}}">Wishlist</button>
+                    <a class="button is-info is-outlined"
+							href="/housing/rooms/2/reviews">Select</a>
+                </td>
 			{% endfor %}
 		{% endfor %}
     </tr>
@@ -117,7 +119,7 @@
 							<label for="{{suite[0][0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
 							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
 						</td>
-						<td><button class="wishlist_button js_wishlist_button" data-name="{{suite[0][0][0]}}">Wishlist</button> <a class="button is-info is-outlined"
+						<td><button <a class="button is-info is-outlined"
 										 href="/housing/rooms/2/reviews">Select</a></td>
 					</tr>
 				</tbody>
@@ -151,11 +153,27 @@
    		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-		<link rel="stylesheet" href="{{url_for('static', filename='js/jquery.min.css')}}" />
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/skel.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/skel.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/util.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+        <script type=text/javascript>
+            $( ".wishlist_button" ).click(function(e) {
+                var button = $(this);
+                var room = button.val();
+                request = $.ajax({
+                    url: "/displaySmiley",
+                    type: "POST",
+                    data: {room: room},
+                });
+
+                request.done(function () {
+                    button.html("Added!");
+                    button.disabled = true;
+                    button.fadeOut(1000);
+                });
+            });
+        </script>
 
 		<script>
 			$(document).ready(function() {

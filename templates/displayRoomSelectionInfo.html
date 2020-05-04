@@ -63,8 +63,11 @@
 		        <td> {{"Yes" if item3[4] == 1 else "No"}} </td>   <!-- Subfree -->
 		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
 		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
-		        <td><button class="wishlist_button js_wishlist_button" data-name="room[0], room[1]">Wishlist</button> <a class="button is-info is-outlined"
-								 href="/housing/rooms/2/reviews">Select</a></td>
+                <td><button class="wishlist_button js_wishlist_button"
+                            name="room" value="{{item3[0]}} {{item3[1]}}">Wishlist</button>
+                    <a class="button is-info is-outlined"
+							href="/housing/rooms/2/reviews">Select</a>
+                </td>
 			{% endfor %}
 		{% endfor %}
     </tr>
@@ -81,11 +84,35 @@
 
 
 		<!-- Scripts -->
-		<link rel="stylesheet" href="{{url_for('static', filename='js/jquery.min.css')}}" />
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/skel.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/skel.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/util.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+        <script type=text/javascript>
+            $( ".wishlist_button" ).click(function(e) {
+                var button = $(this);
+                var room = button.val();
+                request = $.ajax({
+                    url: "/displayRoomSelectionInfo",
+                    type: "POST",
+                    data: {room: room},
+                });
+
+                request.done(function () {
+                    button.html("Added!");
+                    button.disabled = true;
+                    button.fadeOut(1000);
+                });
+            });
+        </script>
+
+		<script>
+			$(document).ready(function() {
+			 $('[data-toggle="toggle"]').change(function(){
+				 $(this).parents().next('.hide').toggle();
+				 });
+			});
+		</script>
 
 	</body>
 </html>

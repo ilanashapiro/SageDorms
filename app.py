@@ -87,48 +87,52 @@ def wishlist():
     data = wish_list_queries.getMyWishList(global_vars.cursor)
     return render_template('wishlist.html', data = data)
 
-def addToWishListHelper(room):
-    ''' Adds room to wishlist; called by each room in their PATCH requests
+def addToWishListHelper(data):
+    ''' Adds room to wishlist; called by each room in their POST requests
     '''
-    global_vars.emailID = session['username']
-    info = {}
-    info['dormName'] = room[0]
-    info['dormRoomNum'] = room[1]
-    wish_list_queries.addToWishList(global_vars.cursor, info)
+    if (session['username']):
+        global_vars.emailID = session['username']
+        info = {}
+        info['dormName'] = data[0]
+        info['dormRoomNum'] = data[1]
+        wish_list_queries.addToWishList(global_vars.cursor, info)
+        return jsonify(user=session['username'])
+    else:
+        return redirect('login')
 
-@app.route('/smiley', methods=['GET', 'POST'])
-def smiley():
-    # info = {'': '', 'dormName': 'Smiley'}
-    # data = room_queries.searchForDormRooms(info)
-    # sdata = suite_queries.searchForSuites(info)
+@app.route('/displaySmiley', methods=['GET', 'POST'])
+def displaySmiley():
+
     if request.method == 'POST':
-        # get email if logged in
-        if session['username']:
-            # data is in the form of {"room" : "name num"}
-            room = request.form['room']
-            addToWishListHelper(room.split())
-            return jsonify(user=session['username'])
-        else:
-            return redirect('login')
-    # return render_template('displaySmiley.html', data=data, sdata=sdata)
-    return render_template('smiley.html')
+        return addToWishListHelper(request.form['room'].split())
 
-@app.route('/displayRoomSelectionInfo', methods=['GET', 'POST'])
+    info = {'': '', 'dormName': 'Smiley'}
+    data = room_queries.searchForDormRooms(info)
+    sdata = suite_queries.searchForSuites(info)
+    return render_template('displaySmiley.html', data=data, sdata=sdata)
+
+@app.route('/displayRoomSelectionInfo', methods=['POST'])
 def displayRoomSelectionInfo():
     # student selected housing
     if request.method == 'POST':
         # save all inputted data
         rawinfo = request.form
-        info = rawinfo.to_dict(flat=False)
-        #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
-        for key, value in info.items():
-            info[key] = value[0]
 
-        data = None
-        data = room_queries.searchForDormRooms(info)
-        # print("DATA", type(data[0][0]), data[0][0][0][0])
-        return render_template('displayRoomSelectionInfo.html', data=data)
-    return render_template('displayRoomSelectionInfo.html')
+        # add to wishlist
+        if len(rawinfo) == 1:
+            # get email if logged in
+                return addToWishListHelper(rawinfo['room'].split())
+
+        else:
+            info = rawinfo.to_dict(flat=False)
+            #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
+            for key, value in info.items():
+                info[key] = value[0]
+
+            data = None
+            data = room_queries.searchForDormRooms(info)
+            # print("DATA", type(data[0][0]), data[0][0][0][0])
+            return render_template('displayRoomSelectionInfo.html', data=data)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
 def displaySuiteSelectionInfo():
