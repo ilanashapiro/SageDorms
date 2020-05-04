@@ -238,14 +238,14 @@ def viewMyRoom():
         #select suite
         else:
             suiteSelectInfo = request.form['suite'].split()
-            info['dormName'] = suiteSelectInfo[0]
-            info['dormRoomNum'] = suiteSelectInfo[1]
+            info['suiteID'] = suiteSelectInfo[0]
             info['emailIDSuiteRep'] = global_vars.emailID
             suite_queries.setSuite(info)
 
         roomData = room_queries.getMyRoomDetails()
         suiteData = suite_queries.getMySuiteDetails()
         dataDict = {'roomData' : roomData, 'suiteData' : suiteData}
+        print(dataDict)
         return render_template('viewMyRoom.html', data = dataDict)
 
     print("ID", global_vars.emailID)
