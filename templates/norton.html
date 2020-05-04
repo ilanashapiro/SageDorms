@@ -5,314 +5,185 @@
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
 <html>
+	<head>
+		<title>Generic - SageDorms</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
 
-<head>
-	<title>Norton - SageDorms</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<script src="wishlist.js"></script>
-</head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<body class="subpage">
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
 
-	<!-- Header -->
-	<header id="header">
-		<div class="inner">
-			<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
-			<nav id="nav">
-				<a href="index.html">Home</a>
-				<a href="generic.html">View & Search Dorms</a>
-				<a href="wishlist.html">My Wishlist</a>
-			</nav>
-			<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-		</div>
-	</header>
+		<style type="text/css">
+			[data-toggle="toggle"] {
+			display: none;
+			}
+		</style>
+	</head>
+	<body class="subpage">
 
-	<!-- Three -->
-	<section id="three" class="wrapper">
-		<div class="inner">
-			<header class="align-center">
-				<h2>Norton</h2>
-				<hr class="major" />
-
-				<span class="image fit"><img src="images/maps/norton15.jpg" alt="" /></span>
-				<h4>Click on a room number to view more details about the room.</h4>
-				<p>First Floor</p>
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong> </a>
+					<nav id="nav">
+						<a href="{{url_for('index')}}">Home</a>
+						<a href="{{url_for('dorms')}}">View Dorms</a>
+						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
+						<a href="{{url_for('suiteFormation')}}">Form Suite</a>
+						<a href="{{url_for('viewSuiteMembers')}}">View Suite</a>
+						<a href="{{url_for('wishlist')}}">My Wishlist</a>
+						<a href="{{url_for('viewMyRoom')}}">My Room/Suite Selection</a>
+                        {% if loggedIn == False %}
+                            <a href="{{url_for('login')}}">Login</a>
+                        {% else %}
+                            <a href="{{url_for('logout')}}">Logout</a>
+                        {% endif %}
+                        <a href="{{url_for('test')}}">Developer Tool</a>
+					</nav>
+				</div>
 			</header>
 
+		<!-- Three -->
+			<section id="three" class="wrapper">
+		<div class="inner">
+			<header class="align-center">
+				<h2>Norton-Clark Hall</h2>
+				<hr class="major" />
+
+				<span class="image fit"><img src="{{url_for('static',
+                    filename='images/maps/norton15.jpg')}}" alt="" /></span>
+				
+				<p>Singles and Doubles</p>
+			</header>
 		</div>
 	</section>
 
+					</header>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+	<th>Dorm Name</th>
+	<th>Room #</th>
+	<th>Square Feet</th>
+	<th>Number of Occupants</th>
+	<th>Sub Free</th>
+	<th>Connecting Room</th>
+	<th>Details</th>
+	<th>Add</th>
+		{% for room in data %}
+    <tr>
+		{% for item2 in room %}
+			{% for item3 in item2 %}
+				<td> {{item3[0]}} </td>   <!-- Dorm Name -->
+		        <td> {{item3[1]}} </td>   <!-- Room # -->
+		        <td> {{item3[2]}} </td>   <!--  Sq Ft -->
+		        <td> {{item3[3]}} </td>   <!-- Num Occupants -->
+		        <td> {{"Yes" if item3[4] == 1 else "No"}} </td>   <!-- Subfree -->
+		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+                <td><button class="wishlist_button js_wishlist_button"
+                            name="room" value="{{item3[0]}} {{item3[1]}}">Wishlist</button>
+                    <a class="button is-info is-outlined"
+							href="/housing/rooms/2/reviews">Select</a>
+                </td>
+			{% endfor %}
+		{% endfor %}
+    </tr>
+    {% endfor %}
+</tr>
+</thead>
+</table>
+</div>
 
-	<div class="table-wrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>Room # or Suite #</th>
-					<th>Description</th>
-					<th>Add</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>NORTON 1 Suite 1</td>
-					<td>4 person friendship suite. Rooms 03, 04, 05, 07.</td>
-					<td><button class="wishlist_button js_wishlist_button" data-name="Norton, 1 Suite 1">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">03</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 03" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">04</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 04" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">05</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 05" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">07</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 07" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td>NORTON 1 Suite 2</td>
-					<td>6 person friendship suite. Rooms 11, 13, 14, 15, 16, 17.</td>
-					<td><button class="wishlist_button js_wishlist_button" data-name="Norton, 1 Suite 2">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">11</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 11" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">13</a></td>
-					<td>Single. 137 sq ft.</td>
-					<td><button type="submit" value="NORTON 13" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">14</a></td>
-					<td>Single. 137 sq ft.</td>
-					<td><button type="submit" value="NORTON 14" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">15</a></td>
-					<td>Single. 137 sq ft.</td>
-					<td><button type="submit" value="NORTON 15" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">16</a></td>
-					<td>Single. 137 sq ft.</td>
-					<td><button type="submit" value="NORTON 16" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">17</a></td>
-					<td>Single. 137 sq ft.</td>
-					<td><button type="submit" value="NORTON 17" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">01</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 01" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">02</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 02" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">06</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 06" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">08</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 08" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">10</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 10" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">12</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 12" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">18</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 18" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">19</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 19" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">20</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 20" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">21</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 21" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">22</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 22" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">23</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 23" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
+<p>Suites</p>
 
-			</tbody>
+<div class="table-wrapper">
+	<table>
+		<thead>
+			<tr>
+				<th>Dorm Name</th>
+				<th>Room #</th>
+				<th>Square Feet</th>
+				<th>Number of Occupants</th>
+				<th>Connecting Room</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- [[('arkluonz', 1, 4, 4, 'NORTON-CLARK', None)], [('NORTON-CLARK', '27', 140.0, '', 1, 1, None), ('NORTON-CLARK', '28', 140.0, '', 1, 1, None), ('NORTON-CLARK', '29', 140.0, '', 1, 1, None), ('NORTON-CLARK', '30', 140.0, '', 1, 1, None)], []] -->
+			{% for suite in sdata %}
+				<tbody class="labels">
+					<tr>
+						<td colspan="7">
+							<label for="{{suite[0][0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
+							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
+						</td>
+						<td><button <a class="button is-info is-outlined"
+										 href="/housing/rooms/2/reviews">Select</a></td>
+					</tr>
+				</tbody>
+				<tbody class="hide">
+					{% for room in suite[1] %}
+						<tr>
+							<td> {{room[0]}} </td>   <!-- Dorm Name -->
+					        <td> {{room[1]}} </td>   <!-- Room # -->
+					        <td> {{room[2]}} </td>   <!--  Sq Ft -->
+					        <td> {{room[3]}} </td>   <!-- Num Occupants -->
+					        <td> {{room[4] if room[4] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+					        <td colspan="4"> {{room[5] if room[5] != '' else 'No additional info'}} </td>   <!-- Details -->
 
-		</table>
-	</div>
+						</tr>
+					{% endfor %}
+				</tbody>
+				{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+</div>
+</section>
+
+		<!-- Footer -->
 
 
+		<!-- Scripts -->
 
-	<header class="align-center">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-		<p>Second Floor</p>
-	</header>
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/skel.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/util.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+        <script type=text/javascript>
+            $( ".wishlist_button" ).click(function(e) {
+                var button = $(this);
+                var room = button.val();
+                request = $.ajax({
+                    url: "/norton",
+                    type: "POST",
+                    data: {room: room},
+                });
 
-	</div>
-	</section>
+                request.done(function () {
+                    button.html("Added!");
+                    button.disabled = true;
+                    button.fadeOut(1000);
+                });
+            });
+        </script>
 
+		<script>
+			$(document).ready(function() {
+			 $('[data-toggle="toggle"]').change(function(){
+				 $(this).parents().next('.hide').toggle();
+				 });
+			});
+		</script>
 
-	<div class="table-wrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>Room # or Suite #</th>
-					<th>Description</th>
-					<th>Add</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>NORTON 2 Suite 1</td>
-					<td>4 person friendship suite. Rooms 27, 28, 29, 30.</td>
-					<td><button class="wishlist_button js_wishlist_button" data-name="Norton, 2 Suite 1">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">27</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 27" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">28</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 28" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">29</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 29" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">30</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 30" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-
-				<tr>
-					<td><a href = "viewRoomDetails">24</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 24" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">25</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 25" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">26</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 26" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">31</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 31" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">32</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 32" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">33</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 33" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">34</a></td>
-					<td>Single. 140 sq ft.</td>
-					<td><button type="submit" value="NORTON 34" class="wishlist_button js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-
-			</tbody>
-
-		</table>
-	</div>
-	<!-- Footer -->
-
-
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/skel.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
-
-</body>
-
+	</body>
 </html>

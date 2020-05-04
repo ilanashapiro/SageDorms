@@ -101,8 +101,8 @@ def addToWishListHelper(data):
     else:
         return redirect('login')
 
-@app.route('/displaySmiley', methods=['GET', 'POST'])
-def displaySmiley():
+@app.route('/smiley', methods=['GET', 'POST'])
+def smiley():
 
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
@@ -110,7 +110,62 @@ def displaySmiley():
     info = {'': '', 'dormName': 'Smiley'}
     data = room_queries.searchForDormRooms(info)
     sdata = suite_queries.searchForSuites(info)
-    return render_template('displaySmiley.html', data=data, sdata=sdata)
+    return render_template('smiley.html', data=data, sdata=sdata)
+
+@app.route('/clark1', methods=['GET', 'POST'])
+def clark1():
+
+    if request.method == 'POST':
+        return addToWishListHelper(request.form['room'].split())
+
+    info = {'': '', 'dormName': 'Clark-I'}
+    data = room_queries.searchForDormRooms(info)
+    sdata = suite_queries.searchForSuites(info)
+    return render_template('clark1.html', data=data, sdata=sdata)
+
+@app.route('/clark5', methods=['GET', 'POST'])
+def clark5():
+
+    if request.method == 'POST':
+        return addToWishListHelper(request.form['room'].split())
+
+    info = {'': '', 'dormName': 'Clark-V'}
+    data = room_queries.searchForDormRooms(info)
+    sdata = suite_queries.searchForSuites(info)
+    return render_template('clark5.html', data=data, sdata=sdata)
+
+@app.route('/norton', methods=['GET', 'POST'])
+def norton():
+
+    if request.method == 'POST':
+        return addToWishListHelper(request.form['room'].split())
+
+    info = {'': '', 'dormName': 'Norton-Clark'}
+    data = room_queries.searchForDormRooms(info)
+    sdata = suite_queries.searchForSuites(info)
+    return render_template('norton.html', data=data, sdata=sdata)
+
+@app.route('/walker', methods=['GET', 'POST'])
+def walker():
+
+    if request.method == 'POST':
+        return addToWishListHelper(request.form['room'].split())
+
+    info = {'': '', 'dormName': 'Walker'}
+    data = room_queries.searchForDormRooms(info)
+    sdata = suite_queries.searchForSuites(info)
+    return render_template('walker.html', data=data, sdata=sdata)
+
+@app.route('/lawry', methods=['GET', 'POST'])
+def lawry():
+
+    if request.method == 'POST':
+        return addToWishListHelper(request.form['room'].split())
+
+    info = {'': '', 'dormName': 'Lawry'}
+    data = room_queries.searchForDormRooms(info)
+    sdata = suite_queries.searchForSuites(info)
+    return render_template('lawry.html', data=data, sdata=sdata)
 
 @app.route('/displayRoomSelectionInfo', methods=['POST'])
 def displayRoomSelectionInfo():
