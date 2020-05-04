@@ -226,28 +226,27 @@ def viewMyRoom():
     if request.method == 'POST':
         print(request.form)
         info = {}
+
+        #select room
         if 'room' in request.form:
             roomSelectInfo = request.form['room'].split()
-        else:
-            suiteSelectInfo = request.form['suite']
-        data = None
-
-        # selects room
-        if len(roomSelectInfo) == 0:
             info['dormName'] = roomSelectInfo[0]
             info['dormRoomNum'] = roomSelectInfo[1]
             info['roommateEID'] = None
             room_queries.setStudentRoom(info)
-            data = room_queries.getMyRoomDetails()
 
-        # selects suite
+        #select suite
         else:
+            suiteSelectInfo = request.form['suite'].split()
             info['dormName'] = suiteSelectInfo[0]
             info['dormRoomNum'] = suiteSelectInfo[1]
             info['emailIDSuiteRep'] = global_vars.emailID
             suite_queries.setSuite(info)
-            data = suite_queries.getMySuiteDetails()
-        return render_template('viewMyRoom.html', data = data)
+
+        roomData = room_queries.getMyRoomDetails()
+        suiteData = suite_queries.getMySuiteDetails()
+        dataDict = {'roomData' : roomData, 'suiteData' : suiteData}
+        return render_template('viewMyRoom.html', data = dataDict)
 
     print("ID", global_vars.emailID)
     # info = {'suiteID' : 'oxeoqmej', 'emailIDSuiteRep' : 'hpaa2018'}
