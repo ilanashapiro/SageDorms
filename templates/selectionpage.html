@@ -9,38 +9,41 @@
 		<title>Generic - SageDorms</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+		<!-- assets/css/main.css -->
 	</head>
 	<body class="subpage">
 
 		<!-- Header -->
 			<header id="header">
 				<div class="inner">
-					<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
+					<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong> </a>
 					<nav id="nav">
-						<a href="index.html">Home</a>
-						<a href="generic.html">View & Search Dorms</a>
-						<a href="elements.html">My Wishlist</a>
+						<a href="{{url_for('index')}}">Home</a>
+						<a href="{{url_for('dorms')}}">View Dorms</a>
+						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
+						<a href="{{url_for('wishlist')}}">My Wishlist</a>
 					</nav>
-					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+					<!-- <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a> -->
 				</div>
 			</header>
+
 
 		<!-- Three -->
 
 			<section id="three" class="wrapper">
 				<div class="inner">
-					<header class="align-center">
-						<h2>Search Rooms</h2>
+					<!-- <header class="align-center"> -->
+						<h3>Search Rooms</h3>
 						<hr class="major" />
 
-           
-						<p>Filter Your Room Selection Results for Singles or Doubles!</p>
+
+						<h2>Filter Your Room Selection Results for Singles or Doubles!</h2>
 					</header>
-					
-			
+
+
 						<!-- <form method="post" action="#">-->
-						<form action="" method="post" name="singleDoubleForm">
+						<form action="displayRoomSelectionInfo" method="POST" name="singleDoubleForm">
 						<div class="row 200%">
 							<div class="6u 12u$(medium)">
 
@@ -48,19 +51,18 @@
 									<h4>Choose Dorm</h4>
 									<div class="12u$">
 												<div class="select-wrapper">
-													<select name="demo-category" id="demo-category">
+													<select name="dormName" id="dormName">
 														<option value="">- All Dorms -</option>
-														<option value="clark1">Clark I</option>
-														<option value="clark3">Clark III</option>
-														<option value="clark5">Clark V</option>
+														<option value="CLARK-I">Clark I</option>
+														<option value="CLARK-V">Clark V</option>
+														<option value="NORTON-CLARK">Norton/Clark III</option>
+														<option value="LAWRY">Lawry</option>
+														<option value="SMILEY">Smiley</option>
+														<option value="WALKER">Walker</option>
 														<option value="dialynas">Dialynas</option>
 														<option value="harwood">Harwood</option>
-														<option value="lawry">Lawry</option>
 														<option value="muddblais">Mudd Blaisdell</option>
-														<option value="norton">Norton</option>
-														<option value="smiley">Smiley</option>
 														<option value="sontag">Sontag</option>
-														<option value="walker">Walker</option>
 														<option value="wig">Wig</option>
 													</select>
 												</div>
@@ -68,30 +70,31 @@
 
 								<!-- Lists -->
 								<h3> </h3>
-									<h4>Dorm Number</h4>
+									<h4>Room Number</h4>
 									<div class="6u 12u$(xsmall)">
-												<input type="Text" name="roomNum" id="roomNum" value="{{request.form.roomNum}}" placeholder="Room #" />
+												<input type="Text" name="number" id="number" value="{{request.form.roomNum}}" placeholder="Room #" />
 											</div>
-										
+
 									<h3> </h3>
 									<h4>Misc.</h4>
 									<div class="6u 12u$(small)">
-												<input type="checkbox" id="bathroom" name="bathroom">
-												<label for="bathroom">Has Private Bathroom</label>
+												<input type="checkbox" id="hasPrivateBathroom" name="hasPrivateBathroom" value=true>
+												<label for="hasPrivateBathroom">Has Private Bathroom</label>
 											</div>
 									<div class="6u 12u$(small)">
-												<input type="checkbox" id="connect" name="connect">
-												<label for="connect">Has Connecting Room</label>
+												<input type="checkbox" id="hasConnectingRoom" name="hasConnectingRoom" value=true>
+												<label for="hasConnectingRoom">Has Connecting Room</label>
 											</div>
 
 											<div class="6u 12u$(small)">
-												<input type="checkbox" id="subfree" name="subfree">
-												<label for="subfree">Is Subfree</label>
+												<input type="checkbox" id="isSubFree" name="isSubFree" value=true>
+												<label for="isSubFree">Is Subfree</label>
 											</div>
-									
+
+										<h3> </h3>
 
 
-									
+
 
 							</div>
 
@@ -100,68 +103,59 @@
 								<!-- Right Side -->
 									<h4>Room Type</h4>
 									<div class="4u 12u$(small)">
-												<input type="radio" id="single" name="single">
+												<input type="radio" id="single" name="numOccupants" value=1>
 												<label for="single">Single</label>
 											</div>
 											<div class="4u 12u$(small)">
-												<input type="radio" id="double" name="double">
-												<label for="single">Double</label>
+												<input type="radio" id="double" name="numOccupants" value=2>
+												<label for="double">Double</label>
 											</div>
-											
+
 
 								<!-- Form -->
-								<h3> </h3>
-									<h4>Closet Type</h4>
-									<div class="4u 12u$(small)">
-												<input type="radio" id="walkin" name="closet">
-												<label for="walkin">Walk In</label>
-											</div>
-											<div class="4u 12u$(small)">
-												<input type="radio" id="bumpout" name="closet">
-												<label for="bumpout">Bump Out</label>
-											</div>
 
 
-									
+
+
 									<h3> </h3>
 							<div class="12u$">
 										<ul class="actions">
-											<li><input type="submit" value="Submit" /></li>
-													</li>
-												</ul>
+											<!-- <form action="displayRoomSelectionInfo.html" > -->
+  											<button type="submit">Submit</button>
+                                            </ul>
 											</div>
 										</div>
-									</form>
+                                </form>
 
 
 						<section id="three" class="wrapper">
-				
+
 						<hr class="major" />
 
-           
-						<p>Filter Your Room Selection Results for Suites!</p>
+
+						<h2>Filter Your Room Selection Results for Suites!</h2>
 					</header>
-						<form action="" method="post" name="suiteForm">
-						
+						<form action="displaySuiteSelectionInfo" method="POST" name="suiteForm">
+
 
 								<!-- Left Side -->
-								
+
 									<h4>Choose Dorm</h4>
 									<div class="12u$">
 												<div class="select-wrapper">
-													<select name="demo-category" id="demo-category">
+													<select name="dormName" id="demo-category">
 														<option value="">- All Dorms -</option>
-														<option value="clark1">Clark I</option>
-														<option value="clark3">Clark III</option>
-														<option value="clark5">Clark V</option>
+														<option value="CLARK-I">Clark I</option>
+														<option value="NORTON-CLARK">Clark III</option>
+														<option value="CLARK-V">Clark V</option>
 														<option value="dialynas">Dialynas</option>
 														<option value="harwood">Harwood</option>
-														<option value="lawry">Lawry</option>
+														<option value="LAWRY">Lawry</option>
 														<option value="muddblais">Mudd Blaisdell</option>
-														<option value="norton">Norton</option>
-														<option value="smiley">Smiley</option>
+														<option value="NORTON-CLARK">Norton</option>
+														<option value="SMILEY">Smiley</option>
 														<option value="sontag">Sontag</option>
-														<option value="walker">Walker</option>
+														<option value="WALKER">Walker</option>
 														<option value="wig">Wig</option>
 													</select>
 												</div>
@@ -173,33 +167,35 @@
 									<div class="6u 12u$(xsmall)">
 												<input type="Text" name="roomNum" id="roomNum" value="{{request.form.roomNum}}" placeholder="Room #" />
 											</div>
-										
+
 									<h3> </h3>
 									<h4>Misc.</h4>
 									<div class="6u 12u$(small)">
-												<input type="checkbox" id="subfreesuite" name="subfreesuite">
+												<input type="checkbox" id="subfreesuite" name="isSubFree" value=true>
 												<label for="subfreesuite">Is Subfree</label>
 											</div>
 
 					<div class="6u$ 12u$(medium)">
 
-								
+
 							<div class="12u$">
 										<ul class="actions">
-											<li><input type="submit" value="Submit" /></li>
-													</li>
+											<!-- <form action="displaySuiteSelectionInfo.html" > -->
+  											<button type="submit">Submit</button>
+
 												</ul>
 											</div>
 										</div>
 									</form>
 		<!-- Footer -->
-		
+
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+		<!-- <link rel="stylesheet" href="{{url_for('static', filename='js/jquery.min.css')}}" /> -->
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/skel.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/util.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
 
 	</body>
 </html>

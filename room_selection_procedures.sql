@@ -16,25 +16,25 @@ END $$
 DROP PROCEDURE IF EXISTS GetDormRoomSinglesSummary$$
 CREATE PROCEDURE GetDormRoomSinglesSummary()
 BEGIN
-	SELECT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
 		   dr.numOccupants, dr.connectingRoomNum
 	FROM DormRoom AS dr, Room AS r
 	WHERE dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
+		  AND NOT EXISTS (SELECT * FROM Student AS s WHERE s.dormName = dr.dormName AND s.dormRoomNum = dr.number) --  we only want rooms that are still free
 	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by number for later processing
 END $$
 
-DROP PROCEDURE IF EXISTS GetDormRoomSinglesSummaryForRoom$$
-CREATE PROCEDURE GetDormRoomSinglesSummaryForRoom(
+DROP PROCEDURE IF EXISTS GetSummaryForDormRoom$$
+CREATE PROCEDURE GetSummaryForDormRoom(
 	IN dormName VARCHAR(50),
 	IN roomNum VARCHAR(10)
 )
 BEGIN
-	SELECT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
-		   dr.numOccupants, dr.connectingRoomNum
+	SELECT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription
 	FROM DormRoom AS dr, Room AS r
 	WHERE r.number = roomNum AND r.dormName = dormName
 		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
-	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by number for later processing
+		  AND NOT EXISTS (SELECT * FROM Student AS s where s.dormName = dr.dormName AND s.dormRoomNum = dr.number); --  we only want rooms that are still free
 END $$
 
 DROP PROCEDURE IF EXISTS GetRoomDetails$$
@@ -63,9 +63,10 @@ CREATE PROCEDURE GetMyRoomDetails(
 	IN emailID CHAR(8)
 )
 BEGIN
-	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree,
-		   dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription
-	FROM DormRoom AS dr, Room AS r, Student AS s, Student AS roommate
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription
+	-- the old version when we though we could support more detail. May bring this back in the future
+	 -- r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree, dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription
+	FROM DormRoom AS dr, Room AS r, Student AS s
 	WHERE dr.dormName = r.dormName
 		  AND dr.number = r.number
 		  AND r.dormName = s.dormName
