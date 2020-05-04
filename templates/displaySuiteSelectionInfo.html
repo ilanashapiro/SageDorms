@@ -72,7 +72,7 @@
 							<label for="{{suite[0][0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
 							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
 						</td>
-						<td> <a class="button is-info is-outlined" href="/">Select</a></td>
+						<td> <a class="button is-info is-outlined" href="/viewMyRoom" name="room" value="{{suite[0][0][0]}}">Select</a></td>
 					</tr>
 				</tbody>
 				<tbody class="hide">

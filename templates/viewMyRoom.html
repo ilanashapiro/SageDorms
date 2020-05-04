@@ -104,15 +104,20 @@
 		<tbody>
 			<!-- [[('oxeoqmej', 'WALKER', 0, 5, 5, None)], [('WALKER', '729', 126.0, '', 1, None), ('WALKER', '730', 127.0, '', 1, None), ('WALKER', '731', 129.0, '', 1, None), ('WALKER', '732', 129.0, '', 1, None), ('WALKER', '733', 132.0, '', 1, None)], []] -->
 
-				<tbody class="labels">
-					<tr>
-						<td colspan="7">
-							<!-- ('hjeshkgd', 0, 6, 6, 'SMILEY', None) -->
-							<label for="{{data['suiteData'][0][0][0]}}">{{data['suiteData'][0][0][4] ~ ": " ~ data['suiteData'][0][0][3] ~ " people, " ~ data['suiteData'][0][0][2] ~ " rooms. " ~ ("Sub free. " if data['suiteData'][0][0][1] == 1 else "Not sub free. ") ~ (data['suiteData'][0][0][5] if data['suiteData'][0][0][5] != None else 'No additional info')}}</label>
-							<input type="checkbox" name="{{data['suiteData'][0][0][0]}}" id="{{data['suiteData'][0][0][0]}}" data-toggle="toggle">
-						</td>
-					</tr>
-				</tbody>
+			{% for suiteList in data['suiteData'] %}
+				{% for suiteTuple in suiteList %}
+					<tbody class="labels">
+						<tr>
+							<td colspan="7">
+								<!-- ('hjeshkgd', 0, 6, 6, 'SMILEY', None) -->
+								<label for="{{suiteTuple[0]}}">{{suiteTuple[4] ~ ": " ~ suiteTuple[3] ~ " people, " ~ suiteTuple[2] ~ " rooms. " ~ ("Sub free. " if suiteTuple[1] == 1 else "Not sub free. ") ~ (suiteTuple[5] if suiteTuple[5] != None else 'No additional info')}}</label>
+								<input type="checkbox" name="{{suiteTuple[0]}}" id="{{suiteTuple[0]}}" data-toggle="toggle">
+							</td>
+							<td> <a class="button is-info is-outlined" href="/viewMyRoom">Select</a></td>
+						</tr>
+					</tbody>
+				{% endfor %}
+			{% endfor %}
 				<tbody class="hide">
 					{% for room in data['suiteData'][1] %}
 						<tr>
