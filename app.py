@@ -187,8 +187,8 @@ def displayRoomSelectionInfo():
 
             data = None
             data = room_queries.searchForDormRooms(info)
-            # print("DATA", type(data[0][0]), data[0][0][0][0])
-            return render_template('displayRoomSelectionInfo.html', data=data)
+            hasNotChosen = len(room_queries.getMyRoomDetails()[0]) == 0
+            return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = hasNotChosen)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
 def displaySuiteSelectionInfo():
@@ -205,8 +205,8 @@ def displaySuiteSelectionInfo():
             info[key] = value[0]
         data = suite_queries.searchForSuites(info)
         result = filter(lambda suite: len(suite[0]) > 0, data)
-        print(result)
-        return render_template('displaySuiteSelectionInfo.html', data=result)
+        hasNotChosen = len(suite_queries.getMySuiteDetails()[0]) == 0
+        return render_template('displaySuiteSelectionInfo.html', data=result, hasNotChosen = hasNotChosen)
     return render_template('displaySuiteSelectionInfo.html')
 
 # @app.route('/viewRoomDetails', methods=['GET'])

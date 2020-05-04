@@ -74,3 +74,4 @@ BEGIN
 									     FROM SuiteGroup AS sg
 									     WHERE sg.emailID = emailID)));
 END $$
+DELIMITER ;

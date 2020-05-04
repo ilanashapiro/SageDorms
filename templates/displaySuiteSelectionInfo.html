@@ -73,9 +73,11 @@
 							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
 						</td>
 						<td>
+							{% if hasNotChosen %}
 							<form action="viewMyRoom" method="post">
 								<button type="submit" name="suite" value="{{suite[0][0][0]}}">Select</button>
 							</form>
+							{% endif %}
 						</td>
 					</tr>
 				</tbody>
