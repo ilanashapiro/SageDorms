@@ -9,42 +9,181 @@
 		<title>Generic - SageDorms</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+
+		<style type="text/css">
+			[data-toggle="toggle"] {
+			display: none;
+			}
+		</style>
 	</head>
 	<body class="subpage">
 
 		<!-- Header -->
 			<header id="header">
 				<div class="inner">
-					<a href="index.html" class="logo"><strong>SageDorms</strong> </a>
+					<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong> </a>
 					<nav id="nav">
-						<a href="index.html">Home</a>
-						<a href="generic.html">Generic</a>
-						<a href="elements.html">Elements</a>
+						<a href="{{url_for('index')}}">Home</a>
+						<a href="{{url_for('dorms')}}">View Dorms</a>
+						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
+						<a href="{{url_for('suiteFormation')}}">Form Suite</a>
+						<a href="{{url_for('viewSuiteMembers')}}">View Suite</a>
+						<a href="{{url_for('wishlist')}}">My Wishlist</a>
+						<a href="{{url_for('viewMyRoom')}}">My Room/Suite Selection</a>
+                        {% if loggedIn == False %}
+                            <a href="{{url_for('login')}}">Login</a>
+                        {% else %}
+                            <a href="{{url_for('logout')}}">Logout</a>
+                        {% endif %}
+                        <a href="{{url_for('test')}}">Developer Tool</a>
 					</nav>
-					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
 			</header>
 
 		<!-- Three -->
 			<section id="three" class="wrapper">
-				<div class="inner">
-					<header class="align-center">
-						<h2>Wig Hall</h2>
-						<p>First Floor</p>
+		<div class="inner">
+			<header class="align-center">
+				<h2>Lawry Hall</h2>
+				<hr class="major" />
+
+				<span class="image fit"><img src="{{url_for('static',
+                    filename='images/maps/lawry.jpg')}}" alt="" /></span>
+				
+				<p>Singles and Doubles</p>
+			</header>
+		</div>
+	</section>
+
 					</header>
-					
-				</div>
-			</section>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+	<th>Dorm Name</th>
+	<th>Room #</th>
+	<th>Square Feet</th>
+	<th>Number of Occupants</th>
+	<th>Sub Free</th>
+	<th>Connecting Room</th>
+	<th>Details</th>
+	<th>Add</th>
+		{% for room in data %}
+    <tr>
+		{% for item2 in room %}
+			{% for item3 in item2 %}
+				<td> {{item3[0]}} </td>   <!-- Dorm Name -->
+		        <td> {{item3[1]}} </td>   <!-- Room # -->
+		        <td> {{item3[2]}} </td>   <!--  Sq Ft -->
+		        <td> {{item3[3]}} </td>   <!-- Num Occupants -->
+		        <td> {{"Yes" if item3[4] == 1 else "No"}} </td>   <!-- Subfree -->
+		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+                <td><button class="wishlist_button js_wishlist_button"
+                            name="room" value="{{item3[0]}} {{item3[1]}}">Wishlist</button>
+                    <a class="button is-info is-outlined"
+							href="/housing/rooms/2/reviews">Select</a>
+                </td>
+			{% endfor %}
+		{% endfor %}
+    </tr>
+    {% endfor %}
+</tr>
+</thead>
+</table>
+</div>
+
+<p>Suites</p>
+
+<div class="table-wrapper">
+	<table>
+		<thead>
+			<tr>
+				<th>Dorm Name</th>
+				<th>Room #</th>
+				<th>Square Feet</th>
+				<th>Number of Occupants</th>
+				<th>Connecting Room</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- [[('arkluonz', 1, 4, 4, 'NORTON-CLARK', None)], [('NORTON-CLARK', '27', 140.0, '', 1, 1, None), ('NORTON-CLARK', '28', 140.0, '', 1, 1, None), ('NORTON-CLARK', '29', 140.0, '', 1, 1, None), ('NORTON-CLARK', '30', 140.0, '', 1, 1, None)], []] -->
+			{% for suite in sdata %}
+				<tbody class="labels">
+					<tr>
+						<td colspan="7">
+							<label for="{{suite[0][0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
+							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
+						</td>
+						<td><button <a class="button is-info is-outlined"
+										 href="/housing/rooms/2/reviews">Select</a></td>
+					</tr>
+				</tbody>
+				<tbody class="hide">
+					{% for room in suite[1] %}
+						<tr>
+							<td> {{room[0]}} </td>   <!-- Dorm Name -->
+					        <td> {{room[1]}} </td>   <!-- Room # -->
+					        <td> {{room[2]}} </td>   <!--  Sq Ft -->
+					        <td> {{room[3]}} </td>   <!-- Num Occupants -->
+					        <td> {{room[4] if room[4] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+					        <td colspan="4"> {{room[5] if room[5] != '' else 'No additional info'}} </td>   <!-- Details -->
+
+						</tr>
+					{% endfor %}
+				</tbody>
+				{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+</div>
+</section>
 
 		<!-- Footer -->
-			
+
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/skel.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/util.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+        <script type=text/javascript>
+            $( ".wishlist_button" ).click(function(e) {
+                var button = $(this);
+                var room = button.val();
+                request = $.ajax({
+                    url: "/lawry",
+                    type: "POST",
+                    data: {room: room},
+                });
+
+                request.done(function () {
+                    button.html("Added!");
+                    button.disabled = true;
+                    button.fadeOut(1000);
+                });
+            });
+        </script>
+
+		<script>
+			$(document).ready(function() {
+			 $('[data-toggle="toggle"]').change(function(){
+				 $(this).parents().next('.hide').toggle();
+				 });
+			});
+		</script>
 
 	</body>
 </html>
