@@ -55,11 +55,11 @@ def searchForDormRooms(info):
     # order results
     queryString += f' ORDER BY CAST(r.number AS unsigned);'
 
-    print(queryString)
+    # print(queryString)
     global_vars.cursor.execute(queryString)
 
     rooms = global_vars.cursor.fetchall()
-    print(rooms)
+    # print(rooms)
     results = []
     for room in rooms:
         dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
