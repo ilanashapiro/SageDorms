@@ -188,7 +188,9 @@ def displayRoomSelectionInfo():
             data = None
             data = room_queries.searchForDormRooms(info)
             hasNotChosen = len(room_queries.getMyRoomDetails()[0]) == 0
-            return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = hasNotChosen)
+            myWishList = wish_list_queries.getMyWishList()[0]
+            print("WISHLIST", myWishList)
+            return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = hasNotChosen, myWishList = myWishList)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
 def displaySuiteSelectionInfo():
