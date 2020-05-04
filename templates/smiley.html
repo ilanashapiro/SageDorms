@@ -5,561 +5,185 @@
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
 <html>
+	<head>
+		<title>Generic - SageDorms</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
 
-<head>
-	<title>Smiley - SageDorms</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
-	<script src="{{url_for('static', filename='js/wishlist.js')}}"></script>
-</head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<body class="subpage">
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
 
-	<!-- Header -->
-	<header id="header">
-		<div class="inner">
-			<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong></a>
-			<nav id="nav">
-                <a href="{{url_for('index')}}">Home</a>
-				<a href="{{url_for('dorms')}}">View & Search Dorms</a>
-				<a href="{{url_for('wishlist')}}">My Wishlist</a>
-			</nav>
-			<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-		</div>
-	</header>
+		<style type="text/css">
+			[data-toggle="toggle"] {
+			display: none;
+			}
+		</style>
+	</head>
+	<body class="subpage">
 
-	<!-- Three -->
-	<section id="three" class="wrapper">
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong> </a>
+					<nav id="nav">
+						<a href="{{url_for('index')}}">Home</a>
+						<a href="{{url_for('dorms')}}">View Dorms</a>
+						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
+						<a href="{{url_for('suiteFormation')}}">Form Suite</a>
+						<a href="{{url_for('viewSuiteMembers')}}">View Suite</a>
+						<a href="{{url_for('wishlist')}}">My Wishlist</a>
+						<a href="{{url_for('viewMyRoom')}}">My Room/Suite Selection</a>
+                        {% if loggedIn == False %}
+                            <a href="{{url_for('login')}}">Login</a>
+                        {% else %}
+                            <a href="{{url_for('logout')}}">Logout</a>
+                        {% endif %}
+                        <a href="{{url_for('test')}}">Developer Tool</a>
+					</nav>
+				</div>
+			</header>
+
+		<!-- Three -->
+			<section id="three" class="wrapper">
 		<div class="inner">
 			<header class="align-center">
 				<h2>Smiley Hall</h2>
 				<hr class="major" />
 
-				<span class="image fit"><img src="images/maps/smiley15.jpg" alt="" /></span>
 				<span class="image fit"><img src="{{url_for('static',
                     filename='images/maps/smiley15.jpg')}}" alt="" /></span>
-				<h4>Click on a room number to view more details about the room.</h4>
-				<p>First Floor</p>
+				
+				<p>Singles and Doubles</p>
 			</header>
 		</div>
 	</section>
 
-	<div class="table-wrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>Room # or Suite #</th>
-					<th>Description</th>
-					<th>Add</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>SMILEY 1 Suite 1</td>
-					<td>6 person friendship suite. Rooms 101, 102, 103, 104, 105, 107.</td>
-					<td><button class="wishlist_button js_wishlist_button" name="Smiley, 1 Suite 1">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">101</a></td>
-					<td>Single. 99 sq ft.</td>
-                    <td><button value="SMILEY 101"
-                            class="wishlist_button js_wishlist_button"
-                            name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">102</a></td>
-					<td>Single. 133 sq ft.</td>
-					<td><button  value="SMILEY 102"
-                            class="wishlist_button js_wishlist_button"
-                            name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">103</a></td>
-					<td>Single. 125 sq ft.</td>
-					<td><button  value="SMILEY 103" class="wishlist_button
-                            js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">104</a></td>
-					<td>Single. 119 sq ft.</td>
-					<td><button  value="SMILEY 104" class="wishlist_button
-                            js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">105</a></td>
-					<td>Single. 105 sq ft.</td>
-					<td><button  value="SMILEY 105" class="wishlist_button
-                            js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">107</a></td>
-					<td>Single. 102 sq ft.</td>
-					<td><button  value="SMILEY 107" class="wishlist_button
-                            js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">106</a></td>
-					<td>Single. 124 sq ft.</td>
-					<td><button  value="SMILEY 106" class="wishlist_button
-                            js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
+					</header>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+	<th>Dorm Name</th>
+	<th>Room #</th>
+	<th>Square Feet</th>
+	<th>Number of Occupants</th>
+	<th>Sub Free</th>
+	<th>Connecting Room</th>
+	<th>Details</th>
+	<th>Add</th>
+		{% for room in data %}
+    <tr>
+		{% for item2 in room %}
+			{% for item3 in item2 %}
+				<td> {{item3[0]}} </td>   <!-- Dorm Name -->
+		        <td> {{item3[1]}} </td>   <!-- Room # -->
+		        <td> {{item3[2]}} </td>   <!--  Sq Ft -->
+		        <td> {{item3[3]}} </td>   <!-- Num Occupants -->
+		        <td> {{"Yes" if item3[4] == 1 else "No"}} </td>   <!-- Subfree -->
+		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+                <td><button class="wishlist_button js_wishlist_button"
+                            name="room" value="{{item3[0]}} {{item3[1]}}">Wishlist</button>
+                    <a class="button is-info is-outlined"
+							href="/housing/rooms/2/reviews">Select</a>
+                </td>
+			{% endfor %}
+		{% endfor %}
+    </tr>
+    {% endfor %}
+</tr>
+</thead>
+</table>
+</div>
 
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">108</a></td>
-					<td>Single. 96 sq ft.</td>
-					<td><button  value="SMILEY 108" class="wishlist_button
-                           js_wishlist_button" name="room">Wishlist</button> <a class="button is-info is-outlined"
-						 href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">109</a></td>
-					<td>Single. 123 sq ft.</td>
-					<td><button  value="SMILEY 109" class="wishlist_button
-                           js_wishlist_button" name="room">Wishlist</button> <a class="button is-info is-outlined"
-						 href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">110</a></td>
-					<td>Single. 127 sq ft.</td>
-					<td><button  value="SMILEY 110" class="wishlist_button
-                           js_wishlist_button" name="room">Wishlist</button> <a class="button is-info is-outlined"
-						 href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">111</a></td>
-					<td>Single. 118 sq ft.</td>
-					<td><button  value="SMILEY 111" class="wishlist_button
-                           js_wishlist_button" name="room">Wishlist</button> <a class="button is-info is-outlined"
-						 href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">112</a></td>
-					<td>Single. 115 sq ft.</td>
-					<td><button  value="SMILEY 112" class="wishlist_button js_wishlist_button"
-                               name="room">Wishlist</button> <a class="button is-info is-outlined"
-						 href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">113</a></td>
-					<td>Single. 138 sq ft.</td>
-					<td><button  value="SMILEY 113" class="wishlist_button js_wishlist_button"
-                             name="room">Wishlist</button> <a class="button is-info is-outlined"
-						 href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">114</a></td>
-					<td>Single. 95 sq ft.</td>
-					<td><button  value="SMILEY 114" class="wishlist_button js_wishlist_button"
-                                 name="room">Wishlist</button> <a class="button is-info is-outlined"
-						 href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
+<p>Suites</p>
 
-			</tbody>
-		</table>
-	</div>
-
-
-
-	<header class="align-center">
-
-		<p>Second Floor</p>
-	</header>
-
-	</div>
-	</section>
-	<div class="table-wrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>Room # or Suite #</th>
-					<th>Description</th>
-					<th>Add</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>SMILEY 2 Suite 1</td>
-					<td>6 person friendship suite. Rooms 201, 202, 203, 204, 205, 207.</td>
-					<td><button class="wishlist_button js_wishlist_button" name="Smiley, 2 Suite 1">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">201</a></td>
-					<td>Single. 143 sq ft.</td>
-					<td><button  value="SMILEY 201" class="wishlist_button
-                            js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">202</a></td>
-					<td>Single. 122 sq ft.</td>
-					<td><button  value="SMILEY 202" class="wishlist_button
-                            js_wishlist_button" name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">203</a></td>
-					<td>Single. 125 sq ft.</td>
-					<td><button  value="SMILEY 203" class="wishlist_button js_wishlist_button"
-                            name="room">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">204</a></td>
-					<td>Single. 112 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 204">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">205</a></td>
-					<td>Single. 112 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 205">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">207</a></td>
-					<td>Single. 102 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 207">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-
-				<tr>
-					<td><a href = "viewRoomDetails">206</a></td>
-					<td>Single. 1 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 206">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">208</a></td>
-					<td>Single. 96 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 208">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">209</a></td>
-					<td>Single. 121 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 209">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">210</a></td>
-					<td>Single. 98 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 210">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">211</a></td>
-					<td>Single. 92 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 211">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">212</a></td>
-					<td>Single. 124 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 212">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">213</a></td>
-					<td>Single. 113 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 213">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">214</a></td>
-					<td>Single. 96 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 214">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">215</a></td>
-					<td>Single. 98 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 215">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">216</a></td>
-					<td>Single. 101 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 216">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">217</a></td>
-					<td>Single. 102 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 217">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">218</a></td>
-					<td>Single. 112 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 218">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">219</a></td>
-					<td>Single. 116 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 219">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">220</a></td>
-					<td>Single. 109 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 220">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">221</a></td>
-					<td>Single. 87 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 221">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
+<div class="table-wrapper">
+	<table>
+		<thead>
+			<tr>
+				<th>Dorm Name</th>
+				<th>Room #</th>
+				<th>Square Feet</th>
+				<th>Number of Occupants</th>
+				<th>Connecting Room</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- [[('arkluonz', 1, 4, 4, 'NORTON-CLARK', None)], [('NORTON-CLARK', '27', 140.0, '', 1, 1, None), ('NORTON-CLARK', '28', 140.0, '', 1, 1, None), ('NORTON-CLARK', '29', 140.0, '', 1, 1, None), ('NORTON-CLARK', '30', 140.0, '', 1, 1, None)], []] -->
+			{% for suite in sdata %}
+				<tbody class="labels">
+					<tr>
+						<td colspan="7">
+							<label for="{{suite[0][0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
+							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
+						</td>
+						<td><button <a class="button is-info is-outlined"
+										 href="/housing/rooms/2/reviews">Select</a></td>
+					</tr>
 				</tbody>
-		</table>
-	</div>
+				<tbody class="hide">
+					{% for room in suite[1] %}
+						<tr>
+							<td> {{room[0]}} </td>   <!-- Dorm Name -->
+					        <td> {{room[1]}} </td>   <!-- Room # -->
+					        <td> {{room[2]}} </td>   <!--  Sq Ft -->
+					        <td> {{room[3]}} </td>   <!-- Num Occupants -->
+					        <td> {{room[4] if room[4] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+					        <td colspan="4"> {{room[5] if room[5] != '' else 'No additional info'}} </td>   <!-- Details -->
+
+						</tr>
+					{% endfor %}
+				</tbody>
+				{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+</div>
+</section>
+
+		<!-- Footer -->
 
 
+		<!-- Scripts -->
 
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-	<header class="align-center">
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/skel.min.js')}}"></script>
+        <script src="{{url_for('static', filename='js/util.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+        <script type=text/javascript>
+            $( ".wishlist_button" ).click(function(e) {
+                var button = $(this);
+                var room = button.val();
+                request = $.ajax({
+                    url: "/smiley",
+                    type: "POST",
+                    data: {room: room},
+                });
 
-		<p>Third Floor</p>
-	</header>
-
-	</div>
-	</section>
-
-
-	<div class="table-wrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>Room # or Suite #</th>
-					<th>Description</th>
-					<th>Add</th>
-				</tr>
-			</thead>
-			<tbody>
-
-				<tr>
-					<td>SMILEY 3 Suite 1</td>
-					<td>6 person friendship suite. Rooms 301, 302, 303, 304, 305, 307.</td>
-					<td><button class="wishlist_button js_wishlist_button" name="Smiley, 3 Suite 1">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">301</a></td>
-					<td>Single. 94 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 301">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">302</a></td>
-					<td>Single. 133 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 302">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">303</a></td>
-					<td>Single. 98 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 303">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">304</a></td>
-					<td>Single. 119 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 304">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">305</a></td>
-					<td>Single. 100 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 305">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">307</a></td>
-					<td>Single. 121 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room" input=submit value="SMILEY 307">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">306</a></td>
-					<td>Single. 121 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 306">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">308</a></td>
-					<td>Single. 98 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 308">Wishlist</button>
-						<a class="button is-info is-outlined" href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">309</a></td>
-					<td>Single. 129 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 309">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">310</a></td>
-					<td>Single. 99 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                                name="room" input=submit value="SMILEY 310">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">311</a></td>
-					<td>Single. 92 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                                name="room" input=submit value="SMILEY 311">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">312</a></td>
-					<td>Single. 135 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 312">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">313</a></td>
-					<td>Single. 101 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                                name="room" input=submit value="SMILEY 313"> Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">314</a></td>
-					<td>Single. 104 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 314">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">315</a></td>
-					<td>Single. 107 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 315">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">316</a></td>
-					<td>Single. 100 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                                name="room" input=submit value="SMILEY 316">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">317</a></td>
-					<td>Single. 109 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 317">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">318</a></td>
-					<td>Single. 118 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 318">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">319</a></td>
-					<td>Single. 117 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                                name="room" input=submit value="SMILEY 319"> Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">320</a></td>
-					<td>Single. 109 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 320">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">321</a></td>
-					<td>Single. 125 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room"  value="SMILEY 321">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-				<tr>
-					<td><a href = "viewRoomDetails">322</a></td>
-					<td>Single. 125 sq ft.</td>
-					<td><button class="wishlist_button js_wishlist_button"
-                            name="room" value="SMILEY 322">Wishlist</button>
-						<a class="button is-info is-outlined"href="/housing/rooms/2/reviews">Select</a></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<!-- Footer -->
-
-
-	<!-- Scripts -->
-    <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/skel.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/util.js')}}"></script>
-    <script src="{{url_for('static', filename='js/main.js')}}"></script>
-    <script type=text/javascript>
-        $( ".wishlist_button" ).click(function(e) {
-            var button = $(this);
-            var room = button.val();
-            request = $.ajax({
-                url: "/smiley",
-                type: "POST",
-                data: {room: room},
+                request.done(function () {
+                    button.html("Added!");
+                    button.disabled = true;
+                    button.fadeOut(1000);
+                });
             });
+        </script>
 
-            request.done(function () {
-                button.html("Added!");
-                button.disabled = true;
-                button.fadeOut(1000);
-            });
-        });
-    </script>
+		<script>
+			$(document).ready(function() {
+			 $('[data-toggle="toggle"]').change(function(){
+				 $(this).parents().next('.hide').toggle();
+				 });
+			});
+		</script>
 
-
-
-</body>
-
+	</body>
 </html>
