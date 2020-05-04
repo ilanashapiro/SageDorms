@@ -21,7 +21,16 @@
 						<a href="{{url_for('index')}}">Home</a>
 						<a href="{{url_for('dorms')}}">View Dorms</a>
 						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
+						<a href="{{url_for('suiteFormation')}}">Form Suite</a>
+						<a href="{{url_for('viewSuiteMembers')}}">View Suite</a>
 						<a href="{{url_for('wishlist')}}">My Wishlist</a>
+						<a href="{{url_for('viewMyRoom')}}">My Room/Suite Selection</a>
+            {% if loggedIn == False %}
+                <a href="{{url_for('login')}}">Login</a>
+            {% else %}
+                <a href="{{url_for('logout')}}">Logout</a>
+            {% endif %}
+            <a href="{{url_for('test')}}">Developer Tool</a>
 					</nav>
 					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
