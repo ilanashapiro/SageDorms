@@ -95,7 +95,7 @@ def addToWishListHelper(room):
     info = {}
     info['dormName'] = room[0]
     info['dormRoomNum'] = room[1]
-    wish_list_queries.addToWishList(global_vars.cursor, info)
+    wish_list_queries.addToWishList(info)
 
 @app.route('/smiley', methods=['GET', 'POST'])
 def smiley():
@@ -159,6 +159,17 @@ def displaySuiteSelectionInfo():
 #     # data = room_queries.getRoomDetails(info)
 #     # print(data)
 #     return render_template('viewRoomDetails.html')#, data = data)
+
+@app.route('/viewMyRoom', methods=['GET', 'POST'])
+def viewMyRoom():
+    print("ID", global_vars.emailID)
+    info = {'suiteID' : 'oxeoqmej', 'emailIDSuiteRep' : 'hpaa2018'}
+    suite_queries.setSuite(info)
+    roomData = room_queries.getMyRoomDetails()
+    suiteData = suite_queries.getMySuiteDetails()
+    print("DATA", suiteData)
+    dataDict = {'roomData' : roomData, 'suiteData' : suiteData}
+    return render_template('viewMyRoom.html', data = dataDict)
 
 @app.route('/viewSuiteMembers', methods=['GET', 'POST'])
 def viewSuiteMembers():

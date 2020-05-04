@@ -47,9 +47,9 @@ def searchForSuites(info):
     # print(results)
     return results
 
-def getMySuiteDetails(info):
+def getMySuiteDetails():
     try:
-        global_vars.cursor.callproc('GetMySuiteDetails', [info['emailID']])
+        global_vars.cursor.callproc('GetMySuiteDetails', [global_vars.emailID])
         results = []
         for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())

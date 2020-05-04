@@ -110,7 +110,7 @@ def getRoomDetails(info):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def getMyRoomDetails(info):
+def getMyRoomDetails():
     try:
         global_vars.cursor.callproc('GetMyRoomDetails', [global_vars.emailID])
         results = []

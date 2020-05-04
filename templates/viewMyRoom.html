@@ -49,13 +49,15 @@
 				<h2>View Your Room Selection</h2>
 				<hr class="major" />
 
-				
-				
+
+
 			</header>
 		</div>
 	</section>
 
 					</header>
+
+<h2>View Your Room Selection</h2>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -67,19 +69,16 @@
 	<th>Sub Free</th>
 	<th>Connecting Room</th>
 	<th>Details</th>
-	<th>Add</th>
-		{% for room in data %}
+		{% for room in data['roomData'] %}
     <tr>
 		{% for item2 in room %}
-			{% for item3 in item2 %}
-				<td> {{item3[0]}} </td>   <!-- Dorm Name -->
-		        <td> {{item3[1]}} </td>   <!-- Room # -->
-		        <td> {{item3[2]}} </td>   <!--  Sq Ft -->
-		        <td> {{item3[3]}} </td>   <!-- Num Occupants -->
-		        <td> {{"Yes" if item3[4] == 1 else "No"}} </td>   <!-- Subfree -->
-		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
-		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
-			{% endfor %}
+				<td> {{item2[0]}} </td>   <!-- Dorm Name -->
+		        <td> {{item2[1]}} </td>   <!-- Room # -->
+		        <td> {{item2[2]}} </td>   <!--  Sq Ft -->
+		        <td> {{item2[3]}} </td>   <!-- Num Occupants -->
+		        <td> {{"Yes" if item2[4] == 1 else "No"}} </td>   <!-- Subfree -->
+		        <td> {{item2[5] if item2[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+		        <td> {{item2[6] if item2[6] != '' else 'No additional info'}} </td>   <!-- Details -->
 		{% endfor %}
     </tr>
     {% endfor %}
@@ -88,7 +87,7 @@
 </table>
 </div>
 
-<h2>View Your Room Selection</h2>
+<h2>View Your Suite Selection</h2>
 
 <div class="table-wrapper">
 	<table>
