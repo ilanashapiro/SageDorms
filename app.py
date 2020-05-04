@@ -149,8 +149,9 @@ def displaySuiteSelectionInfo():
         for key, value in info.items():
             info[key] = value[0]
         data = suite_queries.searchForSuites(info)
-        print(data)
-        return render_template('displaySuiteSelectionInfo.html', data=data)
+        result = filter(lambda suite: len(suite[0]) > 0, data)
+        print(result)
+        return render_template('displaySuiteSelectionInfo.html', data=result)
     return render_template('displaySuiteSelectionInfo.html')
 
 # @app.route('/viewRoomDetails', methods=['GET'])
@@ -172,8 +173,8 @@ def viewMyRoom():
     suite_queries.setSuite(info)
     roomData = room_queries.getMyRoomDetails()
     suiteData = suite_queries.getMySuiteDetails()
-    print("DATA", suiteData)
     dataDict = {'roomData' : roomData, 'suiteData' : suiteData}
+    print("DATADICT", dataDict)
     return render_template('viewMyRoom.html', data = dataDict)
 
 @app.route('/viewSuiteMembers', methods=['GET', 'POST'])

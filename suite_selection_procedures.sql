@@ -8,11 +8,12 @@ BEGIN
 	-- dorm room info
 	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
 		   dr.numOccupants, dr.connectingRoomNum
-	FROM DormRoom AS dr, Room AS r
+	FROM DormRoom AS dr, Room AS r, Suite AS s
 	WHERE r.dormName = dormName
 		  AND dr.dormName = r.dormName AND dr.number = r.number
-		  AND NOT EXISTS (SELECT * FROM Student AS s where s.dormName = dr.dormName) --  we only want rooms that are still free
-		  AND NOT EXISTS (SELECT * FROM Student AS s where s.dormRoomNum = dr.number)
+		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
+		  AND s.suiteID = r.suite
+		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
 	ORDER BY r.number;
 
 	-- suite info
@@ -42,8 +43,7 @@ BEGIN
 	WHERE sg.emailID = emailID AND s.suiteID = sg.suiteID;
 
 	-- dorm room info
-	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.otherDescription,
-					dr.numOccupants, dr.connectingRoomNum
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, dr.connectingRoomNum, r.otherDescription
 	FROM DormRoom AS dr, Room AS r, SuiteGroup AS sg
 	WHERE sg.emailID = emailID AND r.suite = sg.suiteID
 		  AND dr.dormName = r.dormName AND dr.number = r.number
@@ -68,9 +68,12 @@ BEGIN
 	-- dorm room info
 	SELECT DISTINCT r.suite, r.number, r.squareFeet, r.otherDescription,
 		   dr.numOccupants, dr.connectingRoomNum
-	FROM DormRoom AS dr, Room AS r
-	WHERE r.suite IS NOT NULL
+	FROM DormRoom AS dr, Room AS r, Suite AS s
+	WHERE r.dormName = dormName
 		  AND dr.dormName = r.dormName AND dr.number = r.number
+		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
+		  AND s.suiteID = r.suite
+		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
 	ORDER BY r.suite;
 
 	-- common room info
@@ -94,9 +97,12 @@ BEGIN
 
 	-- dorm room info
 	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, dr.connectingRoomNum, r.otherDescription
-	FROM DormRoom AS dr, Room AS r
+	FROM DormRoom AS dr, Room AS r, Suite AS s
 	WHERE r.suite = suiteID
 		  AND dr.dormName = r.dormName AND dr.number = r.number
+		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
+		  AND s.suiteID = suiteID
+		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
 	ORDER BY r.number;
 
 	-- common room info

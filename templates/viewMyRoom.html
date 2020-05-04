@@ -103,19 +103,18 @@
 		</thead>
 		<tbody>
 			<!-- [[('oxeoqmej', 'WALKER', 0, 5, 5, None)], [('WALKER', '729', 126.0, '', 1, None), ('WALKER', '730', 127.0, '', 1, None), ('WALKER', '731', 129.0, '', 1, None), ('WALKER', '732', 129.0, '', 1, None), ('WALKER', '733', 132.0, '', 1, None)], []] -->
-			{% for suite in data['suiteData'] %}
+
 				<tbody class="labels">
 					<tr>
 						<td colspan="7">
-							<!-- ('oxeoqmej', 'WALKER', 0, 5, 5, None) -->
-							<label for="{{suite}}">{{suite}}</label>
-							<!-- <label for="{{suite[0][0]}}">{{suite[0][4] ~ ": " ~ suite[0][3] ~ " people, " ~ suite[0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][1] == 1 else "Not sub free. ") ~ (suite[0][5] if suite[0][5] != None else 'No additional info')}}</label>
-							<input type="checkbox" name="{{suite[0][0]}}" id="{{suite[0][0]}}" data-toggle="toggle"> -->
+							<!-- ('hjeshkgd', 0, 6, 6, 'SMILEY', None) -->
+							<label for="{{data['suiteData'][0][0][0]}}">{{data['suiteData'][0][0][4] ~ ": " ~ data['suiteData'][0][0][3] ~ " people, " ~ data['suiteData'][0][0][2] ~ " rooms. " ~ ("Sub free. " if data['suiteData'][0][0][1] == 1 else "Not sub free. ") ~ (data['suiteData'][0][0][5] if data['suiteData'][0][0][5] != None else 'No additional info')}}</label>
+							<input type="checkbox" name="{{data['suiteData'][0][0][0]}}" id="{{data['suiteData'][0][0][0]}}" data-toggle="toggle">
 						</td>
 					</tr>
 				</tbody>
 				<tbody class="hide">
-					{% for room in suite[1] %}
+					{% for room in data['suiteData'][1] %}
 						<tr>
 							<td> {{room[0]}} </td>   <!-- Dorm Name -->
 					        <td> {{room[1]}} </td>   <!-- Room # -->
@@ -127,7 +126,6 @@
 						</tr>
 					{% endfor %}
 				</tbody>
-				{% endfor %}
 		</tbody>
 </div>
 
