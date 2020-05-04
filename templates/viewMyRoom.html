@@ -103,7 +103,7 @@
 		</thead>
 		<tbody>
 			<!-- [[('arkluonz', 1, 4, 4, 'NORTON-CLARK', None)], [('NORTON-CLARK', '27', 140.0, '', 1, 1, None), ('NORTON-CLARK', '28', 140.0, '', 1, 1, None), ('NORTON-CLARK', '29', 140.0, '', 1, 1, None), ('NORTON-CLARK', '30', 140.0, '', 1, 1, None)], []] -->
-			{% for suite in sdata %}
+			{% for suite in data['suiteData'] %}
 				<tbody class="labels">
 					<tr>
 						<td colspan="7">
@@ -111,8 +111,6 @@
 							<label for="{{suite[0][0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
 							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
 						</td>
-						<td><button class="wishlist_button js_wishlist_button" data-name="{{suite[0][0][0]}}">Wishlist</button> <a class="button is-info is-outlined"
-										 href="/housing/rooms/2/reviews">Select</a></td>
 					</tr>
 				</tbody>
 				<tbody class="hide">
@@ -130,7 +128,6 @@
 				</tbody>
 				{% endfor %}
 		</tbody>
-	</table>
 </div>
 
 </div>
