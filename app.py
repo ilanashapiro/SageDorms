@@ -166,6 +166,13 @@ def viewMyRoom():
             suiteSelectInfo = request.form['suite'].split()
             info['suiteID'] = suiteSelectInfo[0]
             info['emailIDSuiteRep'] = global_vars.emailID
+
+            suiteGroupSize = len(suite_queries.getMySuiteGroup()[0])
+            numPeopleInSuite = suite_queries.getNumPeopleInSuite(info)
+            # print("SUITE SIZE", numPeopleInSuite, "GROUP SIZE", suiteGroupSize)
+            if numPeopleInSuite != suiteGroupSize:
+                dataDict = {'roomData' : [], 'suiteData' : []}
+                return render_template('viewMyRoom.html', data = dataDict)
             suite_queries.setSuite(info)
 
     roomData = room_queries.getMyRoomDetails()

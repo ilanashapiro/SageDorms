@@ -125,6 +125,16 @@ def isCurrentUserSuiteRepresentative():
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
+def getNumPeopleInSuite(info):
+    try:
+        suiteID = info['suiteID']
+        queryString = f'SELECT s.numPeople FROM Suite AS s WHERE s.suiteID = \'{suiteID}\';'
+        global_vars.cursor.execute(queryString)
+        info = global_vars.cursor.fetchall()
+        return info[0][0]
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
 def setSuiteRepresentative(info):
     try:
         global_vars.cursor.callproc('SetSuiteRepresentative', [info['emailID']])
