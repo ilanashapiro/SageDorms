@@ -27,25 +27,33 @@ def dorms():
 
     return render_template('generic.html')
 
-@app.route('/wishlist')
+@app.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
     if 'dispname' not in session:
         return redirectFromLoginTo('wishlist')
 
+    if request.method == 'POST':
+        deleteInfo = request.form['removeRoom'].split()
+        info = {}
+        info['dormName'] = deleteInfo[0]
+        info['number'] = deleteInfo[1]
+        wish_list_queries.deleteFromWishList(info)
+
     data = wish_list_queries.getMyWishList()
     return render_template('wishlist.html', data = data)
 
-def addToWishListHelper(data, dorm):
+def addToWishListHelper(data, redirectPageIfNotLoggedIn):
     ''' Adds room to wishlist; called by each room in their POST requests '''
 
     # if not logged in
     if 'dispname' not in session:
-        return redirectFromLoginTo(dorm)
+        return redirectFromLoginTo(redirectPageIfNotLoggedIn)
 
     global_vars.emailID = session['dispname']
     info = {}
     info['dormName'] = data[0]
-    info['dormRoomNum'] = data[1]
+    info['number'] = data[1]
+    print("INFO", info)
     wish_list_queries.addToWishList(info)
     return jsonify(user=session['dispname'])
 
@@ -141,7 +149,7 @@ def displayRoomSelectionInfo():
         # add to wishlist
         if 'wishlist_item' in rawinfo:
             # get email if logged in
-            return addToWishListHelper(rawinfo['wishlist_item'].split())
+            return addToWishListHelper(rawinfo['wishlist_item'].split(), 'displayRoomSelectionInfo')
 
         else:
             info = rawinfo.to_dict(flat=False)
