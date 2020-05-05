@@ -125,7 +125,6 @@ def getRoomDetails(info):
             data = result.fetchall()
             if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
                 results.append(data)
-        print(results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -136,7 +135,19 @@ def getMyRoomDetails():
         results = []
         for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
-        print(results)
         return results
     except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error))
+        print("Failed to execute query: {}".format(error))
+
+def isRoomSelected(info):
+    try:
+        dormName =  info['dormName']
+        number = info['number']
+        queryString = f'SELECT * FROM Student AS s WHERE s.dormName = \'{dormName}\' AND s.dormRoomNum = \'{number}\';'
+        global_vars.cursor.execute(queryString)
+        info = global_vars.cursor.fetchall()
+        if len(info) == 1:
+            return True
+        return False
+    except mysql.connector.Error as error:
+        print("Failed to execute query: {}".format(error))

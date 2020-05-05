@@ -10,7 +10,6 @@ def getMyWishList():
         results = []
         for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
-        print(results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -18,12 +17,12 @@ def getMyWishList():
 def addToWishList(info):
     try:
         print(global_vars.emailID)
-        global_vars.cursor.callproc('AddToWishlist', [global_vars.emailID, info["dormName"], info["dormRoomNum"]])
+        global_vars.cursor.callproc('AddToWishlist', [global_vars.emailID, info["dormName"], info["number"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def deleteFromWishList(info):
     try:
-        global_vars.cursor.callproc('DeleteFromWishList', [global_vars.emailID, info["dormName"], info["dormRoomNum"]])
+        global_vars.cursor.callproc('DeleteFromWishList', [global_vars.emailID, info["dormName"], info["number"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))

@@ -32,6 +32,18 @@ def dorms():
 @app.route('/wishlist')
 def wishlist():
     data = wish_list_queries.getMyWishList()
+    # print("WDATA", data)
+    info = {}
+    for room in data[0]:
+        # print(room)
+        info['dormName'] = room[0]
+        info['number'] = room[1]
+        roomIsSelected = room_queries.isRoomSelected(info)
+        if(roomIsSelected):
+            wish_list_queries.deleteFromWishList(info)
+            # print(data[0], room, room in data[0])
+            data[0].remove(room)
+    # print("NEW DATA", data[0])
     return render_template('wishlist.html', data = data)
 
 def addToWishListHelper(data):
@@ -41,7 +53,7 @@ def addToWishListHelper(data):
         global_vars.emailID = session['username']
         info = {}
         info['dormName'] = data[0]
-        info['dormRoomNum'] = data[1]
+        info['number'] = data[1]
         wish_list_queries.addToWishList(info)
         return jsonify(user=session['username'])
     else:
