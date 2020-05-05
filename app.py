@@ -77,7 +77,7 @@ def clark1():
         return redirectFromLoginTo('clark1')
 
     if request.method == 'POST':
-        return addToWishListHelper(request.form['room'].split())
+        return addToWishListHelper(request.form['room'].split(), 'clark1')
 
     info = {'': '', 'dormName': 'Clark-I'}
     data = room_queries.getDormRoomSummaryForDorm(info)
@@ -90,7 +90,7 @@ def clark5():
         return redirectFromLoginTo('clark5')
 
     if request.method == 'POST':
-        return addToWishListHelper(request.form['room'].split())
+        return addToWishListHelper(request.form['room'].split(), 'clark5')
 
     info = {'': '', 'dormName': 'Clark-V'}
     data = room_queries.getDormRoomSummaryForDorm(info)
@@ -103,7 +103,7 @@ def norton():
         return redirectFromLoginTo('norton')
 
     if request.method == 'POST':
-        return addToWishListHelper(request.form['room'].split())
+        return addToWishListHelper(request.form['room'].split(), 'norton')
 
     info = {'': '', 'dormName': 'Norton-Clark'}
     data = room_queries.getDormRoomSummaryForDorm(info)
@@ -116,7 +116,7 @@ def walker():
         return redirectFromLoginTo('walker')
 
     if request.method == 'POST':
-        return addToWishListHelper(request.form['room'].split())
+        return addToWishListHelper(request.form['room'].split(), 'walker')
 
     info = {'': '', 'dormName': 'Walker'}
     data = room_queries.getDormRoomSummaryForDorm(info)
@@ -129,7 +129,7 @@ def lawry():
         return redirectFromLoginTo('lawry')
 
     if request.method == 'POST':
-        return addToWishListHelper(request.form['room'].split())
+        return addToWishListHelper(request.form['room'].split(), 'lawry')
 
     info = {'': '', 'dormName': 'Lawry'}
     data = room_queries.getDormRoomSummaryForDorm(info)
