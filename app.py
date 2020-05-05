@@ -221,11 +221,13 @@ def viewSuiteMembers():
 
     if request.method == 'POST':
         if 'newSuiteRepID' in request.form:
+            print("NEW SUITE REP")
             info = {}
             info['emailID'] = request.form['newSuiteRepID']
+            print(request.form)
             suite_queries.setSuiteRepresentative(info)
         elif 'remove' in request.form:
-            # save all inputted data
+            print("REMOVE")
             rawinfo = request.form
             info = rawinfo.to_dict(flat=False)
             #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list

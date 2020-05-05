@@ -52,23 +52,22 @@
 	<div class="12u$">
 
 
-		{% if (isSuiteRep) %}
+		{% if (not isSuiteRep) %}
 		<ul class="actions">
 		<form action="" >
 		<button type="submit" name="remove">Remove Yourself from this Suite</button>
 		</form>
 		</ul>
-		{% endif %}
-
-
 		</div>
-		<h>Specify a new suite rep emailID to take your place!</h>
+		{% else %}
+		<h>Specify someone else to be the suite representative!</h>
 		<div class="6u 12u$(xsmall)">
-			<input type="Text" id="newSuiteRepID" placeholder="8-character ID of new suite rep" />
 			<form action="" method="post">
-				<button type="submit" name="newSuiteRepID" value="{{request.form.newSuiteRepID}}">Submit</button>
+				<input type="Text" name="newSuiteRepID" value="{{request.form.newSuiteRepID}}" id="newSuiteRepID" placeholder="8-character ID of new suite rep" />
+				<button type="submit">Submit</button>
 			</form>
 		</div>
+		{% endif %}
 
 
 </div>
