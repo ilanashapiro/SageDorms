@@ -294,6 +294,11 @@ def redirectFromLoginTo(url):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
+    # if already logged in do nothing
+    if 'dispname' in session:
+        return redirect(url_for('index'))
+
     # submitted login form
     if request.method == 'POST':
 
