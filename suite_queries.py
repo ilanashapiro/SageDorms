@@ -5,17 +5,17 @@ import global_vars
 import sagedorm_db
 from mysql.connector import Error
 
-def searchForSuites(info):
-    def getSuiteSummaryForSuite(suiteID):
-        try:
-            global_vars.cursor.callproc('GetSuiteSummaryForSuite', [suiteID])
-            results = []
-            for result in global_vars.cursor.stored_results():
-                results.append(result.fetchall())
-            return results
-        except mysql.connector.Error as error:
-            print("Failed to execute stored procedure: {}".format(error))
+def getSuiteSummaryForSuite(suiteID):
+    try:
+        global_vars.cursor.callproc('GetSuiteSummaryForSuite', [suiteID])
+        results = []
+        for result in global_vars.cursor.stored_results():
+            results.append(result.fetchall())
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
 
+def searchForSuites(info):
     queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s'''
     isFirstCond = True
     for key, value in info.items():
@@ -46,6 +46,24 @@ def searchForSuites(info):
 
     # print(results)
     return results
+
+def getSuiteSummaryForDorm(info):
+    try:
+        global_vars.cursor.callproc('GetSuitesForDorm', [info['dormName']])
+        suites = []
+        for resultSuite in global_vars.cursor.stored_results():
+            suites.append(resultSuite.fetchall())
+        results = []
+        for suite in suites[0]:
+            print("SUITE")
+            suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
+            results.append(getSuiteSummaryForSuite(suiteID))
+
+
+        # print(results)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
 
 def getMySuiteDetails():
     try:

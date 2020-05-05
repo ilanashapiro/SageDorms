@@ -37,6 +37,21 @@ BEGIN
 		  AND NOT EXISTS (SELECT * FROM Student AS s where s.dormName = dr.dormName AND s.dormRoomNum = dr.number); --  we only want rooms that are still free
 END $$
 
+-- a true summary, informational only. This is just for informational purposes and displays ALL data, even rooms and suites that have been selected.
+DROP PROCEDURE IF EXISTS GetDormRoomSummaryForDorm$$
+CREATE PROCEDURE GetDormRoomSummaryForDorm(
+	IN dormName VARCHAR(50)
+)
+BEGIN
+	-- dorm room info
+	SELECT DISTINCT r.dormName, r.number
+	FROM DormRoom AS dr, Room AS r
+	WHERE r.dormName = dormName
+		  AND dr.dormName = r.dormName AND dr.number = r.number AND r.suite IS NULL
+		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where r.suite = sg.suiteID) -- the room is not part of a suite
+	ORDER BY r.number;
+END $$
+
 DROP PROCEDURE IF EXISTS GetRoomDetails$$
 CREATE PROCEDURE GetRoomDetails(  -- common or dorm
 	IN dormName VARCHAR(50),

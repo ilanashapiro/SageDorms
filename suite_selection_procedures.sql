@@ -32,6 +32,18 @@ BEGIN
 	ORDER BY r.number;
 END $$
 
+-- a true summary, informational only. This is just for informational purposes and displays ALL data, even rooms and suites that have been selected.
+DROP PROCEDURE IF EXISTS GetSuitesForDorm$$
+CREATE PROCEDURE GetSuitesForDorm(
+	IN dormName VARCHAR(50)
+)
+BEGIN
+-- suite info
+	SELECT s.suiteID
+	FROM Suite AS s
+	WHERE s.dormName = dormName;
+END $$
+
 DROP PROCEDURE IF EXISTS GetMySuiteDetails$$
 CREATE PROCEDURE GetMySuiteDetails(
 	IN emailID CHAR(8)
