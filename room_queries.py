@@ -91,6 +91,7 @@ def getDormRoomSummaryForDorm(info):
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(info):
     try:
+        print(global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"])
         global_vars.cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))

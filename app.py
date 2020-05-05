@@ -50,7 +50,6 @@ def addToWishListHelper(data):
 
 @app.route('/smiley', methods=['GET', 'POST'])
 def smiley():
-
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -61,7 +60,6 @@ def smiley():
 
 @app.route('/clark1', methods=['GET', 'POST'])
 def clark1():
-
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -72,7 +70,6 @@ def clark1():
 
 @app.route('/clark5', methods=['GET', 'POST'])
 def clark5():
-
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -83,7 +80,6 @@ def clark5():
 
 @app.route('/norton', methods=['GET', 'POST'])
 def norton():
-
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -94,7 +90,6 @@ def norton():
 
 @app.route('/walker', methods=['GET', 'POST'])
 def walker():
-
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -105,7 +100,6 @@ def walker():
 
 @app.route('/lawry', methods=['GET', 'POST'])
 def lawry():
-
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -134,7 +128,7 @@ def displayRoomSelectionInfo():
 
             data = None
             data = room_queries.searchForDormRooms(info)
-            hasNotChosen = len(room_queries.getMyRoomDetails()[0]) == 0
+            hasNotChosen = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
             myWishList = wish_list_queries.getMyWishList()[0]
             print("WISHLIST", myWishList)
             return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = hasNotChosen, myWishList = myWishList)
@@ -154,7 +148,7 @@ def displaySuiteSelectionInfo():
             info[key] = value[0]
         data = suite_queries.searchForSuites(info)
         result = filter(lambda suite: len(suite[0]) > 0, data)
-        hasNotChosen = len(suite_queries.getMySuiteDetails()[0]) == 0
+        hasNotChosen = (len(suite_queries.getMySuiteDetails()[0]) == 0 and len(room_queries.getMyRoomDetails()[0]) == 0)
         return render_template('displaySuiteSelectionInfo.html', data=result, hasNotChosen = hasNotChosen)
     return render_template('displaySuiteSelectionInfo.html')
 
@@ -182,6 +176,7 @@ def viewMyRoom():
             info['dormName'] = roomSelectInfo[0]
             info['dormRoomNum'] = roomSelectInfo[1]
             info['roommateEID'] = None
+            print("INFO FOR ROOM SELECT: ", info)
             room_queries.setStudentRoom(info)
 
         #select suite
