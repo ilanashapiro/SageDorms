@@ -121,8 +121,8 @@ CREATE PROCEDURE RemoveMyselfFromSuiteGroup(
 )
 BEGIN
 	-- recompute average draw num for all remaining members of group. If the removal happens before the draw, this affects their draw time
-	UPDATE /*+ NO_MERGE(average) */ SuiteGroup AS sg,
-		(SELECT avg(s.drawNum) AS avgDrawNum
+	UPDATE /*+ NO_MERGE(average)*/ SuiteGroup AS sg,
+		(SELECT avg(DISTINCT s.drawNum) AS avgDrawNum
 		FROM Student AS s
 		WHERE s.emailID != emailID
 			  AND s.emailID IN (SELECT s.emailID
@@ -131,7 +131,14 @@ BEGIN
 								(SELECT sg.avgDrawNum
 								FROM SuiteGroup AS sg
 								WHERE sg.emailID = emailID))) AS average
-	SET sg.avgDrawNum = average.avgDrawNum;
+	SET sg.avgDrawNum = average.avgDrawNum
+	WHERE sg.emailID != emailID
+		  AND sg.emailID IN (SELECT * FROM (SELECT sg.emailID
+	  												FROM SuiteGroup AS sg
+	  												WHERE sg.avgDrawNum IN
+	  													  (SELECT sg.avgDrawNum
+	  													  FROM SuiteGroup AS sg
+	  													  WHERE sg.emailID = emailID)) AS mySG);
 
 	-- If you are the suite group rep and you are leaving, you must specify a new representative
 	IF emailID IN (SELECT sg.emailID
@@ -161,16 +168,22 @@ BEGIN
 
 	-- recompute average draw num for all members of group (including your newly added self).
 	UPDATE /*+ NO_MERGE(average) */ SuiteGroup AS sg,
-		(SELECT avg(s.drawNum) AS avgDrawNum
+		(SELECT avg(DISTINCT s.drawNum) AS avgDrawNum
 		FROM Student AS s
 		WHERE s.emailID = emailID
-			  OR s.emailID IN (SELECT s.emailID
+			  OR s.emailID IN (SELECT sg.emailID
 						  FROM SuiteGroup AS sg
 						  WHERE sg.avgDrawNum IN
 								(SELECT sg.avgDrawNum
 								FROM SuiteGroup AS sg
 								WHERE sg.emailID = emailIDInSG))) AS average
-	SET sg.avgDrawNum = average.avgDrawNum;
+	SET sg.avgDrawNum = average.avgDrawNum
+	WHERE sg.emailID = emailID OR sg.emailID IN (SELECT * FROM (SELECT sg.emailID
+										FROM SuiteGroup AS sg
+										WHERE sg.avgDrawNum IN
+											  (SELECT sg.avgDrawNum
+											  FROM SuiteGroup AS sg
+											  WHERE sg.emailID = emailIDInSG)) AS mySG);
 
 		-- If someone else was originally the SG rep and now you are, update this
 		IF isNewSuiteRep AND emailIDInSG IN (SELECT sg.emailID

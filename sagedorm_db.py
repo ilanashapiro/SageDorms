@@ -1,7 +1,6 @@
 import traceback
 import mysql.connector
 import sys
-import names
 import random
 import app
 import csv
