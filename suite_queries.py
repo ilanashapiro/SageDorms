@@ -5,17 +5,17 @@ import global_vars
 import sagedorm_db
 from mysql.connector import Error
 
-def searchForSuites(info):
-    def getSuiteSummaryForSuite(suiteID):
-        try:
-            global_vars.cursor.callproc('GetSuiteSummaryForSuite', [suiteID])
-            results = []
-            for result in global_vars.cursor.stored_results():
-                results.append(result.fetchall())
-            return results
-        except mysql.connector.Error as error:
-            print("Failed to execute stored procedure: {}".format(error))
+def getSuiteSummaryForSuite(suiteID):
+    try:
+        global_vars.cursor.callproc('GetSuiteSummaryForSuite', [suiteID])
+        results = []
+        for result in global_vars.cursor.stored_results():
+            results.append(result.fetchall())
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
 
+def searchForSuites(info):
     queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s'''
     isFirstCond = True
     for key, value in info.items():
@@ -34,7 +34,7 @@ def searchForSuites(info):
 
     queryString += ';'
 
-    print(queryString)
+    # print(queryString)
     global_vars.cursor.execute(queryString)
 
     suites = global_vars.cursor.fetchall()
@@ -47,13 +47,30 @@ def searchForSuites(info):
     # print(results)
     return results
 
+def getSuiteSummaryForDorm(info):
+    try:
+        global_vars.cursor.callproc('GetSuitesForDorm', [info['dormName']])
+        suites = []
+        for resultSuite in global_vars.cursor.stored_results():
+            suites.append(resultSuite.fetchall())
+        results = []
+        for suite in suites[0]:
+            suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
+            results.append(getSuiteSummaryForSuite(suiteID))
+
+
+        # print(results)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
 def getMySuiteDetails():
     try:
         global_vars.cursor.callproc('GetMySuiteDetails', [global_vars.emailID])
         results = []
         for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
-        print(results)
+        # print("RESULTS", results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -64,7 +81,7 @@ def getAllSuitesSummary():
         results = []
         for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
-        print(results)
+        # print("RESULTS", results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -94,6 +111,27 @@ def getMySuiteGroup():
 def setSuite(info):
     try:
         global_vars.cursor.callproc('SetSuite', [info['suiteID'], info['emailIDSuiteRep']])
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def isCurrentUserSuiteRepresentative():
+    try:
+        queryString = f'SELECT * FROM SuiteGroup AS sg WHERE sg.isSuiteRepresentative = TRUE AND sg.emailID = \'{global_vars.emailID}\';'
+        global_vars.cursor.execute(queryString)
+        info = global_vars.cursor.fetchall()
+        if len(info) == 1:
+            return True
+        return False
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getNumPeopleInSuite(info):
+    try:
+        suiteID = info['suiteID']
+        queryString = f'SELECT s.numPeople FROM Suite AS s WHERE s.suiteID = \'{suiteID}\';'
+        global_vars.cursor.execute(queryString)
+        info = global_vars.cursor.fetchall()
+        return info[0][0]
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
@@ -131,7 +169,7 @@ def createSuiteGroup(info):
                 addStudentsQueryString += f', (\'{emailID}\', {avgDrawNum}, NULL, FALSE, NULL)'
 
         addStudentsQueryString += ';'
-        print(addStudentsQueryString)
+        # print(addStudentsQueryString)
         global_vars.cursor.execute(addStudentsQueryString)
 
     except mysql.connector.Error as error:

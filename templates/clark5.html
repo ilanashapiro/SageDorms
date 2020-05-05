@@ -54,7 +54,7 @@
 	<th>Sub Free</th>
 	<th>Connecting Room</th>
 	<th>Details</th>
-	<th>Add</th>
+
 		{% for room in data %}
     <tr>
 		{% for item2 in room %}
@@ -66,11 +66,6 @@
 		        <td> {{"Yes" if item3[4] == 1 else "No"}} </td>   <!-- Subfree -->
 		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
 		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
-                <td><button class="wishlist_button js_wishlist_button"
-                            name="room" value="{{item3[0]}} {{item3[1]}}">Wishlist</button>
-                    <a class="button is-info is-outlined"
-							href="/housing/rooms/2/reviews">Select</a>
-                </td>
 			{% endfor %}
 		{% endfor %}
     </tr>
@@ -102,8 +97,6 @@
 							<label for="{{suite[0][0][0]}}">{{suite[0][0][4] ~ ": " ~ suite[0][0][3] ~ " people, " ~ suite[0][0][2] ~ " rooms. " ~ ("Sub free. " if suite[0][0][1] == 1 else "Not sub free. ") ~ (suite[0][0][5] if suite[0][0][5] != None else 'No additional info')}}</label>
 							<input type="checkbox" name="{{suite[0][0][0]}}" id="{{suite[0][0][0]}}" data-toggle="toggle">
 						</td>
-						<td><button <a class="button is-info is-outlined"
-										 href="/housing/rooms/2/reviews">Select</a></td>
 					</tr>
 				</tbody>
 				<tbody class="hide">

@@ -58,8 +58,9 @@ def smiley():
         return addToWishListHelper(request.form['room'].split(), 'smiley')
 
     info = {'': '', 'dormName': 'Smiley'}
-    data = room_queries.searchForDormRooms(info)
-    sdata = suite_queries.searchForSuites(info)
+    data = room_queries.getDormRoomSummaryForDorm(info)
+    print(data)
+    sdata = suite_queries.getSuiteSummaryForDorm(info)
     return render_template('smiley.html', data=data, sdata=sdata)
 
 @app.route('/clark1', methods=['GET', 'POST'])
@@ -71,8 +72,8 @@ def clark1():
         return addToWishListHelper(request.form['room'].split())
 
     info = {'': '', 'dormName': 'Clark-I'}
-    data = room_queries.searchForDormRooms(info)
-    sdata = suite_queries.searchForSuites(info)
+    data = room_queries.getDormRoomSummaryForDorm(info)
+    sdata = suite_queries.getSuiteSummaryForDorm(info)
     return render_template('clark1.html', data=data, sdata=sdata)
 
 @app.route('/clark5', methods=['GET', 'POST'])
@@ -84,8 +85,8 @@ def clark5():
         return addToWishListHelper(request.form['room'].split())
 
     info = {'': '', 'dormName': 'Clark-V'}
-    data = room_queries.searchForDormRooms(info)
-    sdata = suite_queries.searchForSuites(info)
+    data = room_queries.getDormRoomSummaryForDorm(info)
+    sdata = suite_queries.getSuiteSummaryForDorm(info)
     return render_template('clark5.html', data=data, sdata=sdata)
 
 @app.route('/norton', methods=['GET', 'POST'])
@@ -97,8 +98,8 @@ def norton():
         return addToWishListHelper(request.form['room'].split())
 
     info = {'': '', 'dormName': 'Norton-Clark'}
-    data = room_queries.searchForDormRooms(info)
-    sdata = suite_queries.searchForSuites(info)
+    data = room_queries.getDormRoomSummaryForDorm(info)
+    sdata = suite_queries.getSuiteSummaryForDorm(info)
     return render_template('norton.html', data=data, sdata=sdata)
 
 @app.route('/walker', methods=['GET', 'POST'])
@@ -110,8 +111,8 @@ def walker():
         return addToWishListHelper(request.form['room'].split())
 
     info = {'': '', 'dormName': 'Walker'}
-    data = room_queries.searchForDormRooms(info)
-    sdata = suite_queries.searchForSuites(info)
+    data = room_queries.getDormRoomSummaryForDorm(info)
+    sdata = suite_queries.getSuiteSummaryForDorm(info)
     return render_template('walker.html', data=data, sdata=sdata)
 
 @app.route('/lawry', methods=['GET', 'POST'])
@@ -123,8 +124,8 @@ def lawry():
         return addToWishListHelper(request.form['room'].split())
 
     info = {'': '', 'dormName': 'Lawry'}
-    data = room_queries.searchForDormRooms(info)
-    sdata = suite_queries.searchForSuites(info)
+    data = room_queries.getDormRoomSummaryForDorm(info)
+    sdata = suite_queries.getSuiteSummaryForDorm(info)
     return render_template('lawry.html', data=data, sdata=sdata)
 
 @app.route('/displayRoomSelectionInfo', methods=['POST'])
@@ -150,9 +151,12 @@ def displayRoomSelectionInfo():
 
             data = None
             data = room_queries.searchForDormRooms(info)
-            hasNotChosen = len(room_queries.getMyRoomDetails()[0]) == 0
-            myWishList = wish_list_queries.getMyWishList()[0]
-            print("WISHLIST", myWishList)
+            hasNotChosen = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
+            print(f"*************************************{hasNotChosen}")
+            myWishList = wish_list_queries.getMyWishList()
+            if len(myWishList) > 0:
+                myWishList = myWishList[0]
+            print("myWishList", myWishList)
             return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = hasNotChosen, myWishList = myWishList)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
@@ -160,34 +164,20 @@ def displaySuiteSelectionInfo():
     if 'dispname' not in session:
         return redirectFromLoginTo('displaySuiteSelectionInfo')
 
-    # student selected housing
-    # if request.method == 'POST':
-    # info = {'number': 'issa2018', 'Helen': 'hpaa2018', 'Gabe': 'gpaa2018', 'Alan': 'ayza2018', 'Yurie': 'ymac2018'}
-    # info = [['suite1', 'room1'], ['suite1', 'room2'], ['suite1', 'room3']]
     if request.method == 'POST':
         # save all inputted data
         rawinfo = request.form
         info = rawinfo.to_dict(flat=False)
+
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
         for key, value in info.items():
             info[key] = value[0]
         data = suite_queries.searchForSuites(info)
         result = filter(lambda suite: len(suite[0]) > 0, data)
-        hasNotChosen = len(suite_queries.getMySuiteDetails()[0]) == 0
-        return render_template('displaySuiteSelectionInfo.html', data=result, hasNotChosen = hasNotChosen)
+        hasNotChosen = (len(suite_queries.getMySuiteDetails()[0]) == 0 and len(room_queries.getMyRoomDetails()[0]) == 0)
+        isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative()
+        return render_template('displaySuiteSelectionInfo.html', data=result, hasNotChosen = hasNotChosen, isSuiteRep = isSuiteRep)
     return render_template('displaySuiteSelectionInfo.html')
-
-# @app.route('/viewRoomDetails', methods=['GET'])
-# def viewRoomDetails():
-#     rawinfo = request.form
-#     info = rawinfo.to_dict(flat=False)
-#     #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
-#     for key, value in info.items():
-#         info[key] = value[0]
-#     print(info)
-#     # data = room_queries.getRoomDetails(info)
-#     # print(data)
-#     return render_template('viewRoomDetails.html')#, data = data)
 
 @app.route('/viewMyRoom', methods=['GET', 'POST'])
 def viewMyRoom():
@@ -195,7 +185,6 @@ def viewMyRoom():
         return redirectFromLoginTo('viewMyRoom')
 
     if request.method == 'POST':
-        print(request.form)
         info = {}
 
         #select room
@@ -211,6 +200,13 @@ def viewMyRoom():
             suiteSelectInfo = request.form['suite'].split()
             info['suiteID'] = suiteSelectInfo[0]
             info['emailIDSuiteRep'] = global_vars.emailID
+
+            suiteGroupSize = len(suite_queries.getMySuiteGroup()[0])
+            numPeopleInSuite = suite_queries.getNumPeopleInSuite(info)
+            # print("SUITE SIZE", numPeopleInSuite, "GROUP SIZE", suiteGroupSize)
+            if numPeopleInSuite != suiteGroupSize:
+                dataDict = {'roomData' : [], 'suiteData' : []}
+                return render_template('viewMyRoom.html', data = dataDict)
             suite_queries.setSuite(info)
 
     roomData = room_queries.getMyRoomDetails()
@@ -230,12 +226,11 @@ def viewSuiteMembers():
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
         for key, value in info.items():
             info[key] = value[0]
-        print("INFO", info)
         suite_queries.removeMyselfFromSuiteGroup(info)
         return redirect('/')
-    print("ID", global_vars.emailID)
+    # print("ID", global_vars.emailID)
     data = suite_queries.getMySuiteGroup()
-    print("DATA", data)
+    # print("DATA", data)
     return render_template('viewSuiteMembers.html', data = data)
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
@@ -326,11 +321,11 @@ if __name__ == '__main__':
             host="localhost",
             user="root",
             passwd="databases133",
+            buffered=True,
             auth_plugin='mysql_native_password',
             autocommit=True)
 
     # global_vars.cursor executes SQL commands
     global_vars.cursor = sagedormsdb.cursor()
-    print(global_vars.cursor)
     sagedorm_db.init_db()
     app.run(debug=True)

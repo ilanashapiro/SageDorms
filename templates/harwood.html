@@ -37,3 +37,59 @@
 
 	</body>
 </html>
+=======
+
+<head>
+	<title>Generic - SageDorms</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="subpage">
+
+	<!-- Header -->
+	<header id="header">
+		<div class="inner">
+			<a href="{{url_for('index')}}" class="logo"><strong>SageDorms</strong> </a>
+			<nav id="nav">
+				<a href="{{url_for('index')}}">Home</a>
+				<a href="{{url_for('dorms')}}">View Dorms</a>
+				<a href="{{url_for('selectionpage')}}">Search Dorms</a>
+				<a href="{{url_for('suiteFormation')}}">Form Suite</a>
+				<a href="{{url_for('viewSuiteMembers')}}">View Suite</a>
+				<a href="{{url_for('wishlist')}}">My Wishlist</a>
+				<a href="{{url_for('viewMyRoom')}}">My Room/Suite Selection</a>
+				{% if loggedIn == False %}
+				<a href="{{url_for('login')}}">Login</a>
+				{% else %}
+				<a href="{{url_for('logout')}}">Logout</a>
+				{% endif %}
+			</nav>
+		</div>
+	</header>
+
+	<!-- Three -->
+	<section id="three" class="wrapper">
+		<div class="inner">
+			<header class="align-center">
+				<h2>Harwood Hall</h2>
+				<p>First Floor</p>
+			</header>
+
+		</div>
+	</section>
+
+	<!-- Footer -->
+
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
+>>>>>>> d85ee6b21ef607220a908ecc0a8306289ad77596

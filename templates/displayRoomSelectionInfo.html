@@ -34,7 +34,9 @@
 	<th>Sub Free</th>
 	<th>Connecting Room</th>
 	<th>Details</th>
+	{% if hasNotChosen %}
 	<th>Add</th>
+	{% endif %}
 		{% for room in data %}
     <tr>
 		{% for item2 in room %}
@@ -47,12 +49,12 @@
 		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
 		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
                 <td>
+					{% if hasNotChosen %}
 					{% if ( (item3[0] in myWishList|map(attribute=0)) and (item3[1] in myWishList|map(attribute=1)) ) %}
 					{% else %}
 					<button class="wishlist_button js_wishlist_button"
                             name="room" value="{{item3[0]}} {{item3[1]}}">Wishlist</button>
 					{% endif %}
-					{% if hasNotChosen %}
                     <form action="viewMyRoom" method="post">
                         <button type="submit" name="room" value="{{item3[0]}} {{item3[1]}}">Select</button>
                     </form>
