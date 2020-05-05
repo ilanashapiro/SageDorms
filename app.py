@@ -280,7 +280,8 @@ def viewSuiteMembers():
         isLastPerson = True
     if numPeopleInSuite > 0:
         isInSuiteGroup = True
-    return render_template('viewSuiteMembers.html', data = data, isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative(), isLastPerson = isLastPerson, isInSuiteGroup = isInSuiteGroup)
+    isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative()
+    return render_template('viewSuiteMembers.html', data = data, isSuiteRep = isSuiteRep, isLastPerson = isLastPerson, isInSuiteGroup = isInSuiteGroup)
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
 def suiteFormation():
