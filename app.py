@@ -32,18 +32,6 @@ def dorms():
 @app.route('/wishlist')
 def wishlist():
     data = wish_list_queries.getMyWishList()
-    # print("WDATA", data)
-    info = {}
-    for room in data[0]:
-        # print(room)
-        info['dormName'] = room[0]
-        info['number'] = room[1]
-        roomIsSelected = room_queries.isRoomSelected(info)
-        if(roomIsSelected):
-            wish_list_queries.deleteFromWishList(info)
-            # print(data[0], room, room in data[0])
-            data[0].remove(room)
-    # print("NEW DATA", data[0])
     return render_template('wishlist.html', data = data)
 
 def addToWishListHelper(data):
@@ -140,7 +128,10 @@ def displayRoomSelectionInfo():
             data = None
             data = room_queries.searchForDormRooms(info)
             hasNotChosen = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
-            myWishList = wish_list_queries.getMyWishList()[0]
+            myWishList = wish_list_queries.getMyWishList()
+            if len(myWishList) > 0:
+                myWishList = myWishList[0]
+            print("myWishList", myWishList)
             return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = hasNotChosen, myWishList = myWishList)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
@@ -271,6 +262,7 @@ if __name__ == '__main__':
             host="localhost",
             user="root",
             passwd="databases133",
+            buffered=True,
             auth_plugin='mysql_native_password',
             autocommit=True)
 

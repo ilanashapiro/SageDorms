@@ -10,7 +10,8 @@ def getSummaryForDormRoom(dormName, number):
         results = []
         for result in global_vars.cursor.stored_results():
             data = result.fetchall()
-            if (len(data) > 0): # if it's a common room, dorm room info will be empty, and vice versa
+            print(data)
+            if len(data) > 0: # if it's a common room, dorm room info will be empty, and vice versa
                 results.append(data)
         return results
     except mysql.connector.Error as error:
@@ -76,14 +77,12 @@ def getDormRoomSummaryForDorm(info):
         for resultRoom in global_vars.cursor.stored_results():
             rooms.append(resultRoom.fetchall())
         results = []
-        print("RESULTS", rooms)
         for room in rooms[0]:
             dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
             number = room[1]
             print("dormname, number: ", dormName, number)
             results.append(getSummaryForDormRoom(dormName, number))
 
-        print(results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -91,7 +90,7 @@ def getDormRoomSummaryForDorm(info):
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(info):
     try:
-        print(global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"])
+        # print(global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"])
         global_vars.cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -145,9 +144,10 @@ def isRoomSelected(info):
         number = info['number']
         queryString = f'SELECT * FROM Student AS s WHERE s.dormName = \'{dormName}\' AND s.dormRoomNum = \'{number}\';'
         global_vars.cursor.execute(queryString)
-        info = global_vars.cursor.fetchall()
-        if len(info) == 1:
-            return True
+        for result in global_vars.cursor.stored_results():
+            info = result.fetchall()
+            if len(info) == 1:
+                return True
         return False
     except mysql.connector.Error as error:
         print("Failed to execute query: {}".format(error))

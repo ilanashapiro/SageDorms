@@ -51,18 +51,28 @@
     <div class="table-wrapper">
     <table>
     <thead>
-    <tr>
-        <th>Dorm Name</th>
-        <th>Room #</th>
-        {% for room in data %}
-            {% for item in room %}
-            <tr>
-                <td> {{item[0]}} </td>   <!-- Dorm Name -->
-                <td> {{item[1]}} </td>   <!-- Room # -->
-            </tr>
-            {% endfor %}
-        {% endfor %}
-    </tr>
+		<tr>
+			<th>Dorm Name</th>
+			<th>Room #</th>
+			<th>Square Feet</th>
+			<th>Number of Occupants</th>
+			<th>Sub Free</th>
+			<th>Connecting Room</th>
+			<th>Details</th>
+			{% for roomList in data %}
+				<tr>
+					{% for room in roomList %}
+						<td> {{room[0]}} </td>   <!-- Dorm Name -->
+						<td> {{room[1]}} </td>   <!-- Room # -->
+						<td> {{room[2]}} </td>   <!--  Sq Ft -->
+						<td> {{room[3]}} </td>   <!-- Num Occupants -->
+						<td> {{"Yes" if room[4] == 1 else "No"}} </td>   <!-- Subfree -->
+						<td> {{room[5] if room[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+						<td> {{room[6] if room[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+					{% endfor %}
+				</tr>
+			{% endfor %}
+	</tr>
     </thead>
     </table>
     </div>
