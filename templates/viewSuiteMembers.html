@@ -49,24 +49,32 @@
 
 <h3> </h3>
 <form action="" method="POST" name="removeSelf">
-	<div class="12u$">
-
-
-		{% if (not isSuiteRep) %}
-		<ul class="actions">
-		<form action="" >
-		<button type="submit" name="remove">Remove Yourself from this Suite</button>
-		</form>
-		</ul>
-		</div>
-		{% else %}
-		<h>Specify someone else to be the suite representative!</h>
-		<div class="6u 12u$(xsmall)">
-			<form action="" method="post">
-				<input type="Text" name="newSuiteRepID" value="{{request.form.newSuiteRepID}}" id="newSuiteRepID" placeholder="8-character ID of new suite rep" />
-				<button type="submit">Submit</button>
-			</form>
-		</div>
+		{% if isInSuiteGroup %}
+			{% if (not isSuiteRep) %}
+			<div class="12u$">
+				<ul class="actions">
+				<form action="" >
+				<button type="submit" name="remove">Remove Yourself from this Suite</button>
+				</form>
+				</ul>
+			</div>
+			{% elif (not isLastPerson) %}
+			<h>Specify someone else to be the suite representative!</h>
+			<div class="6u 12u$(xsmall)">
+				<form action="" method="post">
+					<input type="Text" name="newSuiteRepID" value="{{request.form.newSuiteRepID}}" id="newSuiteRepID" placeholder="8-character ID of new suite rep" />
+					<button type="submit">Submit</button>
+				</form>
+			</div>
+			{% else %}
+			<div class="12u$">
+				<ul class="actions">
+				<form action="" >
+				<button type="submit" name="remove">Dissolve Suite Group</button>
+				</form>
+				</ul>
+			</div>
+			{% endif %}
 		{% endif %}
 
 

@@ -86,9 +86,9 @@ def getAllSuitesSummary():
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
-def removeMyselfFromSuiteGroup(info):
+def removeMyselfFromSuiteGroup():
     try:
-        global_vars.cursor.callproc('RemoveMyselfFromSuiteGroup', [global_vars.emailID, info['newSuiteRepID']])
+        global_vars.cursor.callproc('RemoveMyselfFromSuiteGroup', [global_vars.emailID])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 

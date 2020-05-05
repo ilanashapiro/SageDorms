@@ -128,11 +128,11 @@ END $$
 
 DROP PROCEDURE IF EXISTS RemoveMyselfFromSuiteGroup$$
 CREATE PROCEDURE RemoveMyselfFromSuiteGroup(
-	IN emailID CHAR(8),
-	IN newSuiteRepID CHAR(8)
+	IN emailID CHAR(8)
 )
 BEGIN
 	-- recompute average draw num for all remaining members of group. If the removal happens before the draw, this affects their draw time
+	-- business logic ensures the suite rep cannot remove themself, unless they are the last person remaining in the group and are thus dissolving the group
 	UPDATE /*+ NO_MERGE(average)*/ SuiteGroup AS sg,
 		(SELECT avg(DISTINCT s.drawNum) AS avgDrawNum
 		FROM Student AS s
@@ -151,18 +151,6 @@ BEGIN
 	  													  (SELECT sg.avgDrawNum
 	  													  FROM SuiteGroup AS sg
 	  													  WHERE sg.emailID = emailID)) AS mySG);
-
-	-- If you are the suite group rep and you are leaving, you must specify a new representative
-	IF emailID IN (SELECT sg.emailID
-				   FROM SuiteGroup AS sg
-				   WHERE sg.avgDrawNum IN (SELECT avgDrawNum
-					   					FROM SuiteGroup AS sg1
-										WHERE sg1.emailID = emailID)
-						 AND sg.isSuiteRepresentative = TRUE) THEN
-		UPDATE SuiteGroup AS sg
-		SET sg.isSuiteRepresentative = TRUE
-			WHERE sg.emailID = newSuiteRepID;
-	END IF;
 
 	DELETE
 	FROM SuiteGroup AS sg

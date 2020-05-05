@@ -233,12 +233,19 @@ def viewSuiteMembers():
             #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
             for key, value in info.items():
                 info[key] = value[0]
-            suite_queries.removeMyselfFromSuiteGroup(info)
+            suite_queries.removeMyselfFromSuiteGroup()
             return redirect('/')
     # print("ID", global_vars.emailID)
     data = suite_queries.getMySuiteGroup()
     # print("DATA", data)
-    return render_template('viewSuiteMembers.html', data = data, isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative())
+    numPeopleInSuite = suiteGroupSize = len(suite_queries.getMySuiteGroup()[0])
+    isLastPerson = False
+    isInSuiteGroup = False
+    if numPeopleInSuite == 1:
+        isLastPerson = True
+    if numPeopleInSuite > 0:
+        isInSuiteGroup = True
+    return render_template('viewSuiteMembers.html', data = data, isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative(), isLastPerson = isLastPerson, isInSuiteGroup = isInSuiteGroup)
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
 def suiteFormation():
