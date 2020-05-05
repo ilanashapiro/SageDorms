@@ -90,7 +90,13 @@ def getDormRoomSummaryForDorm(info):
 # https://pynative.com/python-mysql-execute-stored-procedure/
 def setStudentRoom(info):
     try:
-        # print(global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"])
+        roommateEID = info["roommateEID"]
+        queryString = f'SELECT s.dormName FROM Student AS s WHERE s.emailID = \'{roommateEID}\';'
+        global_vars.cursor.execute(queryString)
+        roommateInfo = global_vars.cursor.fetchall()
+        if len(roommateInfo) > 0:
+            if roommateInfo[0][0] is not None: # if the roommate you're trying to add has already selected a dorm, do nothing
+                return
         global_vars.cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
