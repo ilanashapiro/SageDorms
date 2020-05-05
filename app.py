@@ -186,18 +186,23 @@ def viewMyRoom():
 @app.route('/viewSuiteMembers', methods=['GET', 'POST'])
 def viewSuiteMembers():
     if request.method == 'POST':
-        # save all inputted data
-        rawinfo = request.form
-        info = rawinfo.to_dict(flat=False)
-        #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
-        for key, value in info.items():
-            info[key] = value[0]
-        suite_queries.removeMyselfFromSuiteGroup(info)
-        return redirect('/')
+        if 'newSuiteRepID' in request.form:
+            info = {}
+            info['emailID'] = request.form['newSuiteRepID']
+            suite_queries.setSuiteRepresentative(info)
+        elif 'remove' in request.form:
+            # save all inputted data
+            rawinfo = request.form
+            info = rawinfo.to_dict(flat=False)
+            #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
+            for key, value in info.items():
+                info[key] = value[0]
+            suite_queries.removeMyselfFromSuiteGroup(info)
+            return redirect('/')
     # print("ID", global_vars.emailID)
     data = suite_queries.getMySuiteGroup()
     # print("DATA", data)
-    return render_template('viewSuiteMembers.html', data = data)
+    return render_template('viewSuiteMembers.html', data = data, isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative())
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
 def suiteFormation():

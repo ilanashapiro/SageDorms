@@ -22,7 +22,7 @@
 						<a href="{{url_for('dorms')}}">View Dorms</a>
 						<a href="{{url_for('selectionpage')}}">Search Dorms</a>
 						<a href="{{url_for('suiteFormation')}}">Form Suite</a>
-						<a href="{{url_for('viewSuiteMembers')}}">View Suite</a>
+						<a href="{{url_for('viewSuiteMembers')}}">View Suite Group</a>
 						<a href="{{url_for('wishlist')}}">My Wishlist</a>
 						<a href="{{url_for('viewMyRoom')}}">My Room/Suite Selection</a>
                         {% if loggedIn == False %}
@@ -35,13 +35,13 @@
 			</header>
 
 
-		<!-- Three -->
-			<section id="three" class="wrapper">
-				<div class="inner">
-					<header class="align-center">
-						<h2>View Your Suite Group</h2>
+<!-- Three -->
+<section id="three" class="wrapper">
+	<div class="inner">
+		<header class="align-center">
+			<h2>View Your Suite Group</h2>
 
-					</header>
+		</header>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -69,19 +69,29 @@
 <h3> </h3>
 <form action="" method="POST" name="removeSelf">
 	<div class="12u$">
-			<ul class="actions">
+
+
+		{% if (isSuiteRep) %}
+		<ul class="actions">
 		<form action="" >
-		<button type="submit">Remove Yourself from this Suite</button>
-        </ul>
+		<button type="submit" name="remove">Remove Yourself from this Suite</button>
+		</form>
+		</ul>
+		{% endif %}
+
+
 		</div>
-		<h4>(If you are the suite rep) Specify a new suite rep emailID to take your place!</h4>
+		<h>Specify a new suite rep emailID to take your place!</h>
 		<div class="6u 12u$(xsmall)">
-					<input type="Text" name="newSuiteRepID" id="newSuiteRepID" value="{{request.form.newSuiteRepID}}" placeholder="8-character ID of new suite rep" />
-				</div>
-
-
+			<input type="Text" id="newSuiteRepID" placeholder="8-character ID of new suite rep" />
+			<form action="" method="post">
+				<button type="submit" name="newSuiteRepID" value="{{request.form.newSuiteRepID}}">Submit</button>
+			</form>
 		</div>
-  </form>
+
+
+</div>
+
 
 </div>
 </section>
