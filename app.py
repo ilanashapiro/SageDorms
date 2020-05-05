@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, session, jsonify
+from flask import Flask, render_template, request, redirect, session, \
+        jsonify, url_for
 import sagedorm_db
 import mysql.connector
 import random
@@ -8,57 +9,65 @@ import room_queries
 import suite_queries
 import wish_list_queries
 import sys
+
 app = Flask(__name__)
 app.secret_key = "shhhhh keep it a secret"
 
 @app.route('/', methods=['GET', 'POST'])
 # called when you go to localhost 5000
 def index():
-    loggedIn = False
-    if 'cookies' in session:
-        loggedIn = True
-        global_vars.emailID = session['username']
-    return render_template('index.html', loggedIn=loggedIn)
-
-@app.route('/test')
-def test():
-    students = sagedorm_db.main(session['username'])
-    return render_template('students.html', students=students)
+    if 'dispname' in session:
+        global_vars.emailID = session['dispname']
+    return render_template('index.html')
 
 @app.route('/dorms')
 def dorms():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('dorms')
+
     return render_template('generic.html')
 
 @app.route('/wishlist')
 def wishlist():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('wishlist')
+
     data = wish_list_queries.getMyWishList()
     return render_template('wishlist.html', data = data)
 
-def addToWishListHelper(data):
-    ''' Adds room to wishlist; called by each room in their POST requests
-    '''
-    if (session['username']):
-        global_vars.emailID = session['username']
-        info = {}
-        info['dormName'] = data[0]
-        info['number'] = data[1]
-        wish_list_queries.addToWishList(info)
-        return jsonify(user=session['username'])
-    else:
-        return redirect('login')
+def addToWishListHelper(data, dorm):
+    ''' Adds room to wishlist; called by each room in their POST requests '''
+
+    # if not logged in
+    if 'dispname' not in session:
+        return redirectFromLoginTo(dorm)
+
+    global_vars.emailID = session['dispname']
+    info = {}
+    info['dormName'] = data[0]
+    info['dormRoomNum'] = data[1]
+    wish_list_queries.addToWishList(info)
+    return jsonify(user=session['dispname'])
 
 @app.route('/smiley', methods=['GET', 'POST'])
 def smiley():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('smiley')
+
     if request.method == 'POST':
-        return addToWishListHelper(request.form['room'].split())
+        return addToWishListHelper(request.form['room'].split(), 'smiley')
 
     info = {'': '', 'dormName': 'Smiley'}
     data = room_queries.getDormRoomSummaryForDorm(info)
+    print(data)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
     return render_template('smiley.html', data=data, sdata=sdata)
 
 @app.route('/clark1', methods=['GET', 'POST'])
 def clark1():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('clark1')
+
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -69,6 +78,9 @@ def clark1():
 
 @app.route('/clark5', methods=['GET', 'POST'])
 def clark5():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('clark5')
+
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -79,6 +91,9 @@ def clark5():
 
 @app.route('/norton', methods=['GET', 'POST'])
 def norton():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('norton')
+
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -89,6 +104,9 @@ def norton():
 
 @app.route('/walker', methods=['GET', 'POST'])
 def walker():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('walker')
+
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -99,6 +117,9 @@ def walker():
 
 @app.route('/lawry', methods=['GET', 'POST'])
 def lawry():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('lawry')
+
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split())
 
@@ -109,6 +130,9 @@ def lawry():
 
 @app.route('/displayRoomSelectionInfo', methods=['POST'])
 def displayRoomSelectionInfo():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('displayRoomSelectionInfo')
+
     # student selected housing
     if request.method == 'POST':
         # save all inputted data
@@ -128,6 +152,7 @@ def displayRoomSelectionInfo():
             data = None
             data = room_queries.searchForDormRooms(info)
             hasNotChosen = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
+            print(f"*************************************{hasNotChosen}")
             myWishList = wish_list_queries.getMyWishList()
             if len(myWishList) > 0:
                 myWishList = myWishList[0]
@@ -136,6 +161,9 @@ def displayRoomSelectionInfo():
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
 def displaySuiteSelectionInfo():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('displaySuiteSelectionInfo')
+
     if request.method == 'POST':
         # save all inputted data
         rawinfo = request.form
@@ -153,6 +181,9 @@ def displaySuiteSelectionInfo():
 
 @app.route('/viewMyRoom', methods=['GET', 'POST'])
 def viewMyRoom():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('viewMyRoom')
+
     if request.method == 'POST':
         info = {}
 
@@ -185,6 +216,9 @@ def viewMyRoom():
 
 @app.route('/viewSuiteMembers', methods=['GET', 'POST'])
 def viewSuiteMembers():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('viewSuiteMembers')
+
     if request.method == 'POST':
         if 'newSuiteRepID' in request.form:
             info = {}
@@ -206,6 +240,9 @@ def viewSuiteMembers():
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
 def suiteFormation():
+    if 'dispname' not in session:
+        return redirectFromLoginTo('suiteFormation')
+
     if request.method == 'POST':
         # save all inputted data
         rawinfo = request.form
@@ -223,7 +260,20 @@ def suiteFormation():
 # get is when you load, post is when you submit
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
+
+    if 'dispname' not in session:
+        return redirectFromLoginTo('selectionpage')
+
     return render_template('selectionpage.html')
+
+def redirectFromLoginTo(url):
+    ''' Helper method to save the url from which we are asked to login.
+
+    If we decide to click a link that requires login, we save the link, login to
+    the website, and go back to the url we once were
+    '''
+    session['prevURL'] = url
+    return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -233,28 +283,37 @@ def login():
         # the login form data
         info = request.form
 
-        if not (info['dispname'] and info['password'] and 'school' in info):
+        # tell the user to complete all the fields
+        if not (info['dispname'] and info['password']):
             return render_template('login.html',error="Please complete all fields")
 
         # used in login request body
         login_info = {}
-        login_info['username'] = f"{info['dispname']}@{info['school']}.edu"
+        login_info['username'] = f"{info['dispname']}@pomona.edu"
         login_info['dispname'] = info['dispname']
-        global_vars.emailID = info['dispname']
         login_info['password'] = info['password']
+
+        # global variable for display name
+        global_vars.emailID = info['dispname']
 
         # session is a built in vbl that persists as long as the app is running.
         # we login using an external python script. once we login, we save the
         # cookies of the login throughout the app
-        cookies = cas_login.main(login_info)
-        if cookies:
-            session['cookies'] = cookies
-            session['username'] = login_info['dispname']
-            return redirect('/')
+        response = cas_login.main(login_info)
+        if response:
+
+            # save the username in persistent storage
+            session['dispname'] = login_info['dispname']
+
+            # redirect from the page we were previously on
+            return redirect(url_for(session['prevURL']))
 
         # no cookies means login failed, so we open the login page again
         return render_template('login.html',error="Invalid credentials")
 
+    # if we came from the home page, we will redirect to home page after login
+    if 'prevURL' not in session:
+        session['prevURL'] = 'index'
     return render_template('login.html',error=None)
 
 @app.route('/logout')
