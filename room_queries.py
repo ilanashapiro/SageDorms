@@ -138,6 +138,16 @@ def getMyRoomDetails():
     except mysql.connector.Error as error:
         print("Failed to execute query: {}".format(error))
 
+def getMyRoommateInfo():
+    try:
+        global_vars.cursor.callproc('GetMyRoommateInfo', [global_vars.emailID])
+        results = []
+        for result in global_vars.cursor.stored_results():
+            results.append(result.fetchall())
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute query: {}".format(error))
+
 def isRoomSelected(info):
     try:
         dormName =  info['dormName']

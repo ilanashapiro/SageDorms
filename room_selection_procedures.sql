@@ -11,6 +11,14 @@ BEGIN
 	UPDATE Student AS s
 	SET s.dormName = dormName, s.dormRoomNum = roomNum
 	WHERE s.emailID = emailID OR s.emailID = roommateEID;
+
+	UPDATE Student AS s
+	SET s.roommateEID = roommateEID
+	WHERE s.emailID = emailID;
+
+	UPDATE Student AS s
+	SET s.roommateEID = emailID
+	WHERE s.emailID = roommateEID;
 END $$
 
 DROP PROCEDURE IF EXISTS GetDormRoomSinglesSummary$$
@@ -79,7 +87,7 @@ CREATE PROCEDURE GetMyRoomDetails(
 )
 BEGIN
 	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription
-	-- the old version when we though we could support more detail. May bring this back in the future
+	-- the old version when we thought we could support more detail. May bring this back in the future
 	 -- r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree, dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription
 	FROM DormRoom AS dr, Room AS r, Student AS s
 	WHERE dr.dormName = r.dormName
@@ -87,6 +95,17 @@ BEGIN
 		  AND r.dormName = s.dormName
 		  AND r.number = s.dormRoomNum
 		  AND s.emailID = emailID;
+END $$
+
+DROP PROCEDURE IF EXISTS GetMyRoommateInfo$$
+CREATE PROCEDURE GetMyRoommateInfo(
+	IN emailID CHAR(8)
+)
+BEGIN
+	SELECT roommate.name, roommate.emailID
+	FROM Student AS myself, Student AS roommate
+	WHERE myself.emailID = emailID
+		  AND myself.roommateEID = roommate.emailID;
 END $$
 
 DELIMITER ;

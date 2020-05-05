@@ -4,22 +4,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
   </head>
-  <body>
-    <div class="login_page">
+  <body class = "subpage">
+      <!-- Header -->
+      {% include "header.html" %}
+      <!-- Three -->
+          <section id="three" class="wrapper">
+              <div class="inner">
+                  <header class="align-center">
+                      <h2>Specify your roommate's 8-character email ID to select this double! </h2>
+
+                  </header>
+    <div>
     <div class="block">
       <br>
-      <form id="cas" action="" method="post">
-        <input type="text" placeholder="Pomona username" name="dispname"
-              value="{{ request.form.dispname }}">
-        <input type="password" placeholder="Password" name="password"
-              value="{{ request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Login" style="
-            margin-top: 1vh;">
+      <form id="selectDouble" action="viewMyRoom" method="post">
+        <h>Specify your roommate for {{dormName}} {{number}}</h>
+        <input type="hidden" name="double" value="{{dormName}} {{number}}">
+        <input type="text" placeholder="Roommate 8-character Email ID" name="roommateEID"
+              value="{{request.form.roommateEID}}">
+        <button type="submit">Select Double</button>
       </form>
       {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
       {% endif %}
     </div>
-    <div>
+
+</div>
+</section>
   </body>
+
 </html>

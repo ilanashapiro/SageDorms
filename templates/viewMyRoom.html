@@ -52,16 +52,28 @@
 	<th>Sub Free</th>
 	<th>Connecting Room</th>
 	<th>Details</th>
-		{% for room in data['roomData'] %}
+	{% if hasRoommate %}
+		<th>Roommate Name</th>
+		<th>Roommate Email ID</th>
+	{% endif %}
+		{% for roomList in data['roomData'] %}
     <tr>
-		{% for item2 in room %}
-				<td> {{item2[0]}} </td>   <!-- Dorm Name -->
-		        <td> {{item2[1]}} </td>   <!-- Room # -->
-		        <td> {{item2[2]}} </td>   <!--  Sq Ft -->
-		        <td> {{item2[3]}} </td>   <!-- Num Occupants -->
-		        <td> {{"Yes" if item2[4] == 1 else "No"}} </td>   <!-- Subfree -->
-		        <td> {{item2[5] if item2[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
-		        <td> {{item2[6] if item2[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+		{% for room in roomList %}
+				<td> {{room[0]}} </td>   <!-- Dorm Name -->
+		        <td> {{room[1]}} </td>   <!-- Room # -->
+		        <td> {{room[2]}} </td>   <!--  Sq Ft -->
+		        <td> {{room[3]}} </td>   <!-- Num Occupants -->
+		        <td> {{"Yes" if room[4] == 1 else "No"}} </td>   <!-- Subfree -->
+		        <td> {{room[5] if room[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+		        <td> {{room[6] if room[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+				{% if hasRoommate %}
+					{% for roommateList in data['roommateData'] %}
+						{% for roommate in roommateList %}
+							<td>{{roommate[0]}}</td> <!-- Name -->
+							<td>{{roommate[1]}}</td> <!-- emailID -->
+						{% endfor %}
+					{% endfor %}
+				{% endif %}
 		{% endfor %}
     </tr>
     {% endfor %}
