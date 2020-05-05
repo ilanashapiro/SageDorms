@@ -195,13 +195,15 @@ def viewMyRoom():
     if request.method == 'POST':
         info = {}
 
-        #select room
-        if 'room' in request.form:
-            roomSelectInfo = request.form['room'].split()
+        # select single room
+        if 'single' in request.form:
+            roomSelectInfo = request.form['single'].split()
             info['dormName'] = roomSelectInfo[0]
             info['dormRoomNum'] = roomSelectInfo[1]
             info['roommateEID'] = None
             room_queries.setStudentRoom(info)
+
+        # select double room (includes 2-room doubles)
 
         #select suite
         else:
@@ -277,7 +279,6 @@ def suiteFormation():
 # get is when you load, post is when you submit
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
-
     if 'dispname' not in session:
         return redirectFromLoginTo('selectionpage')
 
@@ -294,6 +295,47 @@ def redirectFromLoginTo(url):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # submitted login form
+    if request.method == 'POST':
+
+        # the login form data
+        info = request.form
+
+        # tell the user to complete all the fields
+        if not (info['dispname'] and info['password']):
+            return render_template('login.html',error="Please complete all fields")
+
+        # used in login request body
+        login_info = {}
+        login_info['username'] = f"{info['dispname']}@pomona.edu"
+        login_info['dispname'] = info['dispname']
+        login_info['password'] = info['password']
+
+        # global variable for display name
+        global_vars.emailID = info['dispname']
+
+        # session is a built in vbl that persists as long as the app is running.
+        # we login using an external python script. once we login, we save the
+        # cookies of the login throughout the app
+        response = cas_login.main(login_info)
+        if response:
+
+            # save the username in persistent storage
+            session['dispname'] = login_info['dispname']
+
+            # redirect from the page we were previously on
+            return redirect(url_for(session['prevURL']))
+
+        # no cookies means login failed, so we open the login page again
+        return render_template('login.html',error="Invalid credentials")
+
+    # if we came from the home page, we will redirect to home page after login
+    if 'prevURL' not in session:
+        session['prevURL'] = 'index'
+    return render_template('login.html',error=None)
+
+@app.route('/drawUp', methods=['GET', 'POST'])
+def drawUp():
     # submitted login form
     if request.method == 'POST':
 
