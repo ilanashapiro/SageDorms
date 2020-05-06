@@ -234,6 +234,9 @@ def viewMyRoom():
             numPeopleInSuite = suite_queries.getNumPeopleInSuite(info)
             # print("SUITE SIZE", numPeopleInSuite, "GROUP SIZE", suiteGroupSize)
             if numPeopleInSuite != suiteGroupSize:
+                # or we could have it redirect back to the search page if it they can't select the suite??
+                # but this might be confusing and make them think it was successful vs taking them to a blank room page...
+                # return redirect('/selectionpage')
                 dataDict = {'roomData' : [], 'suiteData' : []}
                 return render_template('viewMyRoom.html', data = dataDict)
             suite_queries.setSuite(info)

@@ -70,7 +70,7 @@ def getMySuiteDetails():
         results = []
         for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
-        # print("RESULTS", results)
+        print("RESULTS", results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
