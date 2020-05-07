@@ -29,7 +29,7 @@ BEGIN
 	FROM DormRoom AS dr, Room AS r
 	WHERE dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
 		  AND NOT EXISTS (SELECT * FROM Student AS s WHERE s.dormName = dr.dormName AND s.dormRoomNum = dr.number) --  we only want rooms that are still free
-	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by number for later processing
+	ORDER BY r.dormName, cast(r.number as unsigned); -- group first by dorm, alphabetically, then group data by number for later processing
 END $$
 
 DROP PROCEDURE IF EXISTS GetSummaryForDormRoom$$
@@ -57,7 +57,7 @@ BEGIN
 	WHERE r.dormName = dormName
 		  AND dr.dormName = r.dormName AND dr.number = r.number AND r.suite IS NULL
 		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where r.suite = sg.suiteID) -- the room is not part of a suite
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 END $$
 
 DROP PROCEDURE IF EXISTS GetRoomDetails$$

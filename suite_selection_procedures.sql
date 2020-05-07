@@ -14,7 +14,7 @@ BEGIN
 		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
 		  AND s.suiteID = r.suite
 		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 
 	-- suite info
 	SELECT DISTINCT s.suiteID, s.numPeople, s.isSubFree
@@ -29,7 +29,7 @@ BEGIN
 	FROM Room AS r, CommonRoom AS cr
 	WHERE r.dormName = dormName
 		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 END $$
 
 -- a true summary, informational only. This is just for informational purposes and displays ALL data, even rooms and suites that have been selected.
@@ -59,7 +59,7 @@ BEGIN
 	FROM DormRoom AS dr, Room AS r, SuiteGroup AS sg
 	WHERE sg.emailID = emailID AND r.suite = sg.suiteID
 		  AND dr.dormName = r.dormName AND dr.number = r.number
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 
 	-- common room info
 	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.otherDescription,
@@ -67,7 +67,7 @@ BEGIN
 	FROM Room AS r, CommonRoom AS cr, SuiteGroup AS sg
 	WHERE sg.emailID = emailID AND r.suite = sg.suiteID
 		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 END $$
 
 DROP PROCEDURE IF EXISTS GetAllSuitesSummary$$
@@ -86,7 +86,7 @@ BEGIN
 		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
 		  AND s.suiteID = r.suite
 		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
-	ORDER BY r.suite;
+	ORDER BY r.suite, cast(r.number as unsigned);
 
 	-- common room info
 	SELECT DISTINCT r.suite, r.number, r.squareFeet, r.otherDescription,
@@ -94,7 +94,7 @@ BEGIN
 	FROM Room AS r, CommonRoom AS cr
 	WHERE r.suite IS NOT NULL
 		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.suite;
+	ORDER BY r.suite, cast(r.number as unsigned);
 END $$
 
 DROP PROCEDURE IF EXISTS GetSuiteSummaryForSuite$$
@@ -115,7 +115,7 @@ BEGIN
 		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
 		  AND s.suiteID = suiteID
 		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 
 	-- common room info
 	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
@@ -123,7 +123,7 @@ BEGIN
 	FROM Room AS r, CommonRoom AS cr
 	WHERE r.suite = suiteID
 		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 END $$
 
 DROP PROCEDURE IF EXISTS RemoveMyselfFromSuiteGroup$$
