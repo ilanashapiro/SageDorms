@@ -162,7 +162,7 @@ def setSuiteRepresentative(info):
 
 def createSuiteGroup(info):
     try:
-        # note: we know you are not already in a suite group, since that is the only way you can access this page
+        # note: we know you are not already in a suite group and have not selected a single, since that is the only way you can access this page
         # query the students in the prospective suite group to calculate average draw num. (note: the emailIDs entered is everyone ELSE in the list,
         # not including the student doing the entering -- that person is global_vars.emailID
         getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = \'{global_vars.emailID}\''
@@ -172,11 +172,26 @@ def createSuiteGroup(info):
                 emailID = value
                 getAvgDrawNumQueryString += f' OR s.emailID = \'{emailID}\''
                 emailIDsToAdd.append(emailID)
+        getAvgDrawNumQueryString += ';'
+
         if global_vars.emailID not in emailIDsToAdd:
             return "ERROR: You must be in the suite group that you create"
-        getAvgDrawNumQueryString += ';'
-        global_vars.cursor.execute(getAvgDrawNumQueryString)
 
+        suiteGroupSinglesQueryString = f'SELECT s.dormName FROM Student AS s'
+        isFirstCond = True
+        for emailID in emailIDsToAdd:
+            if isFirstCond:
+                suiteGroupSinglesQueryString += f' WHERE s.emailID = \'{emailID}\''
+                isFirstCond = False
+            else:
+                suiteGroupSinglesQueryString += f' OR s.emailID = \'{emailID}\''
+        suiteGroupSinglesQueryString += ';'
+        global_vars.cursor.execute(suiteGroupSinglesQueryString)
+        rooms = global_vars.cursor.fetchall()
+        if len(rooms) - rooms.count((None,)) > 0:
+            return "ERROR: Someone in your suite group has already selected a room. They can't be in a suite group."
+
+        global_vars.cursor.execute(getAvgDrawNumQueryString)
         avgDrawNum = global_vars.cursor.fetchone()[0] # there's only one (single-value) result tuple that contains the average
 
         # now that we have the avg draw num, add all students to the SuiteGroup table with this avg draw num
@@ -191,7 +206,6 @@ def createSuiteGroup(info):
                 addStudentsQueryString += f', (\'{emailID}\', {avgDrawNum}, NULL, FALSE, NULL)'
 
         addStudentsQueryString += ';'
-        # print(addStudentsQueryString)
         global_vars.cursor.execute(addStudentsQueryString)
 
         mySuiteGroup = getMySuiteGroup()[0]
@@ -200,7 +214,6 @@ def createSuiteGroup(info):
             return "ERROR: Suite group was not successfully created. Did you enter the email IDs of everyone correctly? Remember -- you cannot enter someone who is already in a different suite group."
 
         return ""
-
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
         return "ERROR: Suite group was not successfully created. Did you enter the email IDs of everyone correctly? Remember -- you cannot enter someone who is already in a different suite group."
