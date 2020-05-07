@@ -30,35 +30,46 @@
 
     <div class="table-wrapper">
     <table>
-    <thead>
-		<tr>
-			<th>Dorm Name</th>
-			<th>Room #</th>
-			<th>Square Feet</th>
-			<th>Number of Occupants</th>
-			<th>Sub Free</th>
-			<th>Connecting Room</th>
-			<th>Details</th>
-			{% for roomList in data %}
-				<tr>
+		<thead>
+			<tr>
+				<th>Dorm Name</th>
+				<th>Room #</th>
+				<th>Square Feet</th>
+				<th>Dimensions Description</th>
+				<th>Number of Occupants</th>
+				<th>Sub Free</th>
+				<th>Private Bathroom</th>
+				<th>Bathroom Info</th>
+				<th>Windows</th>
+				<th>Closets</th>
+				<th>Connecting Room</th>
+				<th>Details</th>
+				<th>Remove</th>
+
+				{% for roomList in data %}
+			    <tr>
 					{% for room in roomList %}
 						<td> {{room[0]}} </td>   <!-- Dorm Name -->
-						<td> {{room[1]}} </td>   <!-- Room # -->
-						<td> {{room[2]}} </td>   <!--  Sq Ft -->
-						<td> {{room[3]}} </td>   <!-- Num Occupants -->
-						<td> {{"Yes" if room[4] == 1 else "No"}} </td>   <!-- Subfree -->
-						<td> {{room[5] if room[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
-						<td> {{room[6] if room[6] != '' else 'No additional info'}} </td>   <!-- Details -->
+				        <td> {{room[1]}} </td>   <!-- Room # -->
+				        <td> {{room[2]}} </td>   <!--  Sq Ft -->
+						<td> {{room[3] if room[3] != None else 'No dimensions description'}} </td>	  <!--  Dimensions Description -->
+				        <td> {{room[4]}} </td>   <!-- Num Occupants -->
+				        <td> {{"Yes" if room[5] == 1 else "No"}} </td>   <!-- Subfree -->
+						<td> {{"Yes" if room[6] == 1 else "No"}} </td>   <!-- has private bathroom -->
+						<td> {{room[7] if room[7] != '' else 'No bathroom info'}} </td>   <!-- bathroom description -->
+						<td> {{room[8] if room[8] != '' else 'No windows info'}} </td>   <!-- windows description -->
+						<td> {{room[9] if room[9] != '' else 'No closets info'}} </td>   <!-- closets description -->
+				        <td> {{room[10] if room[10] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+				        <td> {{room[11] if room[11] != '' else 'No additional info'}} </td>   <!-- Details -->
 						<td>
 							<form action="" method="post">
 								<button type="submit" name="removeRoom" value="{{room[0]}} {{room[1]}}">Remove</button>
 							</form>
 						</td>
 					{% endfor %}
-				</tr>
-			{% endfor %}
-	</tr>
-    </thead>
+			    </tr>
+			    {% endfor %}
+			</tr>
     </table>
     </div>
 

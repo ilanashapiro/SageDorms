@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS DormRoom (
 	numOccupants INT NOT NULL,
 	hasPrivateBathroom BOOLEAN NOT NULL DEFAULT FALSE,
 	numDoors INT NOT NULL DEFAULT 1,
-	closetsDescription VARCHAR(250) NOT NULL,
+	closetsDescription VARCHAR(250),
     bathroomDescription VARCHAR(250),
 	connectingRoomNum VARCHAR(10),
 	PRIMARY KEY (dormName, number),

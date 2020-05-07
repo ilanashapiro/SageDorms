@@ -268,6 +268,7 @@ def viewMyRoom():
     print("SESSION", session['hasNotChosen'])
     roomData = room_queries.getMyRoomDetails()
     suiteData = suite_queries.getMySuiteDetails()
+    print("ROOM DATA", roomData)
     dataDict = {'roomData' : roomData, 'suiteData' : suiteData, 'roommateData' : roommateData}
     print(dataDict)
 

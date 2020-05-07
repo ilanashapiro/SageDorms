@@ -101,6 +101,12 @@ def setStudentRoom(info):
                 return
         else:
             return # if your roommate doesn't exist (i.e. you entered the wrong ID), don't select the room
+        queryString = f'SELECT * FROM SuiteGroup AS s WHERE s.emailID = \'{roommateEID}\';'
+        global_vars.cursor.execute(queryString)
+        roommateSuiteGroupInfo = global_vars.cursor.fetchall()
+        print("roommateSuiteGroupInfo", roommateSuiteGroupInfo)
+        if len(roommateSuiteGroupInfo) > 0:
+            return # your chosen roommate is in a suite group: not allowed
         global_vars.cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))

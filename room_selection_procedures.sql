@@ -38,7 +38,8 @@ CREATE PROCEDURE GetSummaryForDormRoom(
 	IN roomNum VARCHAR(10)
 )
 BEGIN
-	SELECT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription
+	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, dr.numOccupants, r.isSubFree, dr.hasPrivateBathroom, dr.bathroomDescription,
+		   r.windowsDescription, dr.closetsDescription, dr.connectingRoomNum, r.otherDescription
 	FROM DormRoom AS dr, Room AS r
 	WHERE r.number = roomNum AND r.dormName = dormName
 		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
@@ -86,9 +87,8 @@ CREATE PROCEDURE GetMyRoomDetails(
 	IN emailID CHAR(8)
 )
 BEGIN
-	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription
-	-- the old version when we thought we could support more detail. May bring this back in the future
-	 -- r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree, dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, dr.numOccupants, r.isSubFree, dr.hasPrivateBathroom, dr.bathroomDescription,
+		   r.windowsDescription, dr.closetsDescription, dr.connectingRoomNum, r.otherDescription
 	FROM DormRoom AS dr, Room AS r, Student AS s
 	WHERE dr.dormName = r.dormName
 		  AND dr.number = r.number

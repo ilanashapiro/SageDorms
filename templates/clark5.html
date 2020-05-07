@@ -46,31 +46,41 @@
 <div class="table-wrapper">
 <table>
 <thead>
-<tr>
-	<th>Dorm Name</th>
-	<th>Room #</th>
-	<th>Square Feet</th>
-	<th>Number of Occupants</th>
-	<th>Sub Free</th>
-	<th>Connecting Room</th>
-	<th>Details</th>
-
-		{% for room in data %}
-    <tr>
-		{% for item2 in room %}
-			{% for item3 in item2 %}
-				<td> {{item3[0]}} </td>   <!-- Dorm Name -->
-		        <td> {{item3[1]}} </td>   <!-- Room # -->
-		        <td> {{item3[2]}} </td>   <!--  Sq Ft -->
-		        <td> {{item3[3]}} </td>   <!-- Num Occupants -->
-		        <td> {{"Yes" if item3[4] == 1 else "No"}} </td>   <!-- Subfree -->
-		        <td> {{item3[5] if item3[5] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
-		        <td> {{item3[6] if item3[6] != '' else 'No additional info'}} </td>   <!-- Details -->
-			{% endfor %}
-		{% endfor %}
-    </tr>
-    {% endfor %}
-</tr>
+	<thead>
+		<tr>
+			<th>Dorm Name</th>
+			<th>Room #</th>
+			<th>Square Feet</th>
+			<th>Dimensions Description</th>
+			<th>Number of Occupants</th>
+			<th>Sub Free</th>
+			<th>Private Bathroom</th>
+			<th>Bathroom Info</th>
+			<th>Windows</th>
+			<th>Closets</th>
+			<th>Connecting Room</th>
+			<th>Details</th>
+			{% for room in data %}
+		    <tr>
+				{% for item2 in room %}
+					{% for item3 in item2 %}
+						<td> {{item3[0]}} </td>   <!-- Dorm Name -->
+				        <td> {{item3[1]}} </td>   <!-- Room # -->
+				        <td> {{item3[2]}} </td>   <!--  Sq Ft -->
+						<td> {{item3[3] if item3[3] != None else 'No dimensions description'}} </td>	  <!--  Dimensions Description -->
+				        <td> {{item3[4]}} </td>   <!-- Num Occupants -->
+				        <td> {{"Yes" if item3[5] == 1 else "No"}} </td>   <!-- Subfree -->
+						<td> {{"Yes" if item3[6] == 1 else "No"}} </td>   <!-- has private bathroom -->
+						<td> {{item3[7] if item3[7] != '' else 'No bathroom info'}} </td>   <!-- bathroom description -->
+						<td> {{item3[8] if item3[8] != '' else 'No windows info'}} </td>   <!-- windows description -->
+						<td> {{item3[9] if item3[9] != '' else 'No closets info'}} </td>   <!-- closets description -->
+				        <td> {{item3[10] if item3[10] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
+				        <td> {{item3[11] if item3[11] != '' else 'No additional info'}} </td>   <!-- Details -->
+					{% endfor %}
+				{% endfor %}
+		    </tr>
+		    {% endfor %}
+		</tr>
 </thead>
 </table>
 </div>
