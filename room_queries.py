@@ -54,7 +54,7 @@ def searchForDormRooms(info):
         queryString += f' WHERE dr.dormName = r.dormName AND dr.number = r.number'
 
     # order results
-    queryString += f' ORDER BY CAST(r.number AS unsigned);'
+    queryString += f' ORDER BY r.dormName, CAST(r.number AS unsigned);'
 
     # print(queryString)
     global_vars.cursor.execute(queryString)

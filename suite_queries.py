@@ -32,7 +32,7 @@ def searchForSuites(info):
                 else:
                     queryString += f' AND s.{key} = \'{value}\''
 
-    queryString += ';'
+    queryString += ' ORDER BY s.dormName;'
 
     # print(queryString)
     global_vars.cursor.execute(queryString)
