@@ -19,8 +19,10 @@ def index():
     if 'dispname' in session:
         global_vars.emailID = session['dispname']
         session['hasNotChosen'] = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
-        session['hasNotChosen'] = session['hasNotChosen']
-    return render_template('index.html', hasNotChosen = session['hasNotChosen'])
+        return render_template('index.html', hasNotChosen = session['hasNotChosen'])
+    else:
+        session['hasNotChosen'] = True
+        return render_template('index.html', hasNotChosen = session['hasNotChosen'])
 
 @app.route('/dorms')
 def dorms():
@@ -175,6 +177,8 @@ def displayRoomSelectionInfo():
             if len(myWishList) > 0:
                 myWishList = myWishList[0]
             print("myWishList", myWishList)
+            print("SUITE GROUP", suite_queries.getMySuiteGroup())
+            print(session)
             return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = session['hasNotChosen'], myWishList = myWishList)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
