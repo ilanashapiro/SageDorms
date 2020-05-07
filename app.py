@@ -176,10 +176,11 @@ def displayRoomSelectionInfo():
             myWishList = wish_list_queries.getMyWishList()
             if len(myWishList) > 0:
                 myWishList = myWishList[0]
-            print("myWishList", myWishList)
-            print("SUITE GROUP", suite_queries.getMySuiteGroup())
-            print(session)
-            return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = session['hasNotChosen'], myWishList = myWishList)
+            mySuiteGroup = suite_queries.getMySuiteGroup()
+            isInSuiteGroup = False
+            if len(mySuiteGroup[0]) > 0:
+                isInSuiteGroup = True
+            return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = session['hasNotChosen'], myWishList = myWishList, isInSuiteGroup = isInSuiteGroup)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
 def displaySuiteSelectionInfo():
@@ -319,6 +320,7 @@ def suiteFormation():
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
         for key, value in info.items():
             info[key] = value[0]
+        print("SUITE GROUP INFO", info)
         if info['inputType'] == 'new':
             suite_queries.createSuiteGroup(info)
         elif info['inputType'] == 'existing':
