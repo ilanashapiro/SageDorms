@@ -92,22 +92,26 @@ def setStudentRoom(info):
     try:
         roommateEID = info["roommateEID"]
         if (roommateEID == global_vars.emailID):
-            return # you can't be roommates with yourself
+            return "ERROR: You entered you own email ID. You can't be roommates with yourself"
+
         queryString = f'SELECT s.dormName FROM Student AS s WHERE s.emailID = \'{roommateEID}\';'
         global_vars.cursor.execute(queryString)
         roommateInfo = global_vars.cursor.fetchall()
         if len(roommateInfo) > 0:
-            if roommateInfo[0][0] is not None: # if the roommate you're trying to add has already selected a dorm, do nothing
-                return
+            if roommateInfo[0][0] is not None:
+                return "ERROR: Your desired roommate has already selected a room"
         else:
-            return # if your roommate doesn't exist (i.e. you entered the wrong ID), don't select the room
+            return "ERROR: Your desired roommate doesn't seem to exist: did you enter their email ID correctly?"
+
         queryString = f'SELECT * FROM SuiteGroup AS s WHERE s.emailID = \'{roommateEID}\';'
         global_vars.cursor.execute(queryString)
         roommateSuiteGroupInfo = global_vars.cursor.fetchall()
         print("roommateSuiteGroupInfo", roommateSuiteGroupInfo)
         if len(roommateSuiteGroupInfo) > 0:
-            return # your chosen roommate is in a suite group: not allowed
+            return "ERROR: Your desired roommate is in a suite group so is not eligible to select a double with you"
+
         global_vars.cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
+        return ""
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 

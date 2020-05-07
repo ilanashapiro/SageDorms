@@ -94,7 +94,19 @@ def removeMyselfFromSuiteGroup():
 
 def addMyselfToSuiteGroup(info):
     try:
+        emailIDInSG = info['emailIDInSG']
+        global_vars.cursor.callproc('GetMySuiteGroup', [emailIDInSG])
+        results = []
+        for result in global_vars.cursor.stored_results():
+            results.append(result.fetchall())
+        existingSuiteGroup = results[0]
+        if len(existingSuiteGroup) == 0:
+            return "ERROR: Your must enter someone who is already in a suite group!"
+        if len(existingSuiteGroup) == 6:
+            return "ERROR: This suite group is already full with 6 people. Try a different group."
+
         global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], False])
+        return ""
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
@@ -137,12 +149,20 @@ def getNumPeopleInSuite(info):
 
 def setSuiteRepresentative(info):
     try:
+        mySuiteGroup = getMySuiteGroup()[0]
+        emailID = info['emailID']
+        suiteGroupIDs = [person[1] for person in mySuiteGroup]
+        print(suiteGroupIDs)
+        if emailID not in suiteGroupIDs:
+            return "ERROR: You must enter a suite rep that is in your group!"
         global_vars.cursor.callproc('SetSuiteRepresentative', [info['emailID']])
+        return ""
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def createSuiteGroup(info):
     try:
+        # note: we know you are not already in a suite group, since that is the only way you can access this page
         # query the students in the prospective suite group to calculate average draw num. (note: the emailIDs entered is everyone ELSE in the list,
         # not including the student doing the entering -- that person is global_vars.emailID
         getAvgDrawNumQueryString = f'SELECT avg(s.drawNum) FROM Student AS s WHERE s.emailID = \'{global_vars.emailID}\''
@@ -152,6 +172,8 @@ def createSuiteGroup(info):
                 emailID = value
                 getAvgDrawNumQueryString += f' OR s.emailID = \'{emailID}\''
                 emailIDsToAdd.append(emailID)
+        if global_vars.emailID not in emailIDsToAdd:
+            return "ERROR: You must be in the suite group that you create"
         getAvgDrawNumQueryString += ';'
         global_vars.cursor.execute(getAvgDrawNumQueryString)
 
@@ -172,5 +194,13 @@ def createSuiteGroup(info):
         # print(addStudentsQueryString)
         global_vars.cursor.execute(addStudentsQueryString)
 
+        mySuiteGroup = getMySuiteGroup()[0]
+        print('mySuiteGroup2', mySuiteGroup)
+        if len(mySuiteGroup) == 0:
+            return "ERROR: Suite group was not successfully created. Did you enter the email IDs of everyone correctly? Remember -- you cannot enter someone who is already in a different suite group."
+
+        return ""
+
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
+        return "ERROR: Suite group was not successfully created. Did you enter the email IDs of everyone correctly? Remember -- you cannot enter someone who is already in a different suite group."

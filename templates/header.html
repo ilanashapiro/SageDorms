@@ -5,7 +5,7 @@
             <a href="{{url_for('index')}}">Home</a>
             <a href="{{url_for('dorms')}}">View Dorms</a>
             <a href="{{url_for('selectionpage')}}">Search Dorms</a>
-            {% if session['hasNotChosen'] %}
+            {% if (session['hasNotChosen'] and (not session['isInSuiteGroup']))%}
                 <a href="{{url_for('suiteFormation')}}">Form Suite</a>
             {% endif %}
             <a href="{{url_for('viewSuiteMembers')}}">View Suite Group</a>
