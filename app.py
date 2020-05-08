@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, \
         jsonify, url_for
-import sagedorm_db
+import populate_database
 import mysql.connector
 import random
 import cas_login
@@ -201,8 +201,7 @@ def displayRoomSelectionInfo():
             data = room_queries.searchForDormRooms(info)
 
             myWishList = wish_list_queries.getMyWishList()
-            if len(myWishList) > 0:
-                myWishList = myWishList[0]
+            myWishList = [item[0] for item in myWishList]
             mySuiteGroup = suite_queries.getMySuiteGroup()
             isInSuiteGroup = False
             if len(mySuiteGroup[0]) > 0:
@@ -456,5 +455,5 @@ if __name__ == '__main__':
 
     # global_vars.cursor executes SQL commands
     global_vars.cursor = sagedormsdb.cursor()
-    sagedorm_db.init_db()
+    populate_database.init_db()
     app.run(debug=True)

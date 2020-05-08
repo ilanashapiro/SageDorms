@@ -2,7 +2,6 @@ import string
 import random
 import mysql.connector
 import global_vars
-import sagedorm_db
 from mysql.connector import Error
 
 def getSuiteSummaryForSuite(suiteID):
