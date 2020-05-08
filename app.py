@@ -16,12 +16,14 @@ app.secret_key = "shhhhh keep it a secret"
 @app.route('/', methods=['GET', 'POST'])
 # called when you go to localhost 5000
 def index():
+    '''
+    Rendering the home screen
+    '''
     if 'dispname' in session:
         global_vars.emailID = session['dispname']
         session['hasNotChosen'] = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
         numPeopleInSuite = len(suite_queries.getMySuiteGroup()[0])
         session['isInSuiteGroup'] = (numPeopleInSuite > 0)
-
         return render_template('index.html', hasNotChosen = session['hasNotChosen'])
     else:
         session['hasNotChosen'] = True
@@ -29,13 +31,18 @@ def index():
 
 @app.route('/dorms')
 def dorms():
+    '''
+    View all dorms page
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('dorms')
-
     return render_template('generic.html', hasNotChosen = session['hasNotChosen'])
 
 @app.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
+    '''
+    Display wish list info
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('wishlist')
 
@@ -47,11 +54,12 @@ def wishlist():
         wish_list_queries.deleteFromWishList(info)
 
     data = wish_list_queries.getMyWishList()
-
     return render_template('wishlist.html', data = data, hasNotChosen = session['hasNotChosen'])
 
 def addToWishListHelper(data, redirectPageIfNotLoggedIn):
-    ''' Adds room to wishlist; called by each room in their POST requests '''
+    '''
+    Adds room to wishlist; called by each room in their POST requests
+    '''
 
     # if not logged in
     if 'dispname' not in session:
@@ -70,6 +78,9 @@ def addToWishListHelper(data, redirectPageIfNotLoggedIn):
 
 @app.route('/smiley', methods=['GET', 'POST'])
 def smiley():
+    '''
+    Info for Smiley dorm
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('smiley')
 
@@ -84,6 +95,9 @@ def smiley():
 
 @app.route('/clark1', methods=['GET', 'POST'])
 def clark1():
+    '''
+    Info for Clark 1 dorm
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('clark1')
 
@@ -93,11 +107,13 @@ def clark1():
     info = {'': '', 'dormName': 'Clark-I'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-
     return render_template('clark1.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
 
 @app.route('/clark5', methods=['GET', 'POST'])
 def clark5():
+    '''
+    Info for Clark 5 dorm
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('clark5')
 
@@ -107,11 +123,13 @@ def clark5():
     info = {'': '', 'dormName': 'Clark-V'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-
     return render_template('clark5.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
 
 @app.route('/norton', methods=['GET', 'POST'])
 def norton():
+    '''
+    Info for Norton dorm
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('norton')
 
@@ -121,11 +139,13 @@ def norton():
     info = {'': '', 'dormName': 'Norton-Clark'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-
     return render_template('norton.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
 
 @app.route('/walker', methods=['GET', 'POST'])
 def walker():
+    '''
+    Info for Walker dorm
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('walker')
 
@@ -135,11 +155,13 @@ def walker():
     info = {'': '', 'dormName': 'Walker'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-
     return render_template('walker.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
 
 @app.route('/lawry', methods=['GET', 'POST'])
 def lawry():
+    '''
+    Info for Lawry dorm
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('lawry')
 
@@ -149,11 +171,14 @@ def lawry():
     info = {'': '', 'dormName': 'Lawry'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-
     return render_template('lawry.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
 
 @app.route('/displayRoomSelectionInfo', methods=['POST'])
 def displayRoomSelectionInfo():
+    '''
+    Display the details of the room you selected, including roommate if applicable. Gives all this
+    information to the relevant jinja template
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('displayRoomSelectionInfo')
 
@@ -164,7 +189,6 @@ def displayRoomSelectionInfo():
 
         # add to wishlist
         if 'wishlist_item' in rawinfo:
-            # get email if logged in
             return addToWishListHelper(rawinfo['wishlist_item'].split(), 'displayRoomSelectionInfo')
 
         else:
@@ -187,6 +211,10 @@ def displayRoomSelectionInfo():
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
 def displaySuiteSelectionInfo():
+    '''
+    Display the details of the suite you selected. Determine whether you're the suite rep, gives all this
+    information to the relevant jinja template
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('displaySuiteSelectionInfo')
 
@@ -208,17 +236,24 @@ def displaySuiteSelectionInfo():
 
 @app.route('/drawUp', methods=['GET', 'POST'])
 def drawUp():
+    '''
+    Set your roommate for selecting a double
+    '''
     if request.method == 'POST':
         # the login form data
         info = request.form
         roomSelectInfo = request.form['double'].split()
         dormName = roomSelectInfo[0]
         number = roomSelectInfo[1]
-
-        return render_template('drawUp.html', dormName = dormName, number = number, hasNotChosen = session['hasNotChosen'])
+        return render_template('drawUp.html', dormName = dormName, number = number)
 
 @app.route('/viewMyRoom', methods=['GET', 'POST'])
 def viewMyRoom():
+    '''
+    View the details of my room. If incoming POST request (from room selection page), then
+    set the single/double/suite in the database for the student(s), and then render the jinja template
+    with this info, or go to an error page if there's an error
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('viewMyRoom')
     if request.method == 'POST':
@@ -273,6 +308,10 @@ def viewMyRoom():
 
 @app.route('/viewSuiteMembers', methods=['GET', 'POST'])
 def viewSuiteMembers():
+    '''
+    Handles getting your suite memebers' data and injectinting it into the jinja template
+    If POST request, executes the appropriate action (sets a new suite rep, or removes someone from the group)
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('viewSuiteMembers')
 
@@ -307,6 +346,10 @@ def viewSuiteMembers():
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
 def suiteFormation():
+    '''
+    Form a suite group and render the HTML template to view your suite group,
+    or redirect to an error page if there is an error.
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('suiteFormation')
 
@@ -330,12 +373,13 @@ def suiteFormation():
         return redirect('/viewSuiteMembers')
     return render_template('suiteFormation.html', hasNotChosen = session['hasNotChosen'])
 
-# get is when you load, post is when you submit
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
+    '''
+    Load the selection page
+    '''
     if 'dispname' not in session:
         return redirectFromLoginTo('selectionpage')
-
     return render_template('selectionpage.html', hasNotChosen = session['hasNotChosen'])
 
 def redirectFromLoginTo(url):

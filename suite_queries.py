@@ -6,6 +6,9 @@ import sagedorm_db
 from mysql.connector import Error
 
 def getSuiteSummaryForSuite(suiteID):
+    '''
+    Get the summary data for a specified suite
+    '''
     try:
         global_vars.cursor.callproc('GetSuiteSummaryForSuite', [suiteID])
         results = []
@@ -16,6 +19,10 @@ def getSuiteSummaryForSuite(suiteID):
         print("Failed to execute stored procedure: {}".format(error))
 
 def searchForSuites(info):
+    '''
+    Searches for and returns the suite data whose search criteria is contained in the info dictionary
+    Dynamically builds the query string to handle variable input
+    '''
     queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s'''
     isFirstCond = True
     for key, value in info.items():
@@ -43,6 +50,9 @@ def searchForSuites(info):
     return results
 
 def getSuiteSummaryForDorm(info):
+    '''
+    Get the data for the suites of a specified dorm (contained in the info dictionary)
+    '''
     try:
         global_vars.cursor.callproc('GetSuitesForDorm', [info['dormName']])
         suites = []
@@ -57,6 +67,9 @@ def getSuiteSummaryForDorm(info):
         print("Failed to execute stored procedure: {}".format(error))
 
 def getMySuiteDetails():
+    '''
+    Get the data for the suite my group has selected
+    '''
     try:
         global_vars.cursor.callproc('GetMySuiteDetails', [global_vars.emailID])
         results = []
@@ -67,12 +80,19 @@ def getMySuiteDetails():
         print("Failed to execute stored procedure: {}".format(error))
 
 def removeMyselfFromSuiteGroup():
+    '''
+    Remove myself from my current suite group
+    '''
     try:
         global_vars.cursor.callproc('RemoveMyselfFromSuiteGroup', [global_vars.emailID])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def addMyselfToSuiteGroup(info):
+    '''
+    Add myself to a specified suite group (determined by the emailID of someone in the suite group that
+    is contained in the info dict). Also handle errors relating to invalid input of the suite memeber emailID
+    '''
     try:
         emailIDInSG = info['emailIDInSG']
         global_vars.cursor.callproc('GetMySuiteGroup', [emailIDInSG])
@@ -91,6 +111,9 @@ def addMyselfToSuiteGroup(info):
         print("Failed to execute stored procedure: {}".format(error))
 
 def getMySuiteGroup():
+    '''
+    Get the data for the people in my suite group
+    '''
     try:
         global_vars.cursor.callproc('GetMySuiteGroup', [global_vars.emailID])
         results = []
@@ -101,12 +124,18 @@ def getMySuiteGroup():
         print("Failed to execute stored procedure: {}".format(error))
 
 def setSuite(info):
+    '''
+    Set the suite (contained in the info dict) for myself and all members of my suite group
+    '''
     try:
         global_vars.cursor.callproc('SetSuite', [info['suiteID'], info['emailIDSuiteRep']])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def isCurrentUserSuiteRepresentative():
+    '''
+    Determine if I (the logged in user) am the current suite rep for my group
+    '''
     try:
         queryString = f'SELECT * FROM SuiteGroup AS sg WHERE sg.isSuiteRepresentative = TRUE AND sg.emailID = \'{global_vars.emailID}\';'
         global_vars.cursor.execute(queryString)
@@ -118,6 +147,9 @@ def isCurrentUserSuiteRepresentative():
         print("Failed to execute stored procedure: {}".format(error))
 
 def getNumPeopleInSuite(info):
+    '''
+    Get the number of people in a particular suite, specified in the info dict
+    '''
     try:
         suiteID = info['suiteID']
         queryString = f'SELECT s.numPeople FROM Suite AS s WHERE s.suiteID = \'{suiteID}\';'
@@ -128,6 +160,9 @@ def getNumPeopleInSuite(info):
         print("Failed to execute stored procedure: {}".format(error))
 
 def setSuiteRepresentative(info):
+    '''
+    Set the suite rep (specified in the info dict) for my group (the logged in user's group)
+    '''
     try:
         mySuiteGroup = getMySuiteGroup()[0]
         emailID = info['emailID']
@@ -141,6 +176,14 @@ def setSuiteRepresentative(info):
         print("Failed to execute stored procedure: {}".format(error))
 
 def createSuiteGroup(info):
+    '''
+    Create a suite group based in the info in the info dict
+    Dynamically build the SQL query to reflect variable input
+    First make sure input of suite memebers is valid
+    Then calculate the average draw num for all of you
+    Then create the suite group
+    Return an error message if at any point an error is encountered
+    '''
     try:
         # note: we know you are not already in a suite group and have not selected a single, since that is the only way you can access this page
         # query the students in the prospective suite group to calculate average draw num. (note: the emailIDs entered is everyone ELSE in the list,

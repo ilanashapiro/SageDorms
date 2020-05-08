@@ -5,6 +5,9 @@ import global_vars
 from mysql.connector import Error
 
 def getSummaryForDormRoom(dormName, number):
+    '''
+    Get the summary data for a specified dorm room
+    '''
     try:
         global_vars.cursor.callproc('GetSummaryForDormRoom', [dormName, number])
         results = []
@@ -18,6 +21,10 @@ def getSummaryForDormRoom(dormName, number):
         print("Failed to execute stored procedure: {}".format(error))
 
 def searchForDormRooms(info):
+    '''
+    Searches for and returns the dorm room data whose search criteria is contained in the info dictionary
+    Dynamically builds the query string to handle variable input
+    '''
     queryString = 'SELECT DISTINCT r.dormName, r.number FROM DormRoom AS dr, Room AS r'
     isFirstCond = True
     foundInfo = False
@@ -65,10 +72,12 @@ def searchForDormRooms(info):
         dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
         number = room[1]
         results.append(getSummaryForDormRoom(dormName, number))
-
     return results
 
 def getDormRoomSummaryForDorm(info):
+    '''
+    Get the data for the dorm rooms of a specified dorm (contained in the info dictionary)
+    '''
     try:
         global_vars.cursor.callproc('GetDormRoomSummaryForDorm', [info['dormName']])
         rooms = []
@@ -85,44 +94,43 @@ def getDormRoomSummaryForDorm(info):
         print("Failed to execute stored procedure: {}".format(error))
 
 def setStudentRoom(info):
+    '''
+    Set the room for the specified student (contained in the info dict) and
+    handle errors (return error message) relating to roommate if applicable
+    '''
     try:
-        roommateEID = info["roommateEID"]
-        if (roommateEID == global_vars.emailID):
-            return "ERROR: You entered you own email ID. You can't be roommates with yourself"
+        # you're trying to select a double and so must have submitted the roommate form
+        if info["roommateEID"] != None:
+            roommateEID = info["roommateEID"]
+            if (roommateEID == global_vars.emailID):
+                return "ERROR: You entered you own email ID. You can't be roommates with yourself"
 
-        # make sure the roommate you enter has not already selected a room, and also that they exist in the database
-        queryString = f'SELECT s.dormName FROM Student AS s WHERE s.emailID = \'{roommateEID}\';'
-        global_vars.cursor.execute(queryString)
-        roommateInfo = global_vars.cursor.fetchall()
-        if len(roommateInfo) > 0:
-            if roommateInfo[0][0] is not None:
-                return "ERROR: Your desired roommate has already selected a room"
-        else:
-            return "ERROR: Your desired roommate doesn't seem to exist: did you enter their email ID correctly?"
+            # make sure the roommate you enter has not already selected a room, and also that they exist in the database
+            queryString = f'SELECT s.dormName FROM Student AS s WHERE s.emailID = \'{roommateEID}\';'
+            global_vars.cursor.execute(queryString)
+            roommateInfo = global_vars.cursor.fetchall()
+            if len(roommateInfo) > 0:
+                if roommateInfo[0][0] is not None:
+                    return "ERROR: Your desired roommate has already selected a room"
+            else:
+                return "ERROR: Your desired roommate doesn't seem to exist: did you enter their email ID correctly?"
 
-        # make sure the roommate you enter isn't in a suite group
-        queryString = f'SELECT * FROM SuiteGroup AS s WHERE s.emailID = \'{roommateEID}\';'
-        global_vars.cursor.execute(queryString)
-        roommateSuiteGroupInfo = global_vars.cursor.fetchall()
-        if len(roommateSuiteGroupInfo) > 0:
-            return "ERROR: Your desired roommate is in a suite group so is not eligible to select a double with you"
+            # make sure the roommate you enter isn't in a suite group
+            queryString = f'SELECT * FROM SuiteGroup AS s WHERE s.emailID = \'{roommateEID}\';'
+            global_vars.cursor.execute(queryString)
+            roommateSuiteGroupInfo = global_vars.cursor.fetchall()
+            if len(roommateSuiteGroupInfo) > 0:
+                return "ERROR: Your desired roommate is in a suite group so is not eligible to select a double with you"
 
         global_vars.cursor.callproc('SetStudentRoom', [global_vars.emailID, info["roommateEID"], info["dormName"], info["dormRoomNum"]])
-        return ""
-    except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error))
-
-def getDormRoomsSinglesSummary():
-    try:
-        global_vars.cursor.callproc('GetDormRoomsSinglesSummary', [])
-        results = []
-        for result in global_vars.cursor.stored_results():
-            results.append(result.fetchall())
-        return results
+        return "" # no error message
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def getMyRoomDetails():
+    '''
+    Get the data for the room I selected
+    '''
     try:
         global_vars.cursor.callproc('GetMyRoomDetails', [global_vars.emailID])
         results = []
@@ -133,6 +141,9 @@ def getMyRoomDetails():
         print("Failed to execute query: {}".format(error))
 
 def getMyRoommateInfo():
+    '''
+    Get the data for the roommate that is sharing a double with me
+    '''
     try:
         global_vars.cursor.callproc('GetMyRoommateInfo', [global_vars.emailID])
         results = []
@@ -143,6 +154,9 @@ def getMyRoommateInfo():
         print("Failed to execute query: {}".format(error))
 
 def isRoomSelected(info):
+    '''
+    Determine if a room (specified in the info dict) has been selected by someone
+    '''
     try:
         dormName =  info['dormName']
         number = info['number']
