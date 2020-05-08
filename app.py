@@ -21,7 +21,6 @@ def index():
         session['hasNotChosen'] = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
         numPeopleInSuite = len(suite_queries.getMySuiteGroup()[0])
         session['isInSuiteGroup'] = (numPeopleInSuite > 0)
-        print("SESSION", session)
 
         return render_template('index.html', hasNotChosen = session['hasNotChosen'])
     else:
@@ -66,7 +65,6 @@ def addToWishListHelper(data, redirectPageIfNotLoggedIn):
     info = {}
     info['dormName'] = data[0]
     info['number'] = data[1]
-    print("INFO", info)
     wish_list_queries.addToWishList(info)
     return jsonify(user=session['dispname'])
 
@@ -80,7 +78,6 @@ def smiley():
 
     info = {'': '', 'dormName': 'Smiley'}
     data = room_queries.getDormRoomSummaryForDorm(info)
-    print(data)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
 
     return render_template('smiley.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
@@ -212,7 +209,6 @@ def displaySuiteSelectionInfo():
 @app.route('/drawUp', methods=['GET', 'POST'])
 def drawUp():
     if request.method == 'POST':
-
         # the login form data
         info = request.form
         roomSelectInfo = request.form['double'].split()
@@ -228,13 +224,13 @@ def viewMyRoom():
     if request.method == 'POST':
         info = {}
 
-
         # select single room
         if 'single' in request.form:
             roomSelectInfo = request.form['single'].split()
             info['dormName'] = roomSelectInfo[0]
             info['dormRoomNum'] = roomSelectInfo[1]
             info['roommateEID'] = None
+
             errorMessage = room_queries.setStudentRoom(info)
             if errorMessage != "": # i.e. there's an error message
                 return render_template('errorMessage.html', errorMessage=errorMessage)
@@ -246,8 +242,7 @@ def viewMyRoom():
             info['dormName'] = roomSelectInfo[0]
             info['dormRoomNum'] = roomSelectInfo[1]
             info['roommateEID'] = request.form['roommateEID']
-            print("INFO", info)
-            # need to check validity of roommateEID!!
+
             errorMessage = room_queries.setStudentRoom(info)
             if errorMessage != "": # i.e. there's an error message
                 return render_template('errorMessage.html', errorMessage=errorMessage)
@@ -261,11 +256,7 @@ def viewMyRoom():
 
             suiteGroupSize = len(suite_queries.getMySuiteGroup()[0])
             numPeopleInSuite = suite_queries.getNumPeopleInSuite(info)
-            # print("SUITE SIZE", numPeopleInSuite, "GROUP SIZE", suiteGroupSize)
             if numPeopleInSuite != suiteGroupSize:
-                # or we could have it redirect back to the search page if it they can't select the suite??
-                # but this might be confusing and make them think it was successful vs taking them to a blank room page...
-                # return redirect('/selectionpage')
                 return render_template('errorMessage.html', errorMessage="ERROR: You must select a suite that has the same number of people as your suite group does!")
             session['hasNotChosen'] = False
             suite_queries.setSuite(info)
@@ -274,12 +265,9 @@ def viewMyRoom():
     hasRoommate = False
     if len(roommateData[0]) > 0:
         hasRoommate = True
-    print("SESSION", session['hasNotChosen'])
     roomData = room_queries.getMyRoomDetails()
     suiteData = suite_queries.getMySuiteDetails()
-    print("ROOM DATA", roomData)
     dataDict = {'roomData' : roomData, 'suiteData' : suiteData, 'roommateData' : roommateData}
-    print(dataDict)
 
     return render_template('viewMyRoom.html', data = dataDict, hasRoommate = hasRoommate, hasNotChosen = session['hasNotChosen'])
 
@@ -292,7 +280,6 @@ def viewSuiteMembers():
         if 'newSuiteRepID' in request.form:
             info = {}
             info['emailID'] = request.form['newSuiteRepID']
-            print(request.form)
             errorMessage = suite_queries.setSuiteRepresentative(info)
             if errorMessage != "": # i.e. there's an error message
                 return render_template('errorMessage.html', errorMessage=errorMessage)
@@ -305,10 +292,9 @@ def viewSuiteMembers():
             suite_queries.removeMyselfFromSuiteGroup()
             session['isInSuiteGroup'] = False
             return redirect('/')
-    # print("ID", global_vars.emailID)
+
     data = suite_queries.getMySuiteGroup()
-    # print("DATA", data)
-    numPeopleInSuite = len(suite_queries.getMySuiteGroup()[0])
+    numPeopleInSuite = len(data[0])
     isLastPerson = False
     isInSuiteGroup = False
     if numPeopleInSuite == 1:
@@ -331,7 +317,6 @@ def suiteFormation():
         #preprocess data. currently the data is a key and a list of vals. What we want is the first (and only) elem of each list
         for key, value in info.items():
             info[key] = value[0]
-        print("SUITE GROUP INFO", info)
         if info['inputType'] == 'new':
             errorMessage = suite_queries.createSuiteGroup(info)
             if errorMessage != "": # i.e. there's an error message
@@ -390,11 +375,12 @@ def login():
         session['hasNotChosen'] = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
         numPeopleInSuite = len(suite_queries.getMySuiteGroup()[0])
         session['isInSuiteGroup'] = (numPeopleInSuite > 0)
-        # session is a built in vbl that persists as long as the app is running.
-        # we login using an external python script. once we login, we save the
-        # cookies of the login throughout the app
+
         response = cas_login.main(login_info)
         if response:
+            # session is a built in vbl that persists as long as the app is running.
+            # we login using an external python script. once we login, we save the
+            # cookies of the login throughout the app
 
             # save the username in persistent storage
             session['dispname'] = login_info['dispname']

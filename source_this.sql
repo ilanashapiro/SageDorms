@@ -34,17 +34,14 @@ BEGIN
 	UPDATE Student AS s
 	SET s.dormName = dormName, s.dormRoomNum = roomNum
 	WHERE s.emailID = emailID OR s.emailID = roommateEID;
-END $$
 
-DROP PROCEDURE IF EXISTS GetDormRoomSinglesSummary$$
-CREATE PROCEDURE GetDormRoomSinglesSummary()
-BEGIN
-	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
-		   dr.numOccupants, dr.connectingRoomNum
-	FROM DormRoom AS dr, Room AS r
-	WHERE dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
-		  AND NOT EXISTS (SELECT * FROM Student AS s WHERE s.dormName = dr.dormName AND s.dormRoomNum = dr.number) --  we only want rooms that are still free
-	ORDER BY r.dormName, r.number; -- group first by dorm, alphabetically, then group data by number for later processing
+	UPDATE Student AS s
+	SET s.roommateEID = roommateEID
+	WHERE s.emailID = emailID;
+
+	UPDATE Student AS s
+	SET s.roommateEID = emailID
+	WHERE s.emailID = roommateEID;
 END $$
 
 DROP PROCEDURE IF EXISTS GetSummaryForDormRoom$$
@@ -53,7 +50,8 @@ CREATE PROCEDURE GetSummaryForDormRoom(
 	IN roomNum VARCHAR(10)
 )
 BEGIN
-	SELECT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription
+	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, dr.numOccupants, r.isSubFree, dr.hasPrivateBathroom, dr.bathroomDescription,
+		   r.windowsDescription, dr.closetsDescription, dr.connectingRoomNum, r.otherDescription
 	FROM DormRoom AS dr, Room AS r
 	WHERE r.number = roomNum AND r.dormName = dormName
 		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
@@ -72,28 +70,7 @@ BEGIN
 	WHERE r.dormName = dormName
 		  AND dr.dormName = r.dormName AND dr.number = r.number AND r.suite IS NULL
 		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where r.suite = sg.suiteID) -- the room is not part of a suite
-	ORDER BY r.number;
-END $$
-
-DROP PROCEDURE IF EXISTS GetRoomDetails$$
-CREATE PROCEDURE GetRoomDetails(  -- common or dorm
-	IN dormName VARCHAR(50),
-	IN roomNum VARCHAR(10)
-)
-BEGIN
-	-- dorm room info
-	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree,
-		   dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription
-	FROM DormRoom AS dr, Room AS r
-	WHERE r.dormName = dormName AND r.number = roomNum
-		  AND dr.dormName = r.dormName AND dr.number = r.number;
-
-	-- common room info
-	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription,
-  		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
-  	FROM Room AS r, CommonRoom AS cr
-  	WHERE r.dormName = dormName AND r.number = roomNum
-  		  AND cr.number = r.number AND cr.dormName = r.dormName;
+	ORDER BY cast(r.number as unsigned);
 END $$
 
 DROP PROCEDURE IF EXISTS GetMyRoomDetails$$
@@ -101,9 +78,8 @@ CREATE PROCEDURE GetMyRoomDetails(
 	IN emailID CHAR(8)
 )
 BEGIN
-	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, r.isSubFree, dr.connectingRoomNum, r.otherDescription
-	-- the old version when we though we could support more detail. May bring this back in the future
-	 -- r.dormName, r.number, r.squareFeet, r.dimensionsDescription, r.otherDescription, r.windowsDescription, r.isSubFree, dr.numOccupants, dr.connectingRoomNum, dr.closetsDescription, dr.bathroomDescription
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, dr.numOccupants, r.isSubFree, dr.hasPrivateBathroom, dr.bathroomDescription,
+		   r.windowsDescription, dr.closetsDescription, dr.connectingRoomNum, r.otherDescription
 	FROM DormRoom AS dr, Room AS r, Student AS s
 	WHERE dr.dormName = r.dormName
 		  AND dr.number = r.number
@@ -112,40 +88,19 @@ BEGIN
 		  AND s.emailID = emailID;
 END $$
 
-DELIMITER ;
-DELIMITER $$
-
-DROP PROCEDURE IF EXISTS GetDormRoomAndSuiteSummaryForDorm$$
-CREATE PROCEDURE GetDormRoomAndSuiteSummaryForDorm(
-	IN dormName VARCHAR(50)
+DROP PROCEDURE IF EXISTS GetMyRoommateInfo$$
+CREATE PROCEDURE GetMyRoommateInfo(
+	IN emailID CHAR(8)
 )
 BEGIN
-	-- dorm room info
-	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
-		   dr.numOccupants, dr.connectingRoomNum
-	FROM DormRoom AS dr, Room AS r, Suite AS s
-	WHERE r.dormName = dormName
-		  AND dr.dormName = r.dormName AND dr.number = r.number
-		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
-		  AND s.suiteID = r.suite
-		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
-	ORDER BY r.number;
-
-	-- suite info
-	SELECT DISTINCT s.suiteID, s.numPeople, s.isSubFree
-	FROM Room AS r, Suite AS s
-	WHERE r.dormName = dormName AND r.suite = s.suiteID
-		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID) --  we only want suites that are still free
-	ORDER BY s.suiteID;
-
-	-- common room info
-	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
-		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
-	FROM Room AS r, CommonRoom AS cr
-	WHERE r.dormName = dormName
-		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.number;
+	SELECT roommate.name, roommate.emailID
+	FROM Student AS myself, Student AS roommate
+	WHERE myself.emailID = emailID
+		  AND myself.roommateEID = roommate.emailID;
 END $$
+
+DELIMITER ;
+DELIMITER $$
 
 -- a true summary, informational only. This is just for informational purposes and displays ALL data, even rooms and suites that have been selected.
 DROP PROCEDURE IF EXISTS GetSuitesForDorm$$
@@ -174,7 +129,7 @@ BEGIN
 	FROM DormRoom AS dr, Room AS r, SuiteGroup AS sg
 	WHERE sg.emailID = emailID AND r.suite = sg.suiteID
 		  AND dr.dormName = r.dormName AND dr.number = r.number
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 
 	-- common room info
 	SELECT DISTINCT r.dormName, r.number, r.squareFeet, r.otherDescription,
@@ -182,34 +137,7 @@ BEGIN
 	FROM Room AS r, CommonRoom AS cr, SuiteGroup AS sg
 	WHERE sg.emailID = emailID AND r.suite = sg.suiteID
 		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.number;
-END $$
-
-DROP PROCEDURE IF EXISTS GetAllSuitesSummary$$
-CREATE PROCEDURE GetAllSuitesSummary()
-BEGIN
-	-- suite info. DISPLAYS ALL SUITES REGARDLESS IF THEY'VE BEEN SELECTED -- INFORMATIONAL ONLY
-	SELECT *
-	FROM Suite AS s;
-
-	-- dorm room info
-	SELECT DISTINCT r.suite, r.number, r.squareFeet, r.otherDescription,
-		   dr.numOccupants, dr.connectingRoomNum
-	FROM DormRoom AS dr, Room AS r, Suite AS s
-	WHERE r.dormName = dormName
-		  AND dr.dormName = r.dormName AND dr.number = r.number
-		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
-		  AND s.suiteID = r.suite
-		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
-	ORDER BY r.suite;
-
-	-- common room info
-	SELECT DISTINCT r.suite, r.number, r.squareFeet, r.otherDescription,
-		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
-	FROM Room AS r, CommonRoom AS cr
-	WHERE r.suite IS NOT NULL
-		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.suite;
+	ORDER BY cast(r.number as unsigned);
 END $$
 
 DROP PROCEDURE IF EXISTS GetSuiteSummaryForSuite$$
@@ -230,7 +158,7 @@ BEGIN
 		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
 		  AND s.suiteID = suiteID
 		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 
 	-- common room info
 	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
@@ -238,16 +166,16 @@ BEGIN
 	FROM Room AS r, CommonRoom AS cr
 	WHERE r.suite = suiteID
 		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.number;
+	ORDER BY cast(r.number as unsigned);
 END $$
 
 DROP PROCEDURE IF EXISTS RemoveMyselfFromSuiteGroup$$
 CREATE PROCEDURE RemoveMyselfFromSuiteGroup(
-	IN emailID CHAR(8),
-	IN newSuiteRepID CHAR(8)
+	IN emailID CHAR(8)
 )
 BEGIN
 	-- recompute average draw num for all remaining members of group. If the removal happens before the draw, this affects their draw time
+	-- business logic ensures the suite rep cannot remove themself, unless they are the last person remaining in the group and are thus dissolving the group
 	UPDATE /*+ NO_MERGE(average)*/ SuiteGroup AS sg,
 		(SELECT avg(DISTINCT s.drawNum) AS avgDrawNum
 		FROM Student AS s
@@ -266,18 +194,6 @@ BEGIN
 	  													  (SELECT sg.avgDrawNum
 	  													  FROM SuiteGroup AS sg
 	  													  WHERE sg.emailID = emailID)) AS mySG);
-
-	-- If you are the suite group rep and you are leaving, you must specify a new representative
-	IF emailID IN (SELECT sg.emailID
-				   FROM SuiteGroup AS sg
-				   WHERE sg.avgDrawNum IN (SELECT avgDrawNum
-					   					FROM SuiteGroup AS sg1
-										WHERE sg1.emailID = emailID)
-						 AND sg.isSuiteRepresentative = TRUE) THEN
-		UPDATE SuiteGroup AS sg
-		SET sg.isSuiteRepresentative = TRUE
-			WHERE sg.emailID = newSuiteRepID;
-	END IF;
 
 	DELETE
 	FROM SuiteGroup AS sg
@@ -389,83 +305,6 @@ BEGIN
 END $$
 
 DELIMITER ;
--- used to check after the draw if all students living on campus (isDrawing = true) have drawn rooms
-DELIMITER $$
-DROP FUNCTION IF EXISTS CheckStudentsChooseRooms$$
-CREATE FUNCTION CheckStudentsChooseRooms()
-RETURNS BOOL
-DETERMINISTIC
-BEGIN
-	RETURN NOT EXISTS (
-		SELECT *
-		FROM Student as s
-		WHERE s.isDrawing IS TRUE
-			AND s.dormRoomNum IS NULL
-			AND s.dormName IS NULL );  -- the dorm of the connecting room must be the same as that of the dorm room
-END $$
-
-DROP FUNCTION IF EXISTS CheckSuiteHasRepresentative$$
-CREATE FUNCTION CheckSuiteHasRepresentative()
-RETURNS BOOL
-DETERMINISTIC
-BEGIN
-	RETURN NOT EXISTS (
-		SELECT *
-		FROM
-			(SELECT avgSuiteGroupDrawNum, max(isSuiteRep) AS containsSuiteRep
-			FROM Student
-			WHERE avgSuiteGroupDrawNum IS NOT NULL
-			GROUP BY avgSuiteGroupDrawNum)
-			AS
-			suiteGroups
-		WHERE suiteGroups.containsSuiteRep IS FALSE );
-END $$
-
-DROP FUNCTION IF EXISTS CheckIfStudentHasRoom$$
-CREATE FUNCTION CheckIfStudentHasRoom(
-	emailID VARCHAR(8)
-)
-RETURNS BOOL
-DETERMINISTIC
-BEGIN
-	RETURN EXISTS (
-		SELECT *
-		FROM Student AS s
-		WHERE s.emailID = emailID AND s.roomNum IS NOT NULL);
-END $$
-
-DROP FUNCTION IF EXISTS CheckIfStudentHasSuite$$
-CREATE FUNCTION CheckIfStudentHasSuite(
-	emailID VARCHAR(8)
-)
-RETURNS BOOL
-DETERMINISTIC
-BEGIN
-	RETURN EXISTS (
-		SELECT *
-		FROM SuiteGroup AS sg
-		WHERE sg.emailID = emailID AND sg.suiteID IS NOT NULL);
-END $$
-
-DROP FUNCTION IF EXISTS CheckIfNewSuiteRepIsInGroup$$
-CREATE FUNCTION CheckIfNewSuiteRepIsInGroup(
-	emailID VARCHAR(8),
-	newSuiteRepID VARCHAR(8)
-)
-RETURNS BOOL
-DETERMINISTIC
-BEGIN
-	RETURN EXISTS (
-		SELECT *
-		FROM SuiteGroup AS sg
-		WHERE sg.newSuiteRepID IN (SELECT s.emailID
-								   FROM SuiteGroup AS sg
-								   WHERE sg.avgDrawNum IN
-									     (SELECT sg.avgDrawNum
-									     FROM SuiteGroup AS sg
-									     WHERE sg.emailID = emailID)));
-END $$
-DELIMITER ;
 CREATE TABLE IF NOT EXISTS Dorm (
     name VARCHAR(50) NOT NULL,
     campusEnd ENUM('NORTH', 'SOUTH') NOT NULL,
@@ -503,7 +342,7 @@ CREATE TABLE IF NOT EXISTS DormRoom (
 	numOccupants INT NOT NULL,
 	hasPrivateBathroom BOOLEAN NOT NULL DEFAULT FALSE,
 	numDoors INT NOT NULL DEFAULT 1,
-	closetsDescription VARCHAR(250) NOT NULL,
+	closetsDescription VARCHAR(250),
     bathroomDescription VARCHAR(250),
 	connectingRoomNum VARCHAR(10),
 	PRIMARY KEY (dormName, number),
@@ -551,78 +390,6 @@ CREATE TABLE IF NOT EXISTS CommonRoom (
   hasBathroom BOOLEAN NOT NULL,
   PRIMARY KEY (dormName, number),
   FOREIGN KEY (dormName, number) REFERENCES Room(dormName, number));
--- DELIMITER $$
---
--- DROP TRIGGER IF EXISTS closet_type_constraints$$
--- CREATE TRIGGER closet_type_constraints AFTER INSERT ON ClosetType
--- 	FOR EACH ROW BEGIN
--- 		IF EXISTS (
--- 			SELECT *
--- 			FROM ClosetType AS c
--- 			WHERE c.typeName NOT IN
--- 				(SELECT c.typeName
--- 				FROM ClosetType AS c, DormRoom AS dm
--- 				WHERE c.typeName = dm.closetType) )
--- 		THEN
--- 			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'ClosetType does not satisfy constraints!';
--- 		END IF;
--- 	END$$
--- 
--- DROP TRIGGER IF EXISTS window_type_constraints$$
--- CREATE TRIGGER window_type_constraints AFTER INSERT ON WindowType
--- 	FOR EACH ROW BEGIN
--- 		IF EXISTS (
--- 			SELECT *
--- 			FROM WindowType AS w
--- 			WHERE w.typeName NOT IN
--- 				(SELECT w.typeName
--- 				FROM WindowType AS w, Room AS r
--- 				WHERE w.typeName = r.windowType) )
--- 		THEN
--- 			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'WindowType does not satisfy constraints!';
--- 		END IF;
--- 	END$$
-
-
-DROP TRIGGER IF EXISTS suite_constraints$$
-CREATE TRIGGER suite_constraints AFTER INSERT ON Suite
-	FOR EACH ROW BEGIN
-		IF EXISTS (
-			SELECT *
-			FROM Suite AS s
-			WHERE s.suiteID NOT IN
-				(SELECT s.suiteID
-				FROM Suite AS s, Room AS r
-				WHERE s.suiteID = r.suite) )
-		THEN
-			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'WindowType does not satisfy constraints!';
-		END IF;
-	END$$
-
-DROP TRIGGER IF EXISTS draws_up_constraints$$
-CREATE TRIGGER draws_up_constraints AFTER INSERT ON DrawsUp
-	FOR EACH ROW BEGIN
-		IF EXISTS (
-			SELECT *
-			FROM DrawsUp as du1, DrawsUp as du2
-			WHERE du1.higherStudent = du2.lowerStudent ) -- a student drawing someone up cannot be drawn up, and a student being drawn up cannot draw someone else up
-		THEN
-			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'DrawsUp does not satisfy constraints!';
-		END IF;
-	END$$
-
-DROP TRIGGER IF EXISTS student_constraints$$
-CREATE TRIGGER student_constraints AFTER INSERT ON Student
-	FOR EACH ROW BEGIN
-		IF EXISTS (
-			SELECT *
-			FROM Student
-			WHERE isDrawing IS TRUE
-				  AND drawTime IS NULL)
-		THEN
-			SIGNAL SQLSTATE '42927' SET MESSAGE_TEXT = 'All drawing students need a draw time -- Student does not satisfy constraints!';
-		END IF;
-	END$$
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS AddToWishlist$$

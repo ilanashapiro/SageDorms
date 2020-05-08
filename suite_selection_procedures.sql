@@ -1,37 +1,5 @@
 DELIMITER $$
 
-DROP PROCEDURE IF EXISTS GetDormRoomAndSuiteSummaryForDorm$$
-CREATE PROCEDURE GetDormRoomAndSuiteSummaryForDorm(
-	IN dormName VARCHAR(50)
-)
-BEGIN
-	-- dorm room info
-	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
-		   dr.numOccupants, dr.connectingRoomNum
-	FROM DormRoom AS dr, Room AS r, Suite AS s
-	WHERE r.dormName = dormName
-		  AND dr.dormName = r.dormName AND dr.number = r.number
-		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
-		  AND s.suiteID = r.suite
-		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
-	ORDER BY cast(r.number as unsigned);
-
-	-- suite info
-	SELECT DISTINCT s.suiteID, s.numPeople, s.isSubFree
-	FROM Room AS r, Suite AS s
-	WHERE r.dormName = dormName AND r.suite = s.suiteID
-		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID) --  we only want suites that are still free
-	ORDER BY s.suiteID;
-
-	-- common room info
-	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
-		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
-	FROM Room AS r, CommonRoom AS cr
-	WHERE r.dormName = dormName
-		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY cast(r.number as unsigned);
-END $$
-
 -- a true summary, informational only. This is just for informational purposes and displays ALL data, even rooms and suites that have been selected.
 DROP PROCEDURE IF EXISTS GetSuitesForDorm$$
 CREATE PROCEDURE GetSuitesForDorm(
@@ -68,33 +36,6 @@ BEGIN
 	WHERE sg.emailID = emailID AND r.suite = sg.suiteID
 		  AND cr.dormName = r.dormName AND cr.number = r.number
 	ORDER BY cast(r.number as unsigned);
-END $$
-
-DROP PROCEDURE IF EXISTS GetAllSuitesSummary$$
-CREATE PROCEDURE GetAllSuitesSummary()
-BEGIN
-	-- suite info. DISPLAYS ALL SUITES REGARDLESS IF THEY'VE BEEN SELECTED -- INFORMATIONAL ONLY
-	SELECT *
-	FROM Suite AS s;
-
-	-- dorm room info
-	SELECT DISTINCT r.suite, r.number, r.squareFeet, r.otherDescription,
-		   dr.numOccupants, dr.connectingRoomNum
-	FROM DormRoom AS dr, Room AS r, Suite AS s
-	WHERE r.dormName = dormName
-		  AND dr.dormName = r.dormName AND dr.number = r.number
-		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
-		  AND s.suiteID = r.suite
-		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
-	ORDER BY r.suite, cast(r.number as unsigned);
-
-	-- common room info
-	SELECT DISTINCT r.suite, r.number, r.squareFeet, r.otherDescription,
-		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
-	FROM Room AS r, CommonRoom AS cr
-	WHERE r.suite IS NOT NULL
-		  AND cr.dormName = r.dormName AND cr.number = r.number
-	ORDER BY r.suite, cast(r.number as unsigned);
 END $$
 
 DROP PROCEDURE IF EXISTS GetSuiteSummaryForSuite$$

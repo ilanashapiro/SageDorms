@@ -33,18 +33,13 @@ def searchForSuites(info):
                     queryString += f' AND s.{key} = \'{value}\''
 
     queryString += ' ORDER BY s.dormName;'
-
-    # print(queryString)
     global_vars.cursor.execute(queryString)
-
     suites = global_vars.cursor.fetchall()
+
     results = []
     for suite in suites:
         suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
         results.append(getSuiteSummaryForSuite(suiteID))
-
-
-    # print(results)
     return results
 
 def getSuiteSummaryForDorm(info):
@@ -57,9 +52,6 @@ def getSuiteSummaryForDorm(info):
         for suite in suites[0]:
             suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
             results.append(getSuiteSummaryForSuite(suiteID))
-
-
-        # print(results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -70,18 +62,6 @@ def getMySuiteDetails():
         results = []
         for result in global_vars.cursor.stored_results():
             results.append(result.fetchall())
-        print("RESULTS", results)
-        return results
-    except mysql.connector.Error as error:
-        print("Failed to execute stored procedure: {}".format(error))
-
-def getAllSuitesSummary():
-    try:
-        global_vars.cursor.callproc('GetAllSuitesSummary', [])
-        results = []
-        for result in global_vars.cursor.stored_results():
-            results.append(result.fetchall())
-        # print("RESULTS", results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -106,7 +86,7 @@ def addMyselfToSuiteGroup(info):
             return "ERROR: This suite group is already full with 6 people. Try a different group."
 
         global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], False])
-        return ""
+        return "" # no error message
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
@@ -156,7 +136,7 @@ def setSuiteRepresentative(info):
         if emailID not in suiteGroupIDs:
             return "ERROR: You must enter a suite rep that is in your group!"
         global_vars.cursor.callproc('SetSuiteRepresentative', [info['emailID']])
-        return ""
+        return "" # no error message
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
@@ -177,6 +157,7 @@ def createSuiteGroup(info):
         if global_vars.emailID not in emailIDsToAdd:
             return "ERROR: You must be in the suite group that you create"
 
+        # ensure that no one in the suite group hasn't already selected a single
         suiteGroupSinglesQueryString = f'SELECT s.dormName FROM Student AS s'
         isFirstCond = True
         for emailID in emailIDsToAdd:
@@ -209,11 +190,9 @@ def createSuiteGroup(info):
         global_vars.cursor.execute(addStudentsQueryString)
 
         mySuiteGroup = getMySuiteGroup()[0]
-        print('mySuiteGroup2', mySuiteGroup)
         if len(mySuiteGroup) == 0:
             return "ERROR: Suite group was not successfully created. Did you enter the email IDs of everyone correctly? Remember -- you cannot enter someone who is already in a different suite group."
-
-        return ""
+        return "" # no error message # no error message
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
         return "ERROR: Suite group was not successfully created. Did you enter the email IDs of everyone correctly? Remember -- you cannot enter someone who is already in a different suite group."
