@@ -11,14 +11,11 @@ def getMyWishList():
         rooms = []
         for result in global_vars.cursor.stored_results():
             rooms.append(result.fetchall())
-        # print("ROOMS", rooms)
         results = []
         for room in rooms[0]:
             dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
             number = room[1]
-            # print(dormName, number)
             roomDetails = room_queries.getSummaryForDormRoom(dormName, number)
-            # print("ROOM DETAILS", roomDetails)
             if len(roomDetails) > 0:
                 results.append(roomDetails[0])
             else:
@@ -26,14 +23,12 @@ def getMyWishList():
                 info['dormName'] = dormName
                 info['number'] = number
                 deleteFromWishList(info)
-        # print("RESULTS", results)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def addToWishList(info):
     try:
-        print(global_vars.emailID)
         global_vars.cursor.callproc('AddToWishlist', [global_vars.emailID, info["dormName"], info["number"]])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))

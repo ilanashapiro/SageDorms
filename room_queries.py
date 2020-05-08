@@ -14,7 +14,6 @@ def getSummaryForDormRoom(dormName, number):
         results = []
         for result in global_vars.cursor.stored_results():
             data = result.fetchall()
-            print(data)
             if len(data) > 0: # if it's a common room, dorm room info will be empty, and vice versa
                 results.append(data)
         return results
@@ -31,7 +30,6 @@ def getSummaryForDormRoomGeneric(dormName, number):
         results = []
         for result in global_vars.cursor.stored_results():
             data = result.fetchall()
-            print(data)
             if len(data) > 0: # if it's a common room, dorm room info will be empty, and vice versa
                 results.append(data)
         return results
