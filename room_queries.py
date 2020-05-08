@@ -6,10 +6,28 @@ from mysql.connector import Error
 
 def getSummaryForDormRoom(dormName, number):
     '''
-    Get the summary data for a specified dorm room
+    Get the summary data for a specified dorm room, if the room has NOT yet been selected
+    Used for search results for room search, where the student can actually select a room
     '''
     try:
         global_vars.cursor.callproc('GetSummaryForDormRoom', [dormName, number])
+        results = []
+        for result in global_vars.cursor.stored_results():
+            data = result.fetchall()
+            print(data)
+            if len(data) > 0: # if it's a common room, dorm room info will be empty, and vice versa
+                results.append(data)
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
+def getSummaryForDormRoomGeneric(dormName, number):
+    '''
+    Get the summary data for a specified dorm room, REGARDLESS if the room has been selected
+    Used for informational summary of dorms in the View Dorms page
+    '''
+    try:
+        global_vars.cursor.callproc('GetSummaryForDormRoomGeneric', [dormName, number])
         results = []
         for result in global_vars.cursor.stored_results():
             data = result.fetchall()
@@ -64,15 +82,19 @@ def searchForDormRooms(info):
 
     # order results
     queryString += f' ORDER BY r.dormName, CAST(r.number AS unsigned);'
-    global_vars.cursor.execute(queryString)
-    rooms = global_vars.cursor.fetchall()
 
-    results = []
-    for room in rooms:
-        dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
-        number = room[1]
-        results.append(getSummaryForDormRoom(dormName, number))
-    return results
+    try:
+        global_vars.cursor.execute(queryString)
+        rooms = global_vars.cursor.fetchall()
+
+        results = []
+        for room in rooms:
+            dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
+            number = room[1]
+            results.append(getSummaryForDormRoom(dormName, number))
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute query string: {}".format(error))
 
 def getDormRoomSummaryForDorm(info):
     '''
@@ -87,8 +109,7 @@ def getDormRoomSummaryForDorm(info):
         for room in rooms[0]:
             dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
             number = room[1]
-            results.append(getSummaryForDormRoom(dormName, number))
-
+            results.append(getSummaryForDormRoomGeneric(dormName, number))
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))

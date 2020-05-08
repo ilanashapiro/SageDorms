@@ -24,10 +24,10 @@ def index():
         session['hasNotChosen'] = (len(room_queries.getMyRoomDetails()[0]) == 0 and len(suite_queries.getMySuiteDetails()[0]) == 0)
         numPeopleInSuite = len(suite_queries.getMySuiteGroup()[0])
         session['isInSuiteGroup'] = (numPeopleInSuite > 0)
-        return render_template('index.html', hasNotChosen = session['hasNotChosen'])
+        return render_template('index.html')
     else:
         session['hasNotChosen'] = True
-        return render_template('index.html', hasNotChosen = session['hasNotChosen'])
+        return render_template('index.html')
 
 @app.route('/dorms')
 def dorms():
@@ -36,7 +36,7 @@ def dorms():
     '''
     if 'dispname' not in session:
         return redirectFromLoginTo('dorms')
-    return render_template('generic.html', hasNotChosen = session['hasNotChosen'])
+    return render_template('generic.html')
 
 @app.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
@@ -54,7 +54,7 @@ def wishlist():
         wish_list_queries.deleteFromWishList(info)
 
     data = wish_list_queries.getMyWishList()
-    return render_template('wishlist.html', data = data, hasNotChosen = session['hasNotChosen'])
+    return render_template('wishlist.html', data = data)
 
 def addToWishListHelper(data, redirectPageIfNotLoggedIn):
     '''
@@ -87,11 +87,11 @@ def smiley():
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split(), 'smiley')
 
-    info = {'': '', 'dormName': 'Smiley'}
+    info = {'dormName': 'Smiley'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
 
-    return render_template('smiley.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
+    return render_template('smiley.html', data=data, sdata=sdata)
 
 @app.route('/clark1', methods=['GET', 'POST'])
 def clark1():
@@ -104,10 +104,10 @@ def clark1():
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split(), 'clark1')
 
-    info = {'': '', 'dormName': 'Clark-I'}
+    info = {'dormName': 'Clark-I'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-    return render_template('clark1.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
+    return render_template('clark1.html', data=data, sdata=sdata)
 
 @app.route('/clark5', methods=['GET', 'POST'])
 def clark5():
@@ -120,10 +120,10 @@ def clark5():
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split(), 'clark5')
 
-    info = {'': '', 'dormName': 'Clark-V'}
+    info = {'dormName': 'Clark-V'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-    return render_template('clark5.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
+    return render_template('clark5.html', data=data, sdata=sdata)
 
 @app.route('/norton', methods=['GET', 'POST'])
 def norton():
@@ -136,10 +136,10 @@ def norton():
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split(), 'norton')
 
-    info = {'': '', 'dormName': 'Norton-Clark'}
+    info = {'dormName': 'Norton-Clark'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-    return render_template('norton.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
+    return render_template('norton.html', data=data, sdata=sdata)
 
 @app.route('/walker', methods=['GET', 'POST'])
 def walker():
@@ -152,10 +152,10 @@ def walker():
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split(), 'walker')
 
-    info = {'': '', 'dormName': 'Walker'}
+    info = {'dormName': 'Walker'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-    return render_template('walker.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
+    return render_template('walker.html', data=data, sdata=sdata)
 
 @app.route('/lawry', methods=['GET', 'POST'])
 def lawry():
@@ -168,10 +168,10 @@ def lawry():
     if request.method == 'POST':
         return addToWishListHelper(request.form['room'].split(), 'lawry')
 
-    info = {'': '', 'dormName': 'Lawry'}
+    info = {'dormName': 'Lawry'}
     data = room_queries.getDormRoomSummaryForDorm(info)
     sdata = suite_queries.getSuiteSummaryForDorm(info)
-    return render_template('lawry.html', data=data, sdata=sdata, hasNotChosen = session['hasNotChosen'])
+    return render_template('lawry.html', data=data, sdata=sdata)
 
 @app.route('/displayRoomSelectionInfo', methods=['POST'])
 def displayRoomSelectionInfo():
@@ -207,7 +207,7 @@ def displayRoomSelectionInfo():
             isInSuiteGroup = False
             if len(mySuiteGroup[0]) > 0:
                 isInSuiteGroup = True
-            return render_template('displayRoomSelectionInfo.html', data=data, hasNotChosen = session['hasNotChosen'], myWishList = myWishList, isInSuiteGroup = isInSuiteGroup)
+            return render_template('displayRoomSelectionInfo.html', data=data, myWishList = myWishList, isInSuiteGroup = isInSuiteGroup)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
 def displaySuiteSelectionInfo():
@@ -228,9 +228,8 @@ def displaySuiteSelectionInfo():
             info[key] = value[0]
         data = suite_queries.searchForSuites(info)
         result = filter(lambda suite: len(suite[0]) > 0, data)
-        hasNotChosen = (len(suite_queries.getMySuiteDetails()[0]) == 0 and len(room_queries.getMyRoomDetails()[0]) == 0)
         isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative()
-        return render_template('displaySuiteSelectionInfo.html', data=result, hasNotChosen = session['hasNotChosen'], isSuiteRep = isSuiteRep)
+        return render_template('displaySuiteSelectionInfo.html', data=result, isSuiteRep = isSuiteRep)
     return render_template('displaySuiteSelectionInfo.html')
 
 
@@ -304,7 +303,7 @@ def viewMyRoom():
     suiteData = suite_queries.getMySuiteDetails()
     dataDict = {'roomData' : roomData, 'suiteData' : suiteData, 'roommateData' : roommateData}
 
-    return render_template('viewMyRoom.html', data = dataDict, hasRoommate = hasRoommate, hasNotChosen = session['hasNotChosen'])
+    return render_template('viewMyRoom.html', data = dataDict, hasRoommate = hasRoommate)
 
 @app.route('/viewSuiteMembers', methods=['GET', 'POST'])
 def viewSuiteMembers():
@@ -342,7 +341,7 @@ def viewSuiteMembers():
         isInSuiteGroup = True
     isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative()
 
-    return render_template('viewSuiteMembers.html', data = data, isSuiteRep = isSuiteRep, isLastPerson = isLastPerson, isInSuiteGroup = isInSuiteGroup, hasNotChosen = session['hasNotChosen'])
+    return render_template('viewSuiteMembers.html', data = data, isSuiteRep = isSuiteRep, isLastPerson = isLastPerson)
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
 def suiteFormation():
@@ -371,7 +370,7 @@ def suiteFormation():
                 return render_template('errorMessage.html', errorMessage=errorMessage)
             session['isInSuiteGroup'] = True
         return redirect('/viewSuiteMembers')
-    return render_template('suiteFormation.html', hasNotChosen = session['hasNotChosen'])
+    return render_template('suiteFormation.html')
 
 @app.route('/selectionpage', methods=['GET', 'POST'])
 def selectionpage():
@@ -380,7 +379,7 @@ def selectionpage():
     '''
     if 'dispname' not in session:
         return redirectFromLoginTo('selectionpage')
-    return render_template('selectionpage.html', hasNotChosen = session['hasNotChosen'])
+    return render_template('selectionpage.html',)
 
 def redirectFromLoginTo(url):
     ''' Helper method to save the url from which we are asked to login.

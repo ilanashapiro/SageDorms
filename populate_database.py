@@ -26,6 +26,9 @@ def init_db():
         global_vars.cursor.execute("USE sagedormsdb;")
 
 def executeScriptsFromFile(filename, delimiter):
+    '''
+    Takes in a file name and delimiter, and parses and executes the SQL commands in the file
+    '''
     # Open and read the file as a single buffer
     fd = open(filename, 'r')
     sqlFile = fd.read()
@@ -47,12 +50,18 @@ def executeScriptsFromFile(filename, delimiter):
             print("Something went wrong: {}".format(err))
 
 def createDorms():
+    '''
+    Calls the stored procedure to add all the dorms
+    '''
     try:
         global_vars.cursor.callproc('AddDorms', [])
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
 def populateRooms():
+    '''
+    Uses the csv file that was created from the original txt file with a python script to populate the database with room info
+    '''
     csv_file = open('rooms.csv')
     csv_data = csv.reader(csv_file)
     for row in csv_data:
@@ -62,6 +71,9 @@ def populateRooms():
     csv_file.close()
 
 def populateDormRooms():
+    '''
+    Uses the csv file that was created from the original txt file with a python script to populate the database with dorm room info
+    '''
     csv_file = open('dormrooms.csv')
     csv_data = csv.reader(csv_file)
     for row in csv_data:
@@ -75,6 +87,9 @@ def populateDormRooms():
     addConnectingRoomInfo()
 
 def addConnectingRoomInfo():
+    '''
+    Uses the csv file that was created from the original txt file with a python script to populate the database with connecting room info
+    '''
     csv_file = open('dormrooms.csv')
     csv_data = csv.reader(csv_file)
     for row in csv_data:
@@ -95,6 +110,9 @@ def addConnectingRoomInfo():
     csv_file.close()
 
 def createSuites():
+    '''
+    Explicit queries to create suites (hard-coded)
+    '''
     def randomString(stringLength=8):
         letters = string.ascii_lowercase
         return ''.join(random.choice(letters) for i in range(stringLength))
@@ -165,12 +183,8 @@ def addStudents():
         print("Failed to execute stored procedure: {}".format(error))
 
 def main(info = None):
-    """ Main method runs hello world app
-
-        TODO:
-            - invalid entry
-            - SQL injection???
-            - from what database will we get student information
+    """
+    Main method populates database in the correct order of function calls
     """
     try:
         # connect to localhost mysql server

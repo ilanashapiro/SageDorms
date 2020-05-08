@@ -101,7 +101,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- [[('arkluonz', 1, 4, 4, 'NORTON-CLARK', None)], [('NORTON-CLARK', '27', 140.0, '', 1, 1, None), ('NORTON-CLARK', '28', 140.0, '', 1, 1, None), ('NORTON-CLARK', '29', 140.0, '', 1, 1, None), ('NORTON-CLARK', '30', 140.0, '', 1, 1, None)], []] -->
+			<!-- suite: [[('kadzvtir', 0, 6, 6, 'WALKER', None)], [('WALKER', '601', 178.0, 2, None, ''), ('WALKER', '602', 178.0, 2, None, ''), ('WALKER', '603', 146.0, 1, '604', 'Other: two rooms (w/604); outer room'), ('WALKER', '604', 116.0, 1, '603', 'Other: two rooms (w/603); inner room'), ('WALKER', '644', 146.0, 1, '645', 'Other: two rooms (w/645) - outer room'), ('WALKER', '645', 118.0, 1, '644', 'Other: two rooms (w/644) - inner room')], []] -->
 			{% for suite in sdata %}
 				<tbody class="labels">
 					<tr>
@@ -120,7 +120,6 @@
 					        <td> {{room[3]}} </td>   <!-- Num Occupants -->
 					        <td> {{room[4] if room[4] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
 					        <td colspan="4"> {{room[5] if room[5] != '' else 'No additional info'}} </td>   <!-- Details -->
-
 						</tr>
 					{% endfor %}
 				</tbody>

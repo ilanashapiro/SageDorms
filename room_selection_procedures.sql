@@ -21,6 +21,7 @@ BEGIN
 	WHERE s.emailID = roommateEID;
 END $$
 
+-- gets the summary if the room hasn't been selected yet. Used for the search results in Search Rooms
 DROP PROCEDURE IF EXISTS GetSummaryForDormRoom$$
 CREATE PROCEDURE GetSummaryForDormRoom(
 	IN dormName VARCHAR(50),
@@ -33,6 +34,21 @@ BEGIN
 	WHERE r.number = roomNum AND r.dormName = dormName
 		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
 		  AND NOT EXISTS (SELECT * FROM Student AS s where s.dormName = dr.dormName AND s.dormRoomNum = dr.number); --  we only want rooms that are still free
+END $$
+
+-- generic: gets summary even if room has been selected. This is used for the informational summary of rooms on the "View Dorms" page
+-- (NOT used for Search Rooms -- that is updated based on rooms that have been selected, as this is where students actually select rooms)
+DROP PROCEDURE IF EXISTS GetSummaryForDormRoomGeneric$$
+CREATE PROCEDURE GetSummaryForDormRoomGeneric(
+	IN dormName VARCHAR(50),
+	IN roomNum VARCHAR(10)
+)
+BEGIN
+	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, dr.numOccupants, r.isSubFree, dr.hasPrivateBathroom, dr.bathroomDescription,
+		   r.windowsDescription, dr.closetsDescription, dr.connectingRoomNum, r.otherDescription
+	FROM DormRoom AS dr, Room AS r
+	WHERE r.number = roomNum AND r.dormName = dormName
+		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL; -- this is for singles/doubles draw, NOT suite draw
 END $$
 
 -- a true summary, informational only. This is just for informational purposes and displays ALL data, even rooms and suites that have been selected.

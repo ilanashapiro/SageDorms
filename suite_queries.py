@@ -18,6 +18,19 @@ def getSuiteSummaryForSuite(suiteID):
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
 
+def getSuiteSummaryForSuiteGeneric(suiteID):
+    '''
+    Get the summary data for a specified suite
+    '''
+    try:
+        global_vars.cursor.callproc('GetSuiteSummaryForSuiteGeneric', [suiteID])
+        results = []
+        for result in global_vars.cursor.stored_results():
+            results.append(result.fetchall())
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+
 def searchForSuites(info):
     '''
     Searches for and returns the suite data whose search criteria is contained in the info dictionary
@@ -26,7 +39,7 @@ def searchForSuites(info):
     queryString = '''SELECT s.suiteID, s.numPeople, s.isSubFree, s.dormName FROM Suite AS s'''
     isFirstCond = True
     for key, value in info.items():
-        if value != '': # or "" or whatever means empty input
+        if value != '': # empty input
             if isFirstCond:
                 if key == 'isSubFree':
                     queryString += f' WHERE s.{key} = {value}'
@@ -40,18 +53,23 @@ def searchForSuites(info):
                     queryString += f' AND s.{key} = \'{value}\''
 
     queryString += ' ORDER BY s.dormName;'
-    global_vars.cursor.execute(queryString)
-    suites = global_vars.cursor.fetchall()
+    try:
+        global_vars.cursor.execute(queryString)
+        suites = global_vars.cursor.fetchall()
 
-    results = []
-    for suite in suites:
-        suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
-        results.append(getSuiteSummaryForSuite(suiteID))
-    return results
+        results = []
+        for suite in suites:
+            suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
+            results.append(getSuiteSummaryForSuite(suiteID))
+        return results
+    except mysql.connector.Error as error:
+        print("Failed to execute query string: {}".format(error))
 
 def getSuiteSummaryForDorm(info):
     '''
     Get the data for the suites of a specified dorm (contained in the info dictionary)
+    Gets data for ALL suites, including those that are selected: this is for informational purposes ONLY,
+    to be used in View Dorms dorm information page, NOT search for suites where the selection actually happens
     '''
     try:
         global_vars.cursor.callproc('GetSuitesForDorm', [info['dormName']])
@@ -61,7 +79,9 @@ def getSuiteSummaryForDorm(info):
         results = []
         for suite in suites[0]:
             suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
-            results.append(getSuiteSummaryForSuite(suiteID))
+            suiteSummary = getSuiteSummaryForSuiteGeneric(suiteID)
+            # if len(suiteSummary[0]) > 0:
+            results.append(suiteSummary)
         return results
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
@@ -167,7 +187,7 @@ def setSuiteRepresentative(info):
         mySuiteGroup = getMySuiteGroup()[0]
         emailID = info['emailID']
         suiteGroupIDs = [person[1] for person in mySuiteGroup]
-        print(suiteGroupIDs)
+
         if emailID not in suiteGroupIDs:
             return "ERROR: You must enter a suite rep that is in your group!"
         global_vars.cursor.callproc('SetSuiteRepresentative', [info['emailID']])

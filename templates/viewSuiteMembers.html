@@ -49,7 +49,7 @@
 
 <h3> </h3>
 <form action="" method="POST" name="removeSelf">
-		{% if isInSuiteGroup %}
+		{% if (session['isInSuiteGroup'] and session['hasNotChosen']) %}
 			{% if (not isSuiteRep) %}
 			<div class="12u$">
 				<ul class="actions">

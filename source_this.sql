@@ -44,6 +44,7 @@ BEGIN
 	WHERE s.emailID = roommateEID;
 END $$
 
+-- gets the summary if the room hasn't been selected yet. Used for the search results in Search Rooms
 DROP PROCEDURE IF EXISTS GetSummaryForDormRoom$$
 CREATE PROCEDURE GetSummaryForDormRoom(
 	IN dormName VARCHAR(50),
@@ -56,6 +57,21 @@ BEGIN
 	WHERE r.number = roomNum AND r.dormName = dormName
 		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL -- this is for singles/doubles draw, NOT suite draw
 		  AND NOT EXISTS (SELECT * FROM Student AS s where s.dormName = dr.dormName AND s.dormRoomNum = dr.number); --  we only want rooms that are still free
+END $$
+
+-- generic: gets summary even if room has been selected. This is used for the informational summary of rooms on the "View Dorms" page
+-- (NOT used for Search Rooms -- that is updated based on rooms that have been selected, as this is where students actually select rooms)
+DROP PROCEDURE IF EXISTS GetSummaryForDormRoomGeneric$$
+CREATE PROCEDURE GetSummaryForDormRoomGeneric(
+	IN dormName VARCHAR(50),
+	IN roomNum VARCHAR(10)
+)
+BEGIN
+	SELECT r.dormName, r.number, r.squareFeet, r.dimensionsDescription, dr.numOccupants, r.isSubFree, dr.hasPrivateBathroom, dr.bathroomDescription,
+		   r.windowsDescription, dr.closetsDescription, dr.connectingRoomNum, r.otherDescription
+	FROM DormRoom AS dr, Room AS r
+	WHERE r.number = roomNum AND r.dormName = dormName
+		  AND dr.number = r.number AND dr.dormName = r.dormName AND r.suite IS NULL; -- this is for singles/doubles draw, NOT suite draw
 END $$
 
 -- a true summary, informational only. This is just for informational purposes and displays ALL data, even rooms and suites that have been selected.
@@ -155,9 +171,39 @@ BEGIN
 	FROM DormRoom AS dr, Room AS r, Suite AS s
 	WHERE r.suite = suiteID
 		  AND dr.dormName = r.dormName AND dr.number = r.number
-		  AND NOT EXISTS (SELECT * FROM Student AS st where st.dormName = dr.dormName AND st.dormRoomNum = dr.number) --  we only want rooms that are still free
 		  AND s.suiteID = suiteID
-		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID)
+		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID) -- not part of a suite that has been selected already (i.e still free)
+	ORDER BY cast(r.number as unsigned);
+
+	-- common room info
+	SELECT DISTINCT r.number, r.squareFeet, r.otherDescription, r.isSubFree,
+		   cr.hasStove, cr.hasSink, cr.hasRefrigerator, cr.hasBathroom
+	FROM Room AS r, CommonRoom AS cr, Suite AS s
+	WHERE r.suite = suiteID
+		  AND cr.dormName = r.dormName AND cr.number = r.number
+		  AND s.suiteID = suiteID
+		  AND NOT EXISTS (SELECT * FROM SuiteGroup AS sg where sg.suiteID = s.suiteID) -- not part of a suite that has been selected already (i.e still free)
+	ORDER BY cast(r.number as unsigned);
+END $$
+
+-- generic: gets summary even if suite has been selected. This is used for the informational summary of suites on the "View Dorms" page
+-- (NOT used for Search Suites -- that is updated based on rooms that have been selected, as this is where students actually select suites)
+DROP PROCEDURE IF EXISTS GetSuiteSummaryForSuiteGeneric$$
+CREATE PROCEDURE GetSuiteSummaryForSuiteGeneric(
+	IN suiteID VARCHAR(50)
+)
+BEGIN
+	-- suite info
+	SELECT *
+	FROM Suite AS s
+	WHERE s.suiteID = suiteID;
+
+	-- dorm room info
+	SELECT DISTINCT r.dormName, r.number, r.squareFeet, dr.numOccupants, dr.connectingRoomNum, r.otherDescription
+	FROM DormRoom AS dr, Room AS r, Suite AS s
+	WHERE r.suite = suiteID
+		  AND dr.dormName = r.dormName AND dr.number = r.number
+		  AND s.suiteID = suiteID
 	ORDER BY cast(r.number as unsigned);
 
 	-- common room info

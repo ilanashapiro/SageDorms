@@ -34,6 +34,9 @@ def init_db():
     global_vars.cursor.execute("USE sagedormsdb;")
 
 def executeScriptsFromFile(filename):
+    '''
+    Takes in a file name and delimiter, and parses and executes the SQL commands in the file
+    '''
     # Open and read the file as a single buffer
     fd = open(filename, 'r')
     sqlFile = fd.read()
