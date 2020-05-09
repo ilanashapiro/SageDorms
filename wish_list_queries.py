@@ -16,8 +16,9 @@ def getMyWishList():
             dormName = room[0] # rooms is a list tuples, with dormName and number as elements 0 and 1 of the tuple
             number = room[1]
             roomDetails = room_queries.getSummaryForDormRoom(dormName, number)
-            if len(roomDetails) > 0:
-                results.append(roomDetails[0])
+            if len(roomDetails) > 0 and len(roomDetails[0]) > 0:
+                results.append(roomDetails[0][0])
+            # then, the room has been selected and so was not returned in the room query. Delete the selected room from the wish list
             else:
                 info = {}
                 info['dormName'] = dormName
