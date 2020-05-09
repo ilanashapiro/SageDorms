@@ -39,7 +39,7 @@
 	<th>Closets</th>
 	<th>Connecting Room</th>
 	<th>Details</th>
-	{% if (session['hasNotChosen'] and (not isInSuiteGroup))%}
+	{% if (session['hasNotChosen'] and (not session['isInSuiteGroup']))%}
 	<th>Add</th>
 	{% endif %}
 		{% for room in data %}
@@ -59,7 +59,7 @@
 		        <td> {{item3[10] if item3[10] != None else 'No connecting room'}} </td>   <!-- Connecting Room -->
 		        <td> {{item3[11] if item3[11] != '' else 'No additional info'}} </td>   <!-- Details -->
                 <td>
-					{% if (session['hasNotChosen'] and (not isInSuiteGroup))%}
+					{% if (session['hasNotChosen'] and (not session['isInSuiteGroup']))%}
 					{% if ( (item3[0] in myWishList|map(attribute=0)) and (item3[1] in myWishList|map(attribute=1)) ) %}
 					{% else %}
 					<button class="wishlist_button js_wishlist_button"

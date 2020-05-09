@@ -202,11 +202,7 @@ def displayRoomSelectionInfo():
 
             myWishList = wish_list_queries.getMyWishList()
             myWishList = [item[0] for item in myWishList]
-            mySuiteGroup = suite_queries.getMySuiteGroup()
-            isInSuiteGroup = False
-            if len(mySuiteGroup[0]) > 0:
-                isInSuiteGroup = True
-            return render_template('displayRoomSelectionInfo.html', data=data, myWishList = myWishList, isInSuiteGroup = isInSuiteGroup)
+            return render_template('displayRoomSelectionInfo.html', data=data, myWishList = myWishList)
 
 @app.route('/displaySuiteSelectionInfo', methods=['GET', 'POST'])
 def displaySuiteSelectionInfo():
@@ -333,13 +329,9 @@ def viewSuiteMembers():
     data = suite_queries.getMySuiteGroup()
     numPeopleInSuite = len(data[0])
     isLastPerson = False
-    isInSuiteGroup = False
     if numPeopleInSuite == 1:
         isLastPerson = True
-    if numPeopleInSuite > 0:
-        isInSuiteGroup = True
     isSuiteRep = suite_queries.isCurrentUserSuiteRepresentative()
-
     return render_template('viewSuiteMembers.html', data = data, isSuiteRep = isSuiteRep, isLastPerson = isLastPerson)
 
 @app.route('/suiteFormation', methods=['GET', 'POST'])
