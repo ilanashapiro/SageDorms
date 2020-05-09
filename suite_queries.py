@@ -79,7 +79,6 @@ def getSuiteSummaryForDorm(info):
         for suite in suites[0]:
             suiteID = suite[0] # suites is a list tuples, e.g. [('hjeshkgd',...), ('kadzvtir',...)], with suiteID as the first elem of each tuple
             suiteSummary = getSuiteSummaryForSuiteGeneric(suiteID)
-            # if len(suiteSummary[0]) > 0:
             results.append(suiteSummary)
         return results
     except mysql.connector.Error as error:
@@ -114,6 +113,8 @@ def addMyselfToSuiteGroup(info):
     '''
     try:
         emailIDInSG = info['emailIDInSG']
+        if emailIDInSG == global_vars.emailID:
+            return "ERROR: Enter someone else's email ID who is in a suite group (don't enter your own ID!)"
         global_vars.cursor.callproc('GetMySuiteGroup', [emailIDInSG])
         results = []
         for result in global_vars.cursor.stored_results():
@@ -124,10 +125,17 @@ def addMyselfToSuiteGroup(info):
         if len(existingSuiteGroup) == 6:
             return "ERROR: This suite group is already full with 6 people. Try a different group."
 
+        queryString = f"SELECT * FROM SuiteGroup AS sg WHERE sg.emailID = '{emailIDInSG}' AND sg.suiteID IS NOT NULL;"
+        global_vars.cursor.execute(queryString)
+        suiteInfo = global_vars.cursor.fetchall()
+        if len(suiteInfo) > 0:
+            return "ERROR: The suite group you want to join has already selected a suite. Try again."
+
         global_vars.cursor.callproc('AddMyselfToSuiteGroup', [global_vars.emailID, info['emailIDInSG'], False])
         return "" # no error message
     except mysql.connector.Error as error:
         print("Failed to execute stored procedure: {}".format(error))
+        return "Unable to add you to the suite group. Did you enter the email ID of the person in the group correctly?"
 
 def getMySuiteGroup():
     '''
