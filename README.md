@@ -1,5 +1,5 @@
 # SageDorms
-CS133 room draw
+CS133 Databases: Virtual Room Draw for Pomona College
 
 Milestone 3: https://www.overleaf.com/9449242656bcnbymkbknks
 
